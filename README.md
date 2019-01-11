@@ -1,7 +1,7 @@
 # Guilford-CIP
 The code and data standards for the Guilford County Community Indicators Project dashboard
 
-By collecting and sharing data, a county can empower constituents to use data to address community concerns and help its own civil servants find innovative solutions to key challenges. Consistently sharing and using data to act on community interests can also lead to a culture of evidence-based decision-making in which data becomes essential for good governance.
+By collecting and sharing data, a community can empower constituents to use data to address community concerns and help its own civil servants find innovative solutions to key challenges. Consistently sharing and using data to act on community interests can also lead to a culture of evidence-based decision-making in which data becomes essential for good governance.
 
 ## What Is Open Data?<sup>1</sup>
 **Data** are electronic records stored in computer systems. In the simplest terms, data are lists of things such as requests for service, inventories, or incidents, which include helpful details such as dates, locations, images, video, and more.
