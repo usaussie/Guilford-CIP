@@ -33,7 +33,7 @@ Modifications to data should be fully reproducible using code (not manually adju
 
 Data should be tabular with one header row starting in the top-left cell.  Cells should not be merged.
 
-Data should be “tidy,” according to the definitions laid out in the journal article “Tidy Data” by Hadley Wickham.[^2] 
+Data should be “tidy,” according to the definitions laid out in the journal article “Tidy Data” by Hadley Wickham. [^2] 
 
 Tidy data, Codd’s 3rd normal form (Codd 1990):
 
