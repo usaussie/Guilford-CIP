@@ -3,7 +3,7 @@ The code and data standards for the Guilford County Community Indicators Project
 
 By collecting and sharing data, a city can empower constituents to use data to address community concerns and help its own civil servants find innovative solutions to key challenges. Consistently sharing and using data to act on community interests can also lead to a culture of evidence-based decision-making in which data becomes essential for good governance.
 
-## What Is Open Data?[^1]
+## What Is Open Data?<sup>1</sup>
 **Data** are electronic records stored in computer systems. In the simplest terms, data are lists of things such as requests for service, inventories, or incidents, which include helpful details such as dates, locations, images, video, and more.
 
 **Open data** makes these electronic records accessible in whole or in part to the public. This practice is considered proactive disclosure - making information available without it being requested. While industry experts often refer to the Eight Principles of Open Data, it is helpful to initially focus on the following elements:
@@ -33,7 +33,7 @@ Modifications to data should be fully reproducible using code (not manually adju
 
 Data should be tabular with one header row starting in the top-left cell.  Cells should not be merged.
 
-Data should be “tidy,” according to the definitions laid out in the journal article “Tidy Data” by Hadley Wickham. [^2] 
+Data should be “tidy,” according to the definitions laid out in the journal article “Tidy Data” by Hadley Wickham.<sup>2</sup> 
 
 Tidy data, Codd’s 3rd normal form (Codd 1990):
 
@@ -42,9 +42,9 @@ Tidy data, Codd’s 3rd normal form (Codd 1990):
 * Each type of observational unit forms a table
 
 
-# Principles[^3]
+# Principles
 
-#### The 8 Principles of Open Government Data
+#### The 8 Principles of Open Government Data<sup>3</sup>
 
 Government data shall be considered open if it is made public in a way that complies with the principles below:
 
@@ -123,8 +123,8 @@ An administrative or judicial court must have the jurisdiction to review whether
 
 # Citations
 
-[^1]: Johns Hopkins University Center for Government Excellence: Open Data Getting Started Guide (https://www.gitbook.com/book/centerforgov/open-data-getting-started/details).
+[1]: Johns Hopkins University Center for Government Excellence: Open Data Getting Started Guide (https://www.gitbook.com/book/centerforgov/open-data-getting-started/details).
 
-[^2]: Journal of Statistical Software. (https://www.jstatsoft.org/article/view/v059i10), 2014-09-12.
+[2]: Journal of Statistical Software. (https://www.jstatsoft.org/article/view/v059i10), 2014-09-12.
 
-[^3]: The Annotated 8 Principles of Open Government Data (https://opengovdata.org/)
+[3]: The Annotated 8 Principles of Open Government Data (https://opengovdata.org/)
