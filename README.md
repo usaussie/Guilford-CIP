@@ -28,6 +28,8 @@ All data needs to have a source describing where and when the data were obtained
  
 Modifications to data should be fully reproducible using code (not manually adjusted). This is important in order to allow future updates to the data to be added and modified uniformly. It is also a safety protocol that allows changes to be tracked to prevent inaccurate conclusions to be drawn from the data.
 
+### Definitions
+
 Each data set should be accompanied by a data dictionary explaining each column:
 * Column name
 * Description of data
