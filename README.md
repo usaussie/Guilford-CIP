@@ -22,7 +22,7 @@ These data standards are divided into two main sections: content and structure. 
 
 ## Content
 
-### Reproducability 
+### Reproducibility 
 
 All data needs to have a source describing where and when the data were obtained the data and if there are any known issues with the data. This is important to ensure data integrity. 
  
