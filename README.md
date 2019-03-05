@@ -126,6 +126,11 @@ A contact person must be designated to respond to people trying to use the data.
 A contact person must be designated to respond to complaints about violations of the principles.
 An administrative or judicial court must have the jurisdiction to review whether the agency has applied these principles appropriately.
 
+# Additional Resources
+
+For instructions on using R for data analysis, refer to "R for Data Science" (https://r4ds.had.co.nz/). 
+
+For more detailed suggestions about data formatting, see this resource: https://project-open-data.cio.gov/v1.1/schema/
 
 # Citations
 
@@ -133,4 +138,4 @@ An administrative or judicial court must have the jurisdiction to review whether
 
 [2]: Journal of Statistical Software. (https://www.jstatsoft.org/article/view/v059i10), 2014-09-12.
 
-[3]: The Annotated 8 Principles of Open Government Data (https://opengovdata.org/)
+[3]: The Annotated 8 Principles of Open Government Data (https://opengovdata.org/).
