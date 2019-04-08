@@ -1,0 +1,215 @@
+---
+title: "Health"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(siverse)
+library(plotly)
+library(billboarder)
+
+
+
+```
+
+
+```{r load data}
+
+#Births
+all_births_county <- read_delim("~/Google Drive/SI/DataScience/data/CDC/Raw Exports/Grouped by County/Natality 2007-2017/all births.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+
+all_births_state <- read_delim("~/Google Drive/SI/DataScience/data/CDC/Raw Exports/Grouped by State/Natality 2007-2017/all births.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+#Infant Mortality
+imr_county <- read_delim("~/Google Drive/SI/DataScience/data/CDC/Raw Exports/Grouped by County/Natality 2007-2017/infant mortality.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+
+imr_state <- read_delim("~/Google Drive/SI/DataScience/data/CDC/Raw Exports/Grouped by State//Natality 2007-2017/infant mortality.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+
+
+#Low Birth Weight
+
+lbw_county <- read_delim("~/Google Drive/SI/DataScience/data/CDC/Raw Exports/Grouped by County/Natality 2007-2017/low birth weight under 2500 grams.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+
+lbw_state <- read_delim("~/Google Drive/SI/DataScience/data/CDC/Raw Exports/Grouped by State//Natality 2007-2017/low birth weight under 2500 grams.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+
+# Mother Under 18
+
+under18_county <- read_delim("~/Google Drive/SI/DataScience/data/CDC/Raw Exports/Grouped by County/Natality 2007-2017/mother under 18.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+
+under18_state <- read_delim("~/Google Drive/SI/DataScience/data/CDC/Raw Exports/Grouped by State//Natality 2007-2017/mother under 18.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+
+# Premature Births
+
+premat_county <- read_delim("~/Google Drive/SI/DataScience/data/CDC/Raw Exports/Grouped by County/Natality 2007-2017/premature births before 37 weeks.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+
+premat_state <- read_delim("~/Google Drive/SI/DataScience/data/CDC/Raw Exports/Grouped by State//Natality 2007-2017/premature births before 37 weeks.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+
+
+
+```
+
+
+
+```{r births}
+
+births_gc <-  all_births_county %>% filter(County == "Guilford County, NC") %>%
+  select(Year, Guilford_Births = Births) %>% 
+  mutate(Guilford_Births = as.numeric(Guilford_Births))
+
+births_nc <- all_births_state %>% filter(State == "North Carolina") %>% 
+  select( Year, North_Carolina_Births = Births)
+
+births <- left_join(births_gc, births_nc)
+
+p <- plot_ly(data = births, x =~Year, y = ~`Guilford_Births`, type = 'scatter', mode = 'lines+markers', 
+                 line= list(color= 'rgb(165,0,80)', width =2.5), 
+                 marker = list(color= 'rgb(165,0,80)', width =3), 
+                 name = 'Guilford_Births',
+                 hoverinfo = "x+y") %>% 
+   add_trace(y=~`North_Carolina_Births`, line = list(color= 'rgb(0,178,169)'), 
+            marker = list(color= 'rgb(0,178,169)'),
+            name = 'North_Carolina_Births') %>% 
+   layout(yaxis = list(title = " No. of Births"),
+         xaxis = list(title = "Year"))
+   
+ 
+ p
+
+```
+
+
+
+
+```{r imr}
+
+imr_gc <-  imr_county %>% filter(County == "Guilford County, NC") %>%
+  select(Year = `Year of Death`, `Guilford IMR` = `Death Rate`) %>% 
+  mutate(`Guilford IMR` = as.numeric(`Guilford IMR`))
+ 
+
+imr_nc <-  imr_state %>% filter(State == "North Carolina") %>%
+  select(Year = `Year of Death`, `NC IMR` = `Death Rate`) %>% 
+  mutate(`NC IMR` = as.numeric(`NC IMR`))
+
+imr <- left_join(imr_gc, imr_gc)
+
+p <- plot_ly(data = imr, x =~Year, y = ~`Guilford IMR`, type = 'scatter', mode = 'lines+markers', 
+                 line= list(color= 'rgb(165,0,80)', width =2.5), 
+                 marker = list(color= 'rgb(165,0,80)', width =3), 
+                 name = 'Guilford IMR',
+                 hoverinfo = "x+y") %>% 
+   add_trace(y=~`NC IMR`, line = list(color= 'rgb(0,178,169)'), 
+            marker = list(color= 'rgb(0,178,169)'),
+            name = 'NC IMR') %>% 
+   layout(yaxis = list(title = " No. of Births"),
+         xaxis = list(title = "Year"))
+   
+ 
+ p
+
+
+```
+
+
+
+```{r low birth weight}
+
+lbw_gc <-  lbw_county %>% filter(County == "Guilford County, NC") %>%
+  select(Year, guilford_lbw = Births) %>% 
+  mutate(guilford_lbw = as.numeric(guilford_lbw))
+ 
+
+lbw_nc <-  lbw_state %>% filter(State == "North Carolina") %>%
+  select(Year, northcarolina_lbw = Births) %>% 
+  mutate(northcarolina_lbw = as.numeric(northcarolina_lbw))
+
+lbw <- left_join(lbw_gc, lbw_nc)
+
+p <- plot_ly(data = lbw, x =~Year, y = ~guilford_lbw, type = 'scatter', mode = 'lines+markers', 
+                 line= list(color= 'rgb(165,0,80)', width =2.5), 
+                 marker = list(color= 'rgb(165,0,80)', width =3), 
+                 name = 'Guilford LBW',
+                 hoverinfo = "x+y") %>% 
+   add_trace(y=~northcarolina_lbw, line = list(color= 'rgb(0,178,169)'), 
+            marker = list(color= 'rgb(0,178,169)'),
+            name = 'NC LBW') %>% 
+   layout(yaxis = list(title = " No. of Births"),
+         xaxis = list(title = "Year"))
+   
+ 
+p
+
+```
+
+
+
+```{r mother under 18}
+
+u18_gc <-  under18_county %>% filter(County == "Guilford County, NC") %>%
+  select(Year, guilford_u18 = Births) %>% 
+  mutate(guilford_u18 = as.numeric(guilford_u18))
+ 
+
+u18_nc <-  under18_state %>% filter(State == "North Carolina") %>%
+  select(Year, northcarolina_u18 = Births) %>% 
+  mutate(northcarolina_u18 = as.numeric(northcarolina_u18))
+
+u18 <- left_join(u18_gc, u18_nc)
+
+p <- plot_ly(data = u18, x =~Year, y = ~guilford_u18, type = 'scatter', mode = 'lines+markers', 
+                 line= list(color= 'rgb(165,0,80)', width =2.5), 
+                 marker = list(color= 'rgb(165,0,80)', width =3), 
+                 name = 'Guilford Under 18',
+                 hoverinfo = "x+y") %>% 
+   add_trace(y=~northcarolina_u18, line = list(color= 'rgb(0,178,169)'), 
+            marker = list(color= 'rgb(0,178,169)'),
+            name = 'NC Under 18') %>% 
+   layout(yaxis = list(title = " No. of Births"),
+         xaxis = list(title = "Year"))
+   
+p
+
+```
+
+
+
+```{r Premature Births}
+
+premat_gc <-  under18_county %>% filter(County == "Guilford County, NC") %>%
+  select(Year, guilford_premat = Births) %>% 
+  mutate(guilford_premat = as.numeric(guilford_premat))
+ 
+
+premat_nc <-  under18_state %>% filter(State == "North Carolina") %>%
+  select(Year, northcarolina_premat = Births) %>% 
+  mutate(northcarolina_premat = as.numeric(northcarolina_premat))
+
+premat <- left_join(premat_gc, premat_nc)
+
+p <- plot_ly(data = premat, x =~Year, y = ~guilford_premat, type = 'scatter', mode = 'lines+markers', 
+                 line= list(color= 'rgb(165,0,80)', width =2.5), 
+                 marker = list(color= 'rgb(165,0,80)', width =3), 
+                 name = 'Guilford Premature Births',
+                 hoverinfo = "x+y") %>% 
+   add_trace(y=~northcarolina_premat, line = list(color= 'rgb(0,178,169)'), 
+            marker = list(color= 'rgb(0,178,169)'),
+            name = 'NC Premature Births') %>% 
+   layout(yaxis = list(title = " No. of Births"),
+         xaxis = list(title = "Year"))
+   
+p
+
+```
+
