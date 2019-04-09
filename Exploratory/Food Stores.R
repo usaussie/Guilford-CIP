@@ -75,7 +75,6 @@ all_results %>% select(-types, -iter, -place_type_search) %>% distinct
 all_results %>%
   mutate(istype_gas_station = map_lgl(types, ~any("gas_station" %in% .x)))
 
-all_results %>%
+results <- all_results %>%
   distinct(id, name, place_id, price_level, rating, user_ratings_total)
 
-all_results %>% get_dupes(place_id)
