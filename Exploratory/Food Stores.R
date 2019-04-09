@@ -4,6 +4,9 @@ require(googleway)
 options(warnPartialMatchArgs = F)
 #Author: Jon Zadra
 
+
+#This code is messy.  Google places only allows 20 results at a time (a "page") and then only up to 3 total pages (60 results total).  In order to make sure I'm not missing anything, I've generated a grid of locations around Guilford county, and then done a search around a radius of each point, getting as many pages as possible.  The reuslting list is expected to be full of duplicates.
+
 #Only uncomment and run the below code if you make a change - prevent using our API unless necessary.
 # #Center of Guilford County, NC:
 #   guilford <- c(36.086046, -79.796661)
