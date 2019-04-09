@@ -2,6 +2,7 @@ require(tidyverse)
 require(siverse)
 require(googleway)
 options(warnPartialMatchArgs = F)
+#Author: Jon Zadra
 
 #Only uncomment and run the below code if you make a change - prevent using our API unless necessary.
 # #Center of Guilford County, NC:
