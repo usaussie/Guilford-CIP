@@ -46,7 +46,7 @@ options(warnPartialMatchArgs = F)
 #
 #          iter <- iter + 1
 #
-#          reslst[[iter]] <- results %>% select(id, name, place_id, rating, user_ratings_total, types) %>% as_tibble() %>% add_column(iter = iter, place_type_search = place_types[j], location_grid = paste(location[1], location[2], sep = ", "))
+#          reslst[[iter]] <- results %>% select(id, name, place_id, rating, user_ratings_total, types) %>% as_tibble() %>% add_column(iter = iter, place_type_search = place_types[j], location_grid = paste(location[1], location[2], sep = ", ")) %>% bind_cols(lat = results$geometry$location$lat, lon = results$geometry$location$lng)
 #
 #          if(is.null(last_token)) break
 #
@@ -65,4 +65,7 @@ all_results <- bind_rows(reslst)
 all_results %>% count(place_id,  sort = T) %>% count(n)
 
 results <- all_results %>%
-  distinct(id, name, place_id, rating, user_ratings_total)
+  distinct(id, name, place_id, rating, user_ratings_total, lat, lon)
+
+google_map(data = results, location = guilford) %>%
+  add_markers()
