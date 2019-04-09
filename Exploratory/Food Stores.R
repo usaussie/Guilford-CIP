@@ -77,7 +77,7 @@ all_results %>%
   mutate(istype_gas_station = map_lgl(types, ~any("gas_station" %in% .x)))
 
 results <- all_results %>%
-  distinct(id, name, place_id, price_level, rating, user_ratings_total, )
+  distinct(id, name, place_id, price_level, rating, user_ratings_total, lat, lon)
 
 google_map(data = results, location = guilford) %>%
   add_markers()
