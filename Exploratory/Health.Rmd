@@ -1,6 +1,8 @@
 ---
 title: "Health"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -10,6 +12,7 @@ library(tidyverse)
 library(siverse)
 library(plotly)
 library(billboarder)
+library(RSocrata)
 
 
 
@@ -210,6 +213,41 @@ p <- plot_ly(data = premat, x =~Year, y = ~guilford_premat, type = 'scatter', mo
          xaxis = list(title = "Year"))
    
 p
+
+```
+
+
+
+```{r}
+
+# Diabetes prevalance inNC
+
+# Top causes of death: US
+
+# Heart disease: 635,260
+# Cancer: 598,038
+# Accidents (unintentional injuries): 161,374
+# Chronic lower respiratory diseases: 154,596
+# Stroke (cerebrovascular diseases): 142,142
+
+# Top causes of dealth NC: 
+# 1. Cancer 	19,474 	157.1 	21st 	152.5
+# 2. Heart Disease 	18,808 	156.5 	27th 	165.0
+# 3. Accidents 	5,985 	56.3 	20th (tie) 	49.4
+# 4. Chronic Lower Respiratory Diseases 	5,540 	45.3 	23rd (tie) 	40.9
+# 5. Stroke
+
+
+disability <- read.socrata("https://data.cdc.gov/resource/u775-2gjg.json")
+
+summary(disability)
+
+dis <- read.csv(file = "C:/Users/u1106978/Downloads/Disability_and_Health_Data_System__DHDS_.csv")
+
+levels(as.factor(disability$indicatorid))
+
+disability %>% 
+  filter(locationabbr  == "UT")
 
 ```
 
