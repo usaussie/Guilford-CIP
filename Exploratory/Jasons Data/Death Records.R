@@ -28,6 +28,43 @@ dr <- dr %>%
          dob = paste(dob_yr, dob_mo, dob_dy, sep = "-"),
          dob = ymd(dob))
 
+# Zip codes in Guilford county: https://www.bestplaces.net/find/zip.aspx?st=nc&county=37081
+guilfordzips <- c(27263, 27214, 27233, 27235, 27249, 27401, 27403, 27405, 27406, 27407, 27408, 27409, 27410, 27455, 27265, 27282, 27260, 27262, 27283, 27301, 27310, 27313, 27357, 27358, 27377)
+
+dr <- dr %>% filter(zipcode %in% guilfordzips)
+
+# Geocode Addresses -----------------------------------------------------------------------------------------------
+
+
+dr <- dr %>%
+  unite(col = full_address, contains("addr"), cityrestext, zipcode, sep = " ", na.rm = T, remove = F)
+
+
+pb <- progress_estimated(n_unique(dr$full_address))
+
+geocoded_dr <- dr %>%
+  distinct(full_address) %>%
+  mutate(geocode_result = map(full_address, function(full_address) {
+
+    pb$tick()$print()
+
+    res <- google_geocode(full_address) %>%
+      pluck("results")
+
+    geo <- res %>%
+      pluck("geometry") %>%
+      pluck("location")
+
+    formatted_address <- res %>%
+      pluck("formatted_address")
+
+    bind_cols(geo, formatted_address = formatted_address)
+
+    })) %>%
+  unnest()
+
+write_rds(geocoded_dr, "~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/geocoded_dr.rds")
+
 #Race
 dicdr %>% filter(str_detect(name, "race")) %>%
   select(variable, name) %>%
@@ -110,3 +147,4 @@ dr %>%
   tabyl(veteran, whiteblack, sex) %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting()
+
