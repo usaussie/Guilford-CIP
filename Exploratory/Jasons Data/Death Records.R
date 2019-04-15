@@ -48,19 +48,21 @@ geocoded_dr <- dr %>%
 
     pb$tick()$print()
 
-    res <- google_geocode(full_address) %>%
-      pluck("results")
+    res <- google_geocode(full_address)
 
-    geo <- res %>%
-      pluck("geometry") %>%
-      pluck("location")
+    if(res$status == "OK") {
 
-    formatted_address <- res %>%
-      pluck("formatted_address")
+      geo <- geocode_coordinates(res) %>% as_tibble()
 
-    bind_cols(geo, formatted_address = formatted_address)
+      formatted_address <- geocode_address(res)
 
-    })) %>%
+      geocode <- bind_cols(geo, formatted_address = formatted_address)
+    }
+    else geocode <- tibble(lat = NA, lng = NA, formatted_address = NA)
+
+    return(geocode)
+
+  })) %>%
   unnest()
 
 write_rds(geocoded_dr, "~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/geocoded_dr.rds")
