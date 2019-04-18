@@ -243,3 +243,9 @@ body {
 margin-left: 40px;
 margin-right: 30px;
 }
+
+/* Center align box titles*/
+
+.box-header {
+  text-align: center;
+}
