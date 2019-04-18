@@ -123,6 +123,7 @@ body <- dashboardBody(
     tabItem(
       tabName = "civic",
       fluidRow(column(12,
+                      align = "center",
                       h1(
                         "CIVIC"
                       ))),
@@ -208,7 +209,44 @@ body <- dashboardBody(
       )),
       
       
-      fluidRow()
+      fluidRow(
+        column(
+          6, 
+          align= "center", 
+          h2("Health 1 chart")
+        ),
+        column(
+          6,
+          align = "center",
+          h2("Health 2 chart")
+        )
+        
+      ), 
+      
+      fluidRow(
+        column(
+          8, 
+          align = "center", 
+          h2("Vacant houses map?")
+        ), 
+        
+        column(
+          4, 
+          align = "center", 
+          h2("Permits for remodel")
+        )
+      ), 
+      
+      fluidRow(
+        column(12, 
+               align = "center", 
+               h2("Food Deserts Map"))
+      ), 
+      fluidRow(
+        column(12, 
+               align = "center", 
+               h2("deaths"))
+      )
     ),
     
     # WORK Tab ----
