@@ -8,20 +8,6 @@ library(scales)
 
 edu <- get(load("G:/My Drive/ACS/2017 5-year/acs_educ_over25years_lst.RData"))
 
-view(edu$county)
-view(edu$place)
-view(edu$reservation)
-view(edu$state)
-
-eduState <- edu$state %>%
-  filter(state == "NC") %>%
-  filter(completed_bucket != "Total") %>%
-  select(state) %>%
-  view()
-
-edu$place %>%
-  View()
-
 ####################################################################
 
 #Pie Chart - Percentage split of Nation with differing educations
@@ -127,9 +113,11 @@ eduStatesPercentage <- edu$place %>%
   group_by(state, completed_bucket) %>% 
   summarise(total=sum(bucket_value)) %>% 
   ungroup() %>% 
-  mutate(percentage = (bucket_value)/total*100) %>%
-  select(completed_bucket, percentage, state) %>% 
-  spread(completed_bucket, percentage)
+  group_by(state) %>% 
+  mutate(total1 = sum(total)) %>% 
+  mutate(perc = total/total1 * 100) %>% 
+  select(completed_bucket, perc, state) %>% 
+  spread(completed_bucket, perc)
 
 billboarder() %>% 
   bb_barchart(data = eduStatesPercentage) %>% 
@@ -154,13 +142,15 @@ billboarder() %>%
 eduNC <- edu$place %>% 
   filter(completed_bucket != "Total", value_type=="estimate") %>% 
   filter(state == 'NC') %>% 
-  select(city, completed_bucket, bucket_value) %>%
+  select(county, completed_bucket, bucket_value) %>%
   group_by(county, completed_bucket) %>% 
-  mutate(total=sum(bucket_value)) %>% 
+  summarise(total=sum(bucket_value)) %>% 
   ungroup() %>% 
-  mutate(percentage = (bucket_value)/total*100) %>% 
-  select(completed_bucket, percentage, city) %>% 
-  spread(completed_bucket, percentage)
+  group_by(county) %>% 
+  mutate(total1 = sum(total)) %>% 
+  mutate(perc = (total/total1)*100) %>% 
+  select(completed_bucket, perc, county) %>% 
+  spread(completed_bucket, perc)
 
 billboarder() %>% 
   bb_barchart(data = eduNC) %>% 
