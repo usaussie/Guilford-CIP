@@ -11,6 +11,8 @@ load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/pc_income.rda")
 
 
 # Define individual UI elements -------------------------------------------------------------
@@ -142,10 +144,19 @@ body <- dashboardBody(
       br(),
       
       fluidRow(column (2,
-                       box(
-                         width = NULL,
-                         valueBoxOutput("total_population", width = NULL)
-                       )),
+                       fluidRow(
+                         box(
+                           width = NULL,
+                           valueBoxOutput("total_population", width = NULL)
+                         )
+                       ),
+                       fluidRow(
+                         box(
+                           width = NULL,
+                           valueBoxOutput("median_age", width = NULL)
+                         )
+                       ))
+                       ,
                column(
                  5,
                  box(width = NULL, title = "Age Distribution in Guilford County",
@@ -264,28 +275,64 @@ body <- dashboardBody(
     
     tabItem(
       tabName = "work",
+      fluidRow(column(12,
+                      align = "center",
+                      box(
+                        width = NULL,
+                        h1("Image here")
+                      ))),
+      
       fluidRow(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+        column(
+          12, 
+          box(
+            width = NULL, 
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+            )
+          )
       ),
       
       fluidRow(
-        column(12,
-               align = "center",
-               h2("Median Income: not by race?"))
+        column(6, 
+               align  ="center",
+               box(
+                 width = NULL, 
+                 title = "Per Capita Income by Race",
+                 billboarderOutput("pc_inc_race")
+               )),
+        column(5,
+               box(
+                 width = NULL, 
+                 title = "Per Capita Income by Ethnicity", 
+                 billboarderOutput("pc_inc_ethn")
+               ))
+      ),
+      fluidRow(
+        column(
+          12, 
+          box(
+            width = NULL, 
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+          )
+        )
       ),
       
       fluidRow(
-        column(6,
+        column(10,
+               offset = 1,
                align = "center",
                
                box(width = NULL,
+                   title = "Employment  Percentage (Civilian Labor Force) by Race and Sex",
                    billboarderOutput("emp_race"))
-               ),
-        column (6, 
-                align = "center", 
-                h2("Means of transportation by race"))
+               )
       ),
-      fluidRow()
+      fluidRow(
+        column(12,
+               box(
+                 "Means of transportation by race?"
+               ))
+      )
     ),
     
     # PLAY Tab ----
@@ -355,6 +402,19 @@ server <- function(input, output) {
     
   })
   
+  
+  output$median_age <- renderValueBox({
+    med_age <- age %>% 
+      filter(levlab == "Total") %>% 
+      pull(estimate)
+    
+    valueBox(
+      value = prettyNum(med_age, big.mark = ","),
+      subtitle = "Median Age",
+      color = "blue"
+    )
+  })
+  
   output$age <- renderBillboarder({
     billboarder() %>%
       bb_barchart(data = gc_ages, stacked = T)
@@ -377,10 +437,31 @@ server <- function(input, output) {
       bb_donutchart(data = acs_ethn_county)
   })
   
+  # WORK Tab ----
   
   output$emp_race <- renderBillboarder({
     billboarder() %>% 
       bb_barchart(data = emp_race)
+  })
+  
+  output$pc_inc_race <- renderBillboarder({
+    pc_income_race <- pc_income %>% 
+      filter(race!="White Alone, Not Hispanic or Latino") %>% 
+      filter(race!="Hispanic or Latino") %>% 
+      select(race, estimate)
+    
+    billboarder() %>% 
+      bb_barchart(data = pc_income_race)
+  })
+  
+  output$pc_inc_ethn <- renderBillboarder({
+    
+    pc_income_ethn <- pc_income %>% 
+      filter(race=="White Alone, Not Hispanic or Latino"| race =="Hispanic or Latino" ) %>% 
+      select(race, estimate)
+    
+    billboarder() %>% 
+      bb_barchart(data = pc_income_ethn)
   })
   
 }
