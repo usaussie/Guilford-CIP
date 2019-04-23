@@ -1,0 +1,170 @@
+---
+title: "Overview"
+output: html_notebook
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+
+library(siverse)
+library(tidyverse)
+library(googlesheets)
+library(leaflet)
+
+```
+
+
+
+
+```{r}
+
+
+acsvars <- load_variables(2017, "acs5", cache = T) %>%
+  mutate(level = str_count(label, pattern = "!!")) %>%
+  rowwise() %>%
+  mutate(levlab = str_split(label, pattern = "!!") %>% unlist() %>% .[level + 1]) %>%
+  ungroup() %>%
+  mutate(concept = str_to_title(concept)) %>%
+  rename(variable = name)
+
+
+si_acs <- function(table, county = NULL, state = NULL, summary_var = "universe total", geography = NULL) {
+  cat(yellow(bold("Reminder: You must stay within the same level for any summary to be valid!\n")))
+ 
+  if(summary_var == "universe total") summary_var = paste0(table, "_001")
+  summary_label = acsvars %>% filter(variable == summary_var) %>% pull(levlab)
+ 
+  get_acs(geography = geography,
+          table = table,
+          county = county,
+          state = state,
+          output = "tidy",
+          year = 2017,
+          cache_table = T,
+          summary_var = summary_var) %>%
+    clean_names() %>%
+    left_join(acsvars) %>%
+    select(-summary_moe, -variable) %>%
+    select(geoid, county = name, level, levlab, estimate, everything()) %>%
+    rename(!!summary_label := summary_est)
+}
+
+
+```
+
+```{r}
+load("G:/My Drive/SI/DataScience/Pritzker/ACS Data/acs_lst.RData")
+
+load("G:/My Drive/SI/DataScience/Pritzker/ACS Data/acs_ethnicity_lst.RData")
+
+gc_demo <- si_acs("B01001", county = "Guilford County", state = "NC", geography = "county")
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+
+```{r sex}
+
+
+
+gc_sex <- gc_demo %>% 
+  filter(level == 2) %>% 
+  select(levlab, estimate)
+
+billboarder() %>% 
+  bb_donutchart(data = gc_sex)
+
+
+save(gc_sex, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
+
+
+```
+
+
+```{r total}
+
+gc_sex %>% 
+  summarise(t = sum(estimate))
+
+```
+
+
+```{r ages}
+
+gc_ages <-gc_demo %>% 
+  filter(level ==3) %>% 
+  select(levlab, estimate, label) %>% 
+  group_by(levlab) %>% 
+  summarise(total = sum(estimate)) %>% 
+  spread(levlab, total) %>% 
+  mutate(`0-9 Years` = sum(`Under 5 years`,`5 to 9 years` ),
+         `10-19 Years` = sum(`10 to 14 years`, `15 to 17 years`, `18 and 19 years` ), 
+         `20-29 Years` = sum(`20 years`, `21 years`, `22 to 24 years`, `25 to 29 years`),
+         `30-39 Years` = sum(`30 to 34 years`, `35 to 39 years`), 
+         `40-49 Years` = sum(`40 to 44 years`, `45 to 49 years`), 
+         `50-59 Years` = sum(`50 to 54 years`, `55 to 59 years`),
+         `60-69 Years`= sum(`60 and 61 years`, `62 to 64 years`, `65 and 66 years`, `67 to 69 years`),
+         `70 - 79 Years` = sum(`70 to 74 years`, `75 to 79 years`), 
+         `80 Years and Over` = sum(`80 to 84 years`, `85 years and over`)) %>% 
+  select(24:32) %>% 
+  gather(c(1:9), key = "Ages", value = "Total") %>% 
+  mutate(denom = sum(Total),
+         perc = round((Total/denom)*100),0) %>% 
+  select(Ages, perc)
+
+
+
+billboarder() %>% 
+ bb_barchart(data = gc_ages, stacked = T)
+
+save(gc_ages, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
+
+```
+
+
+
+```{r race}
+
+race_county <- acs_lst$county %>% 
+  select(county, state, contains("race")) %>% gather(key = key, value = n, -state, -county) %>% separate(key, into = c("var", "age", "unit", "race"), sep = "\\.") %>% filter(age == "allages") %>% 
+  filter(county == "Guilford County") %>% 
+  filter(race != "hispanic") %>% 
+  filter(race!="nonhispanicwhite") %>% 
+  select(race,n)
+
+billboarder() %>% 
+  bb_donutchart(data = race_county) %>% 
+  bb_donut()#chart prop here)
+
+save(race_county, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
+
+```
+
+
+
+```{r ethnicity}
+
+acs_ethn_county <- acs_ethnicity_lst$county%>% filter(value_type == "estimate") %>% 
+  filter(county == "Guilford County") %>% 
+  mutate(value = as.numeric(value),
+         ethnicity = str_replace_all(ethnicity, "\\.", " ")) %>% 
+  select(ethnicity, value)
+
+
+
+billboarder() %>% 
+  bb_donutchart(data = acs_ethn_county)
+
+save(acs_ethn_county, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
+
+```
+

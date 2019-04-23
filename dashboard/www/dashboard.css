@@ -1,0 +1,251 @@
+@import url("//fonts.googleapis.com/css?family=Roboto");
+@import url("//fonts.googleapis.com/css?family=Roboto+Condensed:400,700");
+
+h1,h2,h3{
+  font-family: 'Roboto Condensed' ;
+  font-weight: 500;
+  line-height: 1.1;
+  color:#00558B;
+}
+
+h4,h6,h5,h7,a{
+  font-family: 'Roboto Condensed' ;
+  font-weight: 500;
+  line-height: 1.1;
+  color: #000000;
+}
+
+p{
+  font-family: 'Roboto' ;
+  margin-left: 30px;
+  margin-right: 30px;
+  margin-top: 15px;
+}
+
+body {
+  background-color: #ffffff;
+}
+
+.objective{
+  font-weight:bold;
+}
+
+.main-header {
+    height: 70px;
+}
+
+
+
+.content-wrapper{
+  background-color: #ffffff;
+}
+
+.skin-blue .main-header .navbar .sidebar-toggle {
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.skin-blue .main-header .navbar .sidebar-toggle:hover {
+    background-color: #36B885;
+}
+
+.skin-blue .main-header .navbar {
+    background-color: #2A3236;
+    margin-top: 5px;
+}
+
+.skin-blue .left-side, .skin-blue .main-sidebar, .skin-blue .wrapper {
+    background-color: #2A3236;
+}
+
+.skin-blue .main-header .logo {
+    background-color: #2A3236;
+    color: #000;
+    border-bottom: 0 solid transparent;
+}
+
+.skin-blue .main-header .logo:hover {
+    background-color: #2A3236;
+}
+
+.skin-blue .sidebar-menu>active>a, .skin-blue .sidebar-menu>li:hover > a {
+    color: #000;
+    background: #2A3236;
+    border-left-color: #fff;
+}
+
+.skin-blue .sidebar-menu>.active>a, .skin-blue .sidebar-menu>li:hover > a {
+    color: #000;
+    background: #2A3236;
+    border-left-color: #fff;
+}
+
+.skin-blue .sidebar-menu>li.active>a, .skin-blue .sidebar-menu>li:hover > a {
+    color: #fff;
+    background: #2A3236;
+    border-left-color: #fff;
+}
+
+.welcomeText {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.sidebar-menu {
+    margin-top: 20px;
+}
+
+.welcomeBox {
+  width :100%;
+}
+.welcomeImage{
+  width :100%;
+}
+
+.getBox {
+  width :100%;
+}
+.getImage{
+  width :100%;
+}
+.headerText{
+  text-align: center;
+  font-size: 70px;
+  font-weight: bold
+}
+
+.logoImage{
+  height :100%;
+}
+
+.footerBox{
+  text-align: center;
+  font-size: 10px;
+  background-color: #F5F5F5;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+.boxWelcome {
+  background-color: #36B885;
+  width: 100%;
+  height:100%;
+  margin-right:0;
+  margin-left:0;
+  padding-top:0;
+  padding-bottom:0;
+}
+
+.welcomeHeader {
+  background-color: #2A3236;
+  width: 100%;
+  height:100%;
+  margin-right:0;
+  margin-left:0;
+  padding-top:0;
+  padding-bottom:0;
+}
+
+.dashboardHeader {
+  background-color: #2EADC5;
+  width: 100%;
+  height:100%;
+  margin-right:0;
+  margin-left:0;
+  padding-top:0;
+  padding-bottom:0;
+}
+
+.howHeader {
+  background-color: #FBAA20;
+  width: 100%;
+  height:100%;
+  margin-right:0;
+  margin-left:0;
+  padding-top:0;
+  padding-bottom:0;
+}
+
+.boxText {
+  color:#FFFFFF;
+  text-align: center
+}
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.content {
+    min-height: 250px;
+    padding: 0;
+    margin-right: 0;
+    margin-left: 0;
+    padding-left: 0;
+    padding-right: 0
+}
+
+.box {
+    position: relative;
+    border-radius: 3px;
+    background: #fff;  
+    border-top:0; 
+    margin-bottom:0;
+    width: 100%;
+    box-shadow: 0 0 0
+}
+
+.box-body {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    padding: 30px
+}
+
+.howTitle {
+  color: #FBAA20;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase
+}
+
+.dashboardTitle {
+  color: #2EADC5;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase
+}
+  
+.goalsHeader {
+  background-color: #36B885;
+  width: 100%;
+  height:100%;
+  margin-right:0;
+  margin-left:0;
+  padding-top:0;
+  padding-bottom:0;
+}
+
+.goalsTitle {
+  color: #36B885;
+  font-weight: bold;
+  text-align:left;
+  padding:20px;
+  text-transform: uppercase
+}
+
+.styleAttribute {
+margin-left: 40px;
+margin-right: 30px;
+}
+
+/* Center align box titles*/
+
+.box-header {
+  text-align: center;
+}

@@ -249,5 +249,8 @@ levels(as.factor(disability$indicatorid))
 disability %>% 
   filter(locationabbr  == "UT")
 
+summarise(count = n()) %>% 
+  mutate(perc = count/sum(count))
+
 ```
 

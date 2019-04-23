@@ -1,6 +1,8 @@
 ---
 title: "Housing"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r}
@@ -12,11 +14,65 @@ library(leaflet)
 library(billboarder)
 library(plotly)
 library(scales)
+library(tidycensus)
+library(crayon)
+
 ```
 
 
 ```{r}
 
+acsvars <- load_variables(2017, "acs5", cache = T) %>%
+  mutate(level = str_count(label, pattern = "!!")) %>%
+  rowwise() %>%
+  mutate(levlab = str_split(label, pattern = "!!") %>% unlist() %>% .[level + 1]) %>%
+  ungroup() %>%
+  mutate(concept = str_to_title(concept)) %>%
+  rename(variable = name)
+
+
+si_acs <- function(table, county = NULL, state = NULL, summary_var = "universe total", geography = NULL) {
+  cat(yellow(bold("Reminder: You must stay within the same level for any summary to be valid!\n")))
+ 
+  if(summary_var == "universe total") summary_var = paste0(table, "_001")
+  summary_label = acsvars %>% filter(variable == summary_var) %>% pull(levlab)
+ 
+  get_acs(geography = geography,
+          table = table,
+          county = county,
+          state = state,
+          output = "tidy",
+          year = 2017,
+          cache_table = T,
+          summary_var = summary_var, 
+          geometry = TRUE, 
+          cb = TRUE) %>%
+    clean_names() %>%
+    left_join(acsvars) %>%
+    select(-summary_moe, -variable) %>%
+    select(geoid, county = name, level, levlab, estimate, everything()) %>%
+    rename(!!summary_label := summary_est)
+}
+
+
+nc <- si_acs("B25002", geography = "place", state = "NC")
+
+plot <- nc %>% filter(levlab == "Vacant")
+
+pal <- colorQuantile(palette = "viridis", domain = plot$estimate, n = 10)
+
+leaflet(data = plot) %>%
+  addPolygons(
+    stroke = F, 
+    fillOpacity = 0.8,
+    color = ~ pal(estimate)
+  ) %>% 
+  addLegend("bottomright", 
+              pal = pal, 
+              values = ~ estimate,
+              title = "Vacant Houses",
+              opacity = 1)
+  
 
 
 ```
