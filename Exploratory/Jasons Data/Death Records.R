@@ -1,6 +1,10 @@
 require(tidyverse)
 require(siverse)
 require(ggridges)
+require(googleway)
+require(httr)
+
+options(warnPartialMatchArgs = F)
 
 
 # Dictionary ------------------------------------------------------------------------------------------------------
@@ -33,39 +37,121 @@ guilfordzips <- c(27263, 27214, 27233, 27235, 27249, 27401, 27403, 27405, 27406,
 
 dr <- dr %>% filter(zipcode %in% guilfordzips)
 
+
+
 # Geocode Addresses -----------------------------------------------------------------------------------------------
 
 
 dr <- dr %>%
-  unite(col = full_address, contains("addr"), cityrestext, zipcode, sep = " ", na.rm = T, remove = F)
+  mutate(addrpred = ifelse(addrpred %in% c("N", "S", "E", "W", "NE", "NW", "SE", "SW"), yes = addrpred, no = NA),
+         addrpost = ifelse(addrpost %in% c("N", "S", "E", "W", "NE", "NW", "SE", "SW"), yes = addrpost, no = NA)) %>%
+  unite(col = street_address, addrnum, addrpred, addrname, addrsuff, addrpost, sep = " ", na.rm = T, remove = F) %>%
+  add_column(state = "NC") %>%
+  mutate(full_address = paste0(street_address, ", ", cityrestext, ", ", state, " ", zipcode))
+
+dr %>%
+  select(street_address, cityrestext, state, zipcode) %>%
+  write_csv("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/addresses for texas am.csv")
+
+# Guilford ArcGIS -------------------------------------------------------------------------------------------------
+
+# distinct_full_address <- dr %>% distinct(full_address)
+#
+# pb <- progress_estimated(nrow(distinct_full_address))
+#
+# geo_pull <- distinct_full_address %>%
+#   mutate(json = map(full_address, function(full_address) {
+#
+#     try(pb$tick()$print())
+#
+#     GET(url = "http://gis.guilfordcountync.gov/arcgis/rest/services/Geocode_Services/GCStrts_Parcels_Composite/GeocodeServer/findAddressCandidates",
+#         query = list(f = "json",
+#                      SingleLine = full_address,
+#                      outSR = "4326",
+#                      outFields = "StreetName, Match_addr",
+#                      maxLocations = 1)) %>%
+#       pluck("content") %>%
+#       rawToChar() %>%
+#       jsonlite::fromJSON() %>%
+#       pluck("candidates")
+#
+#     }))
+#
+# arcgis_geocoded <- geo_pull %>%
+#   mutate(json = map(json, ~ if(is.null(.x)) {
+#     tibble(attributes.StreetName = NA_character_, attributes.Match_addr = NA_character_)
+#   }
+#     else do.call(data.frame, c(.x, stringsAsFactors = FALSE)))) %>%
+#   unnest()
+#
+# write_rds(arcgis_geocoded, "~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/geocoded.rds")
+
+arcgis_geocoded <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/geocoded.rds")
+
+# not_geocoded <- geocoded %>% filter(is.na(location.x)) %>% select(full_address)
+#
+#
+# not_geocoded %>%
+#   left_join(dr %>% select(full_address, street_address, cityrestext, state, zipcode)) %>%
+#   distinct() %>%
+#   write_csv("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/addresses for texas am.csv")
+
+texas_geocoded <- read_csv("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/texas geocoded results.csv")
+
+all_geocoded <- bind_rows(arcgis_geocoded %>%
+            filter(!is.na(location.x)) %>%
+            select(full_address, lat = location.y, lon = location.x),
+          texas_geocoded %>%
+            select(full_address, lat = Latitude, lon = Longitude) %>%
+            filter(!is.na(lat))
+  )
+
+dr <- dr %>%
+  left_join(all_geocoded)
 
 
-pb <- progress_estimated(n_unique(dr$full_address))
+# Supplement with google maps geocoding NOT CURRENTLY NEEDED---------------------------------------------------------------------------
 
-geocoded_dr <- dr %>%
-  distinct(full_address) %>%
-  mutate(geocode_result = map(full_address, function(full_address) {
+# THIS IS NOT NEEDED
+# google_maps_batch_geocode <- function(full_address) {
+#
+#   pb$tick()$print()
+#
+#   res <- google_geocode(full_address)
+#
+#   broke <<- res
+#
+#   #cat(blue(full_address, ": "), yellow(res$status), "\n", sep = "")
+#
+#   if(res$status == "OK") {
+#
+#     geo <- geocode_coordinates(res) %>% as_tibble()
+#
+#     formatted_address <- geocode_address(res)
+#
+#     geocode <- bind_cols(geo, formatted_address = formatted_address)
+#   }
+#   else geocode <- tibble(lat = NA, lng = NA, formatted_address = NA)
+#
+#   ext_geo <<- bind_rows(ext_geo, bind_cols(full_address, geocode))
+#
+#   return(geocode)
+# }
+#
+# #ext_geo <- tibble()
+#
+# gmbc_limited <- limit_rate(google_maps_batch_geocode, rate(40, 1))
+#
+# pb <- progress_estimated(nrow(not_geocoded))
+# gmbc_results <- not_geocoded %>%
+#   mutate(geocode_result = map(.x = full_address, gmbc_limited)) %>%
+#   unnest()
 
-    pb$tick()$print()
+#write_rds(geocoded_dr, "~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/geocoded_dr.rds")
 
-    res <- google_geocode(full_address)
 
-    if(res$status == "OK") {
+# Race ------------------------------------------------------------------------------------------------------------
 
-      geo <- geocode_coordinates(res) %>% as_tibble()
-
-      formatted_address <- geocode_address(res)
-
-      geocode <- bind_cols(geo, formatted_address = formatted_address)
-    }
-    else geocode <- tibble(lat = NA, lng = NA, formatted_address = NA)
-
-    return(geocode)
-
-  })) %>%
-  unnest()
-
-write_rds(geocoded_dr, "~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/geocoded_dr.rds")
 
 #Race
 dicdr %>% filter(str_detect(name, "race")) %>%
