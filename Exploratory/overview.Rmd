@@ -21,7 +21,7 @@ library(leaflet)
 ```{r}
 
 
-acsvars <- load_variables(2017, "acs5", cache = T) %>%
+acsvars <- load_variables(2017, "acs1", cache = T) %>%
   mutate(level = str_count(label, pattern = "!!")) %>%
   rowwise() %>%
   mutate(levlab = str_split(label, pattern = "!!") %>% unlist() %>% .[level + 1]) %>%
@@ -29,13 +29,12 @@ acsvars <- load_variables(2017, "acs5", cache = T) %>%
   mutate(concept = str_to_title(concept)) %>%
   rename(variable = name)
 
-
-si_acs <- function(table, county = NULL, state = NULL, summary_var = "universe total", geography = NULL) {
+si_acs <- function(table, county = NULL, state = NULL, summary_var = "universe total", geography = NULL, survey = NULL) {
   cat(yellow(bold("Reminder: You must stay within the same level for any summary to be valid!\n")))
- 
+  
   if(summary_var == "universe total") summary_var = paste0(table, "_001")
   summary_label = acsvars %>% filter(variable == summary_var) %>% pull(levlab)
- 
+  
   get_acs(geography = geography,
           table = table,
           county = county,
@@ -43,7 +42,10 @@ si_acs <- function(table, county = NULL, state = NULL, summary_var = "universe t
           output = "tidy",
           year = 2017,
           cache_table = T,
-          summary_var = summary_var) %>%
+          summary_var = summary_var, 
+          geometry = FALSE, 
+          cb = FALSE, 
+          survey = survey) %>%
     clean_names() %>%
     left_join(acsvars) %>%
     select(-summary_moe, -variable) %>%
@@ -65,7 +67,11 @@ gc_demo <- si_acs("B01001", county = "Guilford County", state = "NC", geography 
 ```
 
 
-```{r}
+```{r median age}
+
+age <- si_acs("B01002", geography = "county", state = "NC", survey = "acs1", county = "Guilford County")
+
+save(age,file =  "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
 
 
 ```
