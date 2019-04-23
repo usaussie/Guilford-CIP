@@ -1,5 +1,7 @@
 library(shiny)
 library(shinydashboard)
+library(billboarder)
+library(tidyverse)
 
 
 # Load data ---------------------------------------------------------------
@@ -8,6 +10,7 @@ load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
 
 
 # Define individual UI elements -------------------------------------------------------------
@@ -213,7 +216,7 @@ body <- dashboardBody(
         column(
           6, 
           align= "center", 
-          h2("Health 1 chart")
+          h2("Life Expectancy by race/sex")
         ),
         column(
           6,
@@ -222,6 +225,13 @@ body <- dashboardBody(
         )
         
       ), 
+      
+      fluidRow(
+        column(12,
+               align = "center", 
+               h2("Head of household by race?"))
+      ),
+      
       
       fluidRow(
         column(
@@ -257,7 +267,24 @@ body <- dashboardBody(
       fluidRow(
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
       ),
-      fluidRow(),
+      
+      fluidRow(
+        column(12,
+               align = "center",
+               h2("Median Income: not by race?"))
+      ),
+      
+      fluidRow(
+        column(6,
+               align = "center",
+               
+               box(width = NULL,
+                   billboarderOutput("emp_race"))
+               ),
+        column (6, 
+                align = "center", 
+                h2("Means of transportation by race"))
+      ),
       fluidRow()
     ),
     
@@ -348,6 +375,12 @@ server <- function(input, output) {
   output$ethnicity <- renderBillboarder({
     billboarder() %>% 
       bb_donutchart(data = acs_ethn_county)
+  })
+  
+  
+  output$emp_race <- renderBillboarder({
+    billboarder() %>% 
+      bb_barchart(data = emp_race)
   })
   
 }
