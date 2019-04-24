@@ -84,9 +84,9 @@ dr %>%
 #     else do.call(data.frame, c(.x, stringsAsFactors = FALSE)))) %>%
 #   unnest()
 #
-# write_rds(arcgis_geocoded, "~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/geocoded.rds")
+# write_rds(arcgis_geocoded, "~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_addresses_geocoded.rds")
 
-arcgis_geocoded <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/geocoded.rds")
+arcgis_geocoded <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_addresses_geocoded.rds")
 
 # not_geocoded <- geocoded %>% filter(is.na(location.x)) %>% select(full_address)
 #
@@ -236,3 +236,11 @@ dr %>%
   adorn_percentages("col") %>%
   adorn_pct_formatting()
 
+
+# Map -------------------------------------------------------------------------------------------------------------
+
+dr %>%
+  filter(lat > 35.5, lon < -79.5, age > 60, age < 90) %>% #limit our viewport and color scale.
+  ggplot(aes(x = lon, y = lat, color = age)) +
+  geom_point(size = .4) +
+  scale_color_viridis(option = "plasma", direction = -1)
