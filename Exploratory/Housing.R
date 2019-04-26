@@ -4,8 +4,6 @@ library(crayon)
 library(tidycensus)
 library(billboarder)
 
-census_api_key("63183e84c8d31d2eaad041eb9300fe833b304630", install = TRUE, overwrite=TRUE)
-
 acsvars <- load_variables(2017, "acs5", cache = TRUE) %>% 
   mutate(level = str_count(label, pattern = "!!")) %>% 
   rowwise() %>% 
@@ -119,14 +117,15 @@ billboarder() %>%
 ######################### Pie chart on Guilford housing distributions (Percentage)
 
 medianHousingValue.countyDist <- medianHousingValue.filtered.state %>% 
-  filter(county=="Guilford County, North Carolina") %>% 
+  filter(str_detect(county,"Guilford")) %>% 
   group_by(levlab) %>% 
   summarise(total=sum(estimate)) %>% 
   select(levlab, total) %>% 
   mutate(total = total/sum(total) * 100) %>% 
-  mutate(total = round(total, digits=2))
+  mutate(total = round(total, digits=2)) 
 
-pieGuilfordLabel <- paste(medianHousingValue.countyDist$levlab, medianHousingValue.countyDist$total) %>% 
+pieGuilfordLabel <- paste(medianHousingValue.countyDist$levlab, "-") %>% 
+  paste(medianHousingValue.countyDist$total, sep="") %>% 
   paste("%", sep="")
 
 pie(medianHousingValue.countyDist$total, labels=pieGuilfordLabel, main = "Median Housing Value Distribution in Guilford")
