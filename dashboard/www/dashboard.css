@@ -253,23 +253,23 @@ margin-right: 30px;
 
 /* Changing font color*/
 
-.fa-home{
+.box .fa-home{
 	color: #E54B21 ;
 }
 
-.fa-briefcase{
+.box .fa-briefcase{
 	color: #113535;
 }
 
-.fa-graduation-cap {
+.box .fa-graduation-cap {
 	color: #CB942B;
 }
 
-.fa-handshake {
+.box .fa-handshake {
 	color : #3A7993;
 }
 
-.fa-tree {
+.box .fa-tree {
 	color: #617030;
 }
 
