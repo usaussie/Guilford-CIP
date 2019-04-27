@@ -190,6 +190,7 @@ body {
 }
 
 .box {
+    text-align: center;
     position: relative;
     border-radius: 3px;
     background: #fff;  
