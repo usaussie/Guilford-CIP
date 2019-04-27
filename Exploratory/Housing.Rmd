@@ -16,11 +16,13 @@ library(plotly)
 library(scales)
 library(tidycensus)
 library(crayon)
+library(tigris)
+library(sf)
 
 ```
 
 
-```{r}
+```{r acs fn}
 
 acsvars <- load_variables(2017, "acs5", cache = T) %>%
   mutate(level = str_count(label, pattern = "!!")) %>%
@@ -31,12 +33,12 @@ acsvars <- load_variables(2017, "acs5", cache = T) %>%
   rename(variable = name)
 
 
-si_acs <- function(table, county = NULL, state = NULL, summary_var = "universe total", geography = NULL) {
+si_acs <- function(table, county = NULL, state = NULL, summary_var = "universe total", geography = NULL, survey = "acs5", geometry = FALSE, cb = TRUE) {
   cat(yellow(bold("Reminder: You must stay within the same level for any summary to be valid!\n")))
- 
+  
   if(summary_var == "universe total") summary_var = paste0(table, "_001")
   summary_label = acsvars %>% filter(variable == summary_var) %>% pull(levlab)
- 
+  
   get_acs(geography = geography,
           table = table,
           county = county,
@@ -45,8 +47,9 @@ si_acs <- function(table, county = NULL, state = NULL, summary_var = "universe t
           year = 2017,
           cache_table = T,
           summary_var = summary_var, 
-          geometry = TRUE, 
-          cb = TRUE) %>%
+          geometry = geometry, 
+          cb = cb, 
+          survey = survey) %>%
     clean_names() %>%
     left_join(acsvars) %>%
     select(-summary_moe, -variable) %>%
@@ -55,26 +58,131 @@ si_acs <- function(table, county = NULL, state = NULL, summary_var = "universe t
 }
 
 
-nc <- si_acs("B25002", geography = "place", state = "NC")
+```
 
-plot <- nc %>% filter(levlab == "Vacant")
 
-pal <- colorQuantile(palette = "viridis", domain = plot$estimate, n = 10)
 
-leaflet(data = plot) %>%
+```{r Head of household by race}
+
+#B25006 : Race of Householder
+
+hh_race_acs <- si_acs("B25006", state = "NC", geography = "county", county = "Guilford County", survey = "acs1")
+
+hh_race <- hh_race_acs %>% 
+  select(-moe) %>% 
+  filter(level!=3) %>% 
+  filter(level!=1) %>% 
+  mutate(levlab =  str_remove(levlab, "Householder who is ")) %>% 
+  select(levlab, estimate)
+
+billboarder() %>% 
+  bb_donutchart(data = hh_race)
+
+#save(hh_race, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
+
+
+```
+
+
+```{r vacant houses map}
+
+#B25002: Occupancy status
+
+
+#This plots a leaflet map with places
+
+# housing <- si_acs("B25002", geography = "place", state = "NC")%>% rename(GEOID = geoid) %>% filter(levlab == "Vacant")
+# 
+# summary(housing$estimate)  
+# 
+# bins <- c(0, 10, 20, 50, 100, 200, 500, 1000, Inf)
+# 
+geo_places <- county_subdivisions(state = "NC", cb = TRUE, class = "sf")
+# 
+# plot <- full_join(geo_places, housing)
+# pal <- colorQuantile(palette = "viridis", domain = plot$estimate,  probs = seq(0, 1, 0.1))
+# plot %>%
+#   leaflet() %>% 
+#   addPolygons(
+#     stroke = F, 
+#     fillOpacity = 0.8,
+#     fillColor = ~pal( estimate),
+#     label = ~ NAME,
+#     weight = 2,
+#   opacity = 1,
+#   color = "white",
+#   dashArray = "3",
+#   ) %>% 
+#   addLegend("bottomright", 
+#               pal = pal, 
+#               values = ~ estimate,
+#               title = "Vacant Houses",
+#               opacity = 1)
+#   
+
+
+housing <- si_acs("B25002", geography = "tract", state = "NC", geometry = T)%>% rename(GEOID = geoid) %>% filter(levlab == "Vacant")
+
+pal <- colorQuantile(palette = "viridis", domain = housing$estimate,  probs = seq(0, 1, 0.1))
+
+housing %>% 
+  leaflet() %>% 
+ 
   addPolygons(
-    stroke = F, 
-    fillOpacity = 0.8,
-    color = ~ pal(estimate)
+    stroke = F,
+   
+    fillColor = ~pal(estimate), 
+    fillOpacity = 1
+  ) %>%  
+  addPolygons(data = geo_places,
+    stroke = T, weight = 1,
+    label = ~ NAME, 
+    color = "white", 
+    dashArray = "3"
   ) %>% 
-  addLegend("bottomright", 
-              pal = pal, 
+  addLegend("bottomright",
+              pal = pal,
               values = ~ estimate,
               title = "Vacant Houses",
               opacity = 1)
   
 
-
 ```
 
+
+```{r}
+
+
+geo_places <- county_subdivisions(state = "NC", cb = TRUE, class = "sf", county = "Guilford County")
+
+housing <- si_acs("B25002", geography = "tract", state = "NC", geometry = T, county = "Guilford County")%>% rename(GEOID = geoid) %>% filter(levlab == "Vacant")
+
+
+
+pal <- colorQuantile(palette = "viridis", domain = housing$estimate,  probs = seq(0, 1, 0.1))
+
+
+leaflet()
+
+housing %>% 
+  leaflet(width = "100%") %>% 
+  addProviderTiles(provider = "CartoDB")# %>% 
+   addPolygons(
+    stroke = F,
+      fillColor = ~pal(estimate), 
+    fillOpacity = 1
+  ) %>%
+  addPolygons(data = geo_places,
+    stroke = T, weight = 1,
+    label = ~ NAME,
+    color = "white",
+    dashArray = "3"
+  ) %>%
+  addLegend("bottomright",
+              pal = pal,
+              values = ~ estimate,
+              title = "Vacant Houses",
+              opacity = 1)
+
+```
 

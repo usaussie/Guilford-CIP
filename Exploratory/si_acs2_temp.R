@@ -31,6 +31,26 @@ acsvars2 <- bind_rows(acs1 = load_variables(2017, "acs1", cache = T),
   select(-label_lead)
 
 
+
+
+test <- bind_rows(acs1 = load_variables(2017, "acs1", cache = T),
+          acs5 = load_variables(2017, "acs5", cache = T),
+          .id = "dataset") %>%
+  add_column(year = 2017) %>% #to do: don't hardcode year
+  mutate(level = str_count(label, pattern = "!!")) %>%
+  rowwise() %>%
+  mutate(levlab = str_split(label, pattern = "!!") %>% unlist() %>% .[level + 1]) %>% 
+  ungroup() %>%
+  mutate(concept = str_to_title(concept)) %>%
+  rename(variable = name) %>%
+  separate(col = variable, into = c("table", "row"), sep = "_", remove = F) %>%
+  group_by(year, dataset, table) %>%
+  mutate(label_lead = lead(label)) %>%
+  mutate(is_summary = str_detect(label_lead, label )& !is.na(label_lead)) %>%
+  ungroup() %>%
+  select(-label_lead)
+
+
 si_acs2 <- function(table, geography = "county", county = NULL, state = NULL, summary_var = "universe total", survey = "acs5", year = 2017, discard_summary_rows = TRUE) {
 
   acsvars <- acsvars2 %>% filter(dataset == survey, year == year)

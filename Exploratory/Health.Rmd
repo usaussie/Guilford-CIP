@@ -16,6 +16,7 @@ library(RSocrata)
 
 
 
+
 ```
 
 
@@ -58,6 +59,12 @@ premat_county <- read_delim("~/Google Drive/SI/DataScience/data/CDC/Raw Exports/
 
 premat_state <- read_delim("~/Google Drive/SI/DataScience/data/CDC/Raw Exports/Grouped by State//Natality 2007-2017/premature births before 37 weeks.txt", 
     "\t", escape_double = FALSE, trim_ws = TRUE)
+
+
+# Life Expectancy
+
+le <- read_xlsx(path = "G:/My Drive/SI/DataScience/data/Guilford County CIP/Web Sources/Life Expectancy.xlsx", 
+                sheet = "Sheet1", skip = 2) %>% clean_names()
 
 
 
@@ -251,6 +258,57 @@ disability %>%
 
 summarise(count = n()) %>% 
   mutate(perc = count/sum(count))
+
+```
+
+
+
+```{r Life expectancy}
+
+le1 <- le %>% 
+  select(-c(x3, x5, x7, x9, x11)) %>% 
+  rename(county = x1, 
+         total = x2, 
+         males = sex, 
+         females = x6, 
+         white = race, 
+         african_american = x10) %>% 
+  filter(!is.na(county), 
+         !str_detect(county, "Geographic"))
+
+
+life_expectancy <- le1 %>% 
+  filter(str_detect(county, "State")|
+           str_detect(county, "Guilford"))
+
+life_expectancy <- life_expectancy %>% 
+  mutate(total =as.numeric(total),
+         males = as.numeric(males),
+         females = as.numeric(females), 
+         white = as.numeric(white),
+         african_american = as.numeric(african_american)) %>% 
+  gather(key, value, -county) %>% 
+  spread(county,value )%>%  
+  mutate(`Guilford County` = round(`Guilford County`,1),
+         `State of North Carolina` = round(`State of North Carolina`,1))
+
+
+
+le_sex <- life_expectancy %>% 
+  filter(key == "males"|key == "females")
+
+billboarder() %>% 
+  bb_barchart(data = le_sex)
+ 
+
+le_race <- life_expectancy %>% 
+  filter(key == "white"|key =="african_american")
+
+billboarder() %>% 
+  bb_barchart(data = le_race)
+
+
+#save(life_expectancy, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
 
 ```
 
