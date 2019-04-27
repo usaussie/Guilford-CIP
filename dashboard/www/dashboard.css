@@ -60,7 +60,7 @@ body {
 
 .skin-blue .main-header .logo {
     background-color: #2A3236;
-    color: #000;
+    color: #ffffff;
     border-bottom: 0 solid transparent;
 }
 
@@ -248,4 +248,30 @@ margin-right: 30px;
 
 .box-header {
   text-align: center;
+}
+
+/* Changing font color*/
+
+.fa-home{
+	color: #E54B21 ;
+}
+
+.fa-briefcase{
+	color: #113535;
+}
+
+.fa-graduation-cap {
+	color: #CB942B;
+}
+
+.fa-handshake {
+	color : #3A7993;
+}
+
+.fa-tree {
+	color: #617030;
+}
+
+.sidebar-menu>.fa{
+	color: #ffffff
 }

@@ -13,6 +13,8 @@ load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/pc_income.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
 
 
 # Define individual UI elements -------------------------------------------------------------
@@ -27,7 +29,7 @@ sidebar <- dashboardSidebar(
     menuItem("Work", tabName = "work", icon = icon("briefcase")),
     menuItem("Play", tabName = "play", icon = icon("tree")),
     menuItem("Learn", tabName = "learn", icon = icon("graduation-cap")),
-    menuItem("Act", tabName = "act", icon = icon("hands-helping"))
+    menuItem("Act", tabName = "act", icon = icon("handshake"))
   ),
   sidebarSearchForm(
     label = "Search",
@@ -117,7 +119,7 @@ body <- dashboardBody(
                box(
                  title = "ACT",
                  width = NULL,
-                 icon("hands-helping", "fa-10x")
+                 icon("handshake", "fa-10x")
                ))
         
       )
@@ -222,6 +224,27 @@ body <- dashboardBody(
             h1("Birth charts here"))
       )),
       
+      fluidRow(
+        column(
+          6,
+          align = "center", 
+          box(
+            title = "Life Expectancy in Guilford County and North Carolina by sex",
+            width = NULL, 
+            billboarderOutput("le_sex")
+          )
+        ),
+        column(
+          6,
+          align = "center", 
+          box(
+            title = "Life Expectancy in Guilford County and North Carolina by race",
+            width = NULL, 
+            billboarderOutput("le_race")
+          )
+        )
+        
+      ),
       
       fluidRow(
         column(
@@ -238,9 +261,21 @@ body <- dashboardBody(
       ), 
       
       fluidRow(
-        column(12,
+        column(4,
+               align = "center",
+               box(
+                 title = "Head of Households by Race",
+                 width = NULL, 
+                 billboarderOutput("hh_race")
+                 
+               )),
+        column(8, 
                align = "center", 
-               h2("Head of household by race?"))
+               box(
+                 width = NULL, 
+                 title = "Vacant Houses Map"
+               )
+               )
       ),
       
       
@@ -340,18 +375,79 @@ body <- dashboardBody(
     tabItem(
       tabName = "play",
       fluidRow(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+        column(12,
+               align = "center",
+               box(
+                 width = NULL,
+                 h1("Image here")
+               ))
       ),
-      fluidRow(),
-      fluidRow()
+      
+      fluidRow(
+        column(
+          12, 
+          box(
+            width  = NULL, 
+            
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+            
+          )
+        )
+      ),
+      fluidRow(
+        column(
+          12,
+          align = "center",
+          box(
+            title = "Average weather/ year"
+          )
+        )
+      ),
+      fluidRow(
+        column(3,
+               box(
+                 width = NULL, 
+                 title = "Tourism spending"
+               )), 
+        column(9, 
+               box(
+                 width  = NULL, 
+                 
+                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                 
+               ))
+      ), 
+      
+      fluidRow(
+        column(
+          12, 
+          box(
+            width = NULL, 
+            title = "Parks Map here"
+          )
+        )
+      )
     ),
     
     #LEARN Tab ----
     
     tabItem(
       tabName = "learn",
+      fluidRow(column(12,
+                      align = "center",
+                      box(
+                        width = NULL,
+                        h1("Image here")
+                      ))),
+      
       fluidRow(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+        column(
+          12, 
+          box(
+            width = NULL, 
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+          )
+        )
       ),
       fluidRow(),
       fluidRow()
@@ -377,7 +473,7 @@ body <- dashboardBody(
 
 ui <- dashboardPage(
   title = "Guilford CIP",
-  skin = "black",
+  skin = "blue",
   dashboardHeader(title = "Guilford Community Indicators"),
   sidebar,
   body
@@ -436,6 +532,36 @@ server <- function(input, output) {
     billboarder() %>% 
       bb_donutchart(data = acs_ethn_county)
   })
+  
+  
+  # LIVE Tab ----
+  
+  output$le_sex <- renderBillboarder({
+    
+    le_sex <- life_expectancy %>% 
+      filter(key == "males"|key == "females")
+    
+    billboarder() %>% 
+      bb_barchart(data = le_sex)
+  })
+  
+  
+  output$le_race <- renderBillboarder({
+    
+    le_race <- life_expectancy %>% 
+      filter(key == "white"|key =="african_american")
+    
+    billboarder() %>% 
+      bb_barchart(data = le_race)
+  })
+  
+  output$hh_race <- renderBillboarder({
+    
+    billboarder() %>% 
+      bb_donutchart(data = hh_race)
+    
+  })
+    
   
   # WORK Tab ----
   
