@@ -2,8 +2,7 @@ library(siverse)
 library(tidyverse)
 library(crayon)
 library(tidycensus)
-
-census_api_key("63183e84c8d31d2eaad041eb9300fe833b304630", install = TRUE)
+library(billboarder)
 
 acsvars <- load_variables(2017, "acs5", cache = TRUE) %>% 
   mutate(level = str_count(label, pattern = "!!")) %>% 
@@ -39,12 +38,36 @@ si_acs <- function(table, county = NULL, state = NULL, summary_var = "universe t
 }
 
 structureType.original.state <- si_acs("B25024", state="NC")
+
+
+###################### State Distribution of Housing Types
 structureType.filtered.state <- structureType.original.state %>% 
-  filter(concept=="Units in Structure") %>% 
   filter(level == "2") %>% 
-  select(county, levlab, estimate, moe, Total)
+  separate(col = county, into = c("county", "state"), sep = ",") %>% 
+  select(county, state, levlab, estimate, moe, Total) %>% 
+  group_by(state, levlab) %>% 
+  summarise(total = sum(estimate))
 
+pieGuilfordLabel <- paste(structureType.filtered.state$levlab, " - ") %>% 
+paste(structureType.filtered.state$total, sep="")
 
+pie(structureType.filtered.state$total, labels=pieGuilfordLabel, main = "Structure Types in North Carolina")
+
+###################### Guilford Distribution of Housing Types
+structureType.filtered.state <- structureType.original.state %>% 
+  filter(level == "2") %>% 
+  filter(str_detect(county, "Guilford")) %>% 
+  separate(col = county, into = c("county", "state"), sep = ",") %>% 
+  select(county, state, levlab, estimate, moe, Total) %>% 
+  group_by(county, state, levlab) %>% 
+  summarise(total = sum(estimate))
+
+pieGuilfordLabel <- paste(structureType.filtered.state$levlab, " - ") %>% 
+  paste(structureType.filtered.state$total, sep="")
+
+pie(structureType.filtered.state$total, labels=pieGuilfordLabel, main = "Structure Types in Guilford County")
+
+#################################################################
 
 medianHousingValue.original.place <- si_acs("B25075") 
 medianHousingValue.filtered.place <- medianHousingValue.original.place %>% 
@@ -60,18 +83,16 @@ medianHousingValue.filtered.state <- medianHousingValue.original.state %>%
   filter(level =="2") %>% 
   select(county, levlab, estimate, moe)
 
+
 ######################## Median Housing Prices binned by State (Percentage)
-
-
-###Having bug with making it a percentage
 medianHousingValue.stateSplit <- medianHousingValue.filtered.place %>% 
   group_by(state, levlab) %>% 
-  mutate(total=sum(estimate)) %>% 
-  ungroup() %>% 
+  summarise(total=sum(estimate)) %>% 
+  ungroup() %>%
   group_by(state) %>% 
-  mutate(estimate = (estimate/total)*100) %>% 
-  select(levlab, estimate, state) %>% 
-  spread(levlab, estimate)
+  mutate(perc = (total/sum(total))*100) %>% 
+  select(levlab, perc, state) %>%
+  spread(levlab, perc)
 
 billboarder() %>% 
   bb_barchart(data = medianHousingValue.stateSplit) %>% 
@@ -96,14 +117,15 @@ billboarder() %>%
 ######################### Pie chart on Guilford housing distributions (Percentage)
 
 medianHousingValue.countyDist <- medianHousingValue.filtered.state %>% 
-  filter(county=="Guilford County, North Carolina") %>% 
+  filter(str_detect(county,"Guilford")) %>% 
   group_by(levlab) %>% 
   summarise(total=sum(estimate)) %>% 
   select(levlab, total) %>% 
   mutate(total = total/sum(total) * 100) %>% 
-  mutate(total = round(total, digits=2))
+  mutate(total = round(total, digits=2)) 
 
-pieGuilfordLabel <- paste(medianHousingValue.countyDist$levlab, medianHousingValue.countyDist$total) %>% 
+pieGuilfordLabel <- paste(medianHousingValue.countyDist$levlab, "-") %>% 
+  paste(medianHousingValue.countyDist$total, sep="") %>% 
   paste("%", sep="")
 
 pie(medianHousingValue.countyDist$total, labels=pieGuilfordLabel, main = "Median Housing Value Distribution in Guilford")
