@@ -13,8 +13,6 @@ load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/pc_income.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
 
 
 # Define individual UI elements -------------------------------------------------------------
@@ -29,7 +27,7 @@ sidebar <- dashboardSidebar(
     menuItem("Work", tabName = "work", icon = icon("briefcase")),
     menuItem("Play", tabName = "play", icon = icon("tree")),
     menuItem("Learn", tabName = "learn", icon = icon("graduation-cap")),
-    menuItem("Act", tabName = "act", icon = icon("handshake"))
+    menuItem("Act", tabName = "act", icon = icon("hands-helping"))
   ),
   sidebarSearchForm(
     label = "Search",
@@ -52,6 +50,7 @@ body <- dashboardBody(
     # Tab for Description of the project----
     tabItem(
       tabName = "overview",
+      tags$div(class = "overview-tab",
       fluidRow(column(
         12,
         align = "center",
@@ -81,54 +80,57 @@ body <- dashboardBody(
           
         )
       )),
-      
-      fluidRow(
-        column(2,
-               box(
-                 title = "CIVIC",
-                 width = NULL,
-                 icon("chart-bar", "fa-10x")
-               )),
-        
-        column(2,
-               box(
-                 title = "LIVE",
-                 width = NULL,
-                 icon("home", "fa-10x")
-               )),
-        column(2,
-               box(
-                 title = "WORK",
-                 width = NULL,
-                 icon("briefcase", "fa-10x")
-               )),
-        column(2,
-               box(
-                 title = "PLAY",
-                 width = NULL,
-                 icon("tree", "fa-10x")
-               )),
-        
-        column(2,
-               box(
-                 title = "LEARN",
-                 width = NULL,
-                 icon("graduation-cap", "fa-10x")
-               )),
-        column(2,
-               box(
-                 title = "ACT",
-                 width = NULL,
-                 icon("handshake", "fa-10x")
-               ))
-        
-      )
-      ),
+      tags$div(class = "overview-icons",
+        fluidRow(
+            column(2,
+                   box(
+                     title = "CIVIC",
+                     width = NULL,
+                     icon("chart-bar", "fa-10x")
+                   )),
+            
+            column(2,
+                   box(
+                     title = "LIVE",
+                     width = NULL,
+                     icon("home", "fa-10x")
+                   )),
+            column(2,
+                   box(
+                     title = "WORK",
+                     width = NULL,
+                     icon("briefcase", "fa-10x")
+                   )),
+            column(2,
+                   box(
+                     title = "PLAY",
+                     width = NULL,
+                     icon("tree", "fa-10x")
+                   )),
+            
+            column(2,
+                   box(
+                     title = "LEARN",
+                     width = NULL,
+                     icon("graduation-cap", "fa-10x")
+                   )),
+            column(2,
+                   box(
+                     title = "ACT",
+                     width = NULL,
+                     icon("hands-helping", "fa-10x")
+                   ))
+            
+            ) #End of the row
+        ) #End of overview-icons class
+      ) #End of the overview-tab class
+    ), #--> End of Tab items
     
     # CIVIC Tab ----
-    
+  
     tabItem(
       tabName = "civic",
+      tags$div(class = "civic-tab",
       fluidRow(column(12,
                       align = "center",
                       h1(
@@ -197,12 +199,13 @@ body <- dashboardBody(
           billboarderOutput("ethnicity")
         ))
       )
-    ),
+    )),
     
     # LIVE Tab ----
     
     tabItem(
       tabName = "live",
+      tags$div(class = "live-tab",
       fluidRow(column(12,
                       align = "center",
                       box(
@@ -237,27 +240,6 @@ body <- dashboardBody(
             h1("Birth charts here"))
       )),
       
-      fluidRow(
-        column(
-          6,
-          align = "center", 
-          box(
-            title = "Life Expectancy in Guilford County and North Carolina by sex",
-            width = NULL, 
-            billboarderOutput("le_sex")
-          )
-        ),
-        column(
-          6,
-          align = "center", 
-          box(
-            title = "Life Expectancy in Guilford County and North Carolina by race",
-            width = NULL, 
-            billboarderOutput("le_race")
-          )
-        )
-        
-      ),
       
       fluidRow(
         column(
@@ -274,21 +256,9 @@ body <- dashboardBody(
       ), 
       
       fluidRow(
-        column(4,
-               align = "center",
-               box(
-                 title = "Head of Households by Race",
-                 width = NULL, 
-                 billboarderOutput("hh_race")
-                 
-               )),
-        column(8, 
+        column(12,
                align = "center", 
-               box(
-                 width = NULL, 
-                 title = "Vacant Houses Map"
-               )
-               )
+               h2("Head of household by race?"))
       ),
       
       
@@ -316,13 +286,14 @@ body <- dashboardBody(
                align = "center", 
                h2("deaths"))
       )
-    ),
+    )),
     
     # WORK Tab ----
     
     
     tabItem(
       tabName = "work",
+      tags$div(class = "work-tab",
       fluidRow(column(12,
                       align = "center",
                       box(
@@ -381,95 +352,37 @@ body <- dashboardBody(
                  "Means of transportation by race?"
                ))
       )
-    ),
+    )),
     
     # PLAY Tab ----
     
     tabItem(
       tabName = "play",
+      tags$div(class = "play-tab",
       fluidRow(
-        column(12,
-               align = "center",
-               box(
-                 width = NULL,
-                 h1("Image here")
-               ))
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
       ),
-      
-      fluidRow(
-        column(
-          12, 
-          box(
-            width  = NULL, 
-            
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
-            
-          )
-        )
-      ),
-      fluidRow(
-        column(
-          12,
-          align = "center",
-          box(
-            title = "Average weather/ year"
-          )
-        )
-      ),
-      fluidRow(
-        column(3,
-               box(
-                 width = NULL, 
-                 title = "Tourism spending"
-               )), 
-        column(9, 
-               box(
-                 width  = NULL, 
-                 
-                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
-                 
-               ))
-      ), 
-      
-      fluidRow(
-        column(
-          12, 
-          box(
-            width = NULL, 
-            title = "Parks Map here"
-          )
-        )
-      )
-    ),
+      fluidRow(),
+      fluidRow()
+    )),
     
     #LEARN Tab ----
     
     tabItem(
       tabName = "learn",
-      fluidRow(column(12,
-                      align = "center",
-                      box(
-                        width = NULL,
-                        h1("Image here")
-                      ))),
-      
+      tags$div(class = "learn-tab",
       fluidRow(
-        column(
-          12, 
-          box(
-            width = NULL, 
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
-          )
-        )
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
       ),
       fluidRow(),
       fluidRow()
-    ),
+    )),
     
     # ACT Tab ----
     
     tabItem(
       tabName = "act",
+      tags$div(class = "act-tab",
       fluidRow(
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
       ),
@@ -477,7 +390,7 @@ body <- dashboardBody(
       fluidRow()
     )
     
-      )
+      ))
       )
 
 
@@ -486,7 +399,7 @@ body <- dashboardBody(
 
 ui <- dashboardPage(
   title = "Guilford CIP",
-  skin = "blue",
+  skin = "black",
   dashboardHeader(title = "Guilford Community Indicators"),
   sidebar,
   body
@@ -546,6 +459,7 @@ server <- function(input, output) {
       bb_donutchart(data = acs_ethn_county)
   })
   
+<<<<<<< HEAD
   
   # LIVE Tab ----
   
@@ -580,6 +494,8 @@ server <- function(input, output) {
   })
     
   
+=======
+>>>>>>> aeec1a85ab23f665c35f4f6ca930eeb08f716bfb
   # WORK Tab ----
   
   output$emp_race <- renderBillboarder({
