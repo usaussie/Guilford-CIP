@@ -174,23 +174,25 @@ body <- dashboardBody(
         column(
           12,
           box(
-            width = NULL, 
+            width = NULL,
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
-            
+             
           )
         )
       ), 
+      
       fluidRow(
         column(
           6, 
-          box(
+          
+          box( title = "Race",
             width = NULL, 
             billboarderOutput("race")
           )
         ), 
         column(
           6, 
-          box(
+          box( title = "Ethnicity",
           width = NULL, 
           billboarderOutput("ethnicity")
         ))
@@ -213,7 +215,18 @@ body <- dashboardBody(
       br(),
       br(),
       
-      fluidRow(),
+      fluidRow(
+        column(
+          8, 
+          offset = 2, 
+          box(
+            width = NULL, 
+            uiOutput(
+              "le"
+            )
+          )
+        )
+      ),
       
       
       fluidRow(column(
@@ -535,6 +548,10 @@ server <- function(input, output) {
   
   
   # LIVE Tab ----
+  
+  output$le <- renderUI({
+    paste0(paste('<b> <span style="color:#A50050;font-size:30px; font-family: Noto Sans, sans;">', "COMMUNITY MISSION", '</span>',"<br> </b>"))
+  })
   
   output$le_sex <- renderBillboarder({
     
