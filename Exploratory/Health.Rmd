@@ -297,6 +297,33 @@ life_expectancy <- life_expectancy %>%
 le_sex <- life_expectancy %>% 
   filter(key == "males"|key == "females")
 
+fem_le <- life_expectancy%>% 
+  filter(key == "females") %>% 
+  mutate(diff = (`Guilford County`- `State of North Carolina`)*12) %>% 
+  mutate(diff = round(diff,0)) %>% 
+  pull (diff)
+
+males_le <- life_expectancy%>% 
+  filter(key == "males") %>% 
+  mutate(diff = (`Guilford County`- `State of North Carolina`)*12) %>% 
+  mutate(diff = round(diff,0)) %>% 
+  pull (diff)
+
+white_le <- life_expectancy%>% 
+  filter(key == "white") %>% 
+  mutate(diff = (`Guilford County`- `State of North Carolina`)*12) %>% 
+  mutate(diff = round(diff,0)) %>% 
+  pull (diff)
+
+afram_le <- life_expectancy%>% 
+  filter(key == "african_american") %>% 
+  mutate(diff = (`Guilford County`- `State of North Carolina`)*12) %>% 
+  mutate(diff = round(diff,0)) %>% 
+  pull (diff)
+
+  
+  
+
 billboarder() %>% 
   bb_barchart(data = le_sex)
  
