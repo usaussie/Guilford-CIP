@@ -11,7 +11,8 @@ server <- function(input, output, session) {
   output$death_map <- renderLeaflet({
   leaflet(data = death) %>%
     addTiles() %>%
-    addCircleMarkers(lat = ~location.y, lng = ~location.x, popup = ~full_address)
+    addMarkers(lat = ~location.y, lng = ~location.x, popup = ~full_address,
+               clusterOptions = markerClusterOptions())
   })
 }
 
