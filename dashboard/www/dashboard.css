@@ -250,15 +250,16 @@ margin-left: 40px;
 margin-right: 30px;
 }
 
-.col-sm-2 {
-  display: table;
-}
 
-.row {
+.overview-tab .row {
   padding-left: 15px;
 }
 
-.box {
+.overview-icons .col-sm-2 {
+  display: table;
+}
+
+.overview-icons .box {
   display: table-row;
 }
 
@@ -274,25 +275,34 @@ margin-right: 30px;
 }
 
 /* Changing font color*/
+.box .fa-chart-bar, 
+.civic-tab h1, .civic-tab h2, .civic-tab h3 {
+  color: #333;
+}
 
-.box .fa-home{
+.box .fa-home,
+.live-tab h1, .live-tab h2, .live-tab h3 {
 	color: #E54B21 ;
 }
 
-.box .fa-briefcase{
+.box .fa-briefcase,
+.work-tab h1, .work-tab h2, .work-tab h3 {
 	color: #113535;
 }
 
-.box .fa-graduation-cap {
+.box .fa-tree,
+.play-tab h1, .play-tab h2, .play-tab h3 {
+	color: #617030;
+}
+
+.box .fa-graduation-cap,
+.learn-tab h1, .learn-tab h2, .learn-tab h3 {
 	color: #CB942B;
 }
 
-.box .fa-handshake {
+.box .fa-handshake,
+.act-tab h1, .act-tab h2, .act-tab h3 {
 	color : #3A7993;
-}
-
-.box .fa-tree {
-	color: #617030;
 }
 
 .sidebar-menu>.fa{
