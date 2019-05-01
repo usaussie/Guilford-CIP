@@ -7,18 +7,31 @@ library(leaflet)
 
 # Load data ---------------------------------------------------------------
 
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
 
+
+
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
 
 # Define individual UI elements -------------------------------------------------------------
 
@@ -435,9 +448,25 @@ body <- dashboardBody(
     tabItem(
       tabName = "learn",
       tags$div(class = "learn-tab",
-      fluidRow(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
-      ),
+               fluidRow(column(12,
+                               align = "center",
+                               box(
+                                 width = NULL,
+                                 h1("BANNER Image here")
+                               ))),
+               fluidRow(column(12,
+                               align = "center",
+                               h1(
+                                 "LEARN"
+                               ))),
+               br(),
+               br(),
+
+      fillRow(
+        column(12,
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+      )),
+      
       fluidRow(),
       fluidRow()
     )),
