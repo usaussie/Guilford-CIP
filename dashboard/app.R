@@ -529,7 +529,7 @@ body <- dashboardBody(
 
 ui <- dashboardPage(
   title = "Guilford CIP",
-  skin = "black",
+  skin = "blue",
   dashboardHeader(title = "Guilford Community Indicators"),
   sidebar,
   body
