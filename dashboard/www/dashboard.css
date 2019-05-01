@@ -281,7 +281,8 @@ margin-right: 30px;
 }
 
 .box .fa-home,
-.live-tab h1, .live-tab h2, .live-tab h3 {
+.live-tab h1, .live-tab h2, .live-tab h3,
+.live-tab .shiny-html-output.col-sm-.shiny-bound-output p{
 	color: #E54B21 ;
 }
 
@@ -315,4 +316,4 @@ background-color: #FCEDE8!important;
 
 .leaflet-container { 
 background: #FCEDE8; 
-}"
+}

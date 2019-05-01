@@ -56,17 +56,17 @@ body <- dashboardBody(
     tabItem(
       tabName = "overview",
       tags$div(class = "overview-tab",
-      fluidRow(column(
-        12,
-        align = "center",
-        h1("GUILFORD COMMUNITY INDICATORS DASHBOARD")
-      )),
+      # fluidRow(column(
+      #   12,
+      #   align = "center",
+      #   h1("GUILFORD COMMUNITY INDICATORS DASHBOARD")
+      # )),
       
       fluidRow(column(12,
                       align = "center",
                       box(
                         width = NULL,
-                        h1("GUILFORD IMAGE")
+                        img(src='/images/guilford-logo.png', align = "left")
                       ))),
       
       fluidRow(column(
@@ -211,6 +211,12 @@ body <- dashboardBody(
     tabItem(
       tabName = "live",
       tags$div(class = "live-tab",
+               # <!-- Search form -->
+               #   <form class="form-inline md-form form-sm mt-0">
+               #   <i class="fas fa-search" aria-hidden="true"></i>
+               #   <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search">
+               #   </form>
+                 
       fluidRow(column(12,
                       align = "center",
                       box(
