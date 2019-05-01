@@ -26,15 +26,10 @@ body {
   background-color: #ffffff;
 }
 
-.objective{
-  font-weight:bold;
-}
 
 .main-header {
     height: 70px;
 }
-
-
 
 .content-wrapper{
   background-color: #ffffff;
@@ -86,22 +81,9 @@ body {
     border-left-color: #fff;
 }
 
-.welcomeText {
-    position: absolute;
-    top: 15%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
 
 .sidebar-menu {
     margin-top: 20px;
-}
-
-.welcomeBox {
-  width :100%;
-}
-.welcomeImage{
-  width :100%;
 }
 
 .getBox {
@@ -109,15 +91,6 @@ body {
 }
 .getImage{
   width :100%;
-}
-.headerText{
-  text-align: center;
-  font-size: 70px;
-  font-weight: bold
-}
-
-.logoImage{
-  height :100%;
 }
 
 .footerBox{
@@ -128,65 +101,13 @@ body {
   padding-right: 10px;
 }
 
-
-.boxWelcome {
-  background-color: #36B885;
-  width: 100%;
-  height:100%;
-  margin-right:0;
-  margin-left:0;
-  padding-top:0;
-  padding-bottom:0;
-}
-
-.welcomeHeader {
-  background-color: #2A3236;
-  width: 100%;
-  height:100%;
-  margin-right:0;
-  margin-left:0;
-  padding-top:0;
-  padding-bottom:0;
-}
-
-.dashboardHeader {
-  background-color: #2EADC5;
-  width: 100%;
-  height:100%;
-  margin-right:0;
-  margin-left:0;
-  padding-top:0;
-  padding-bottom:0;
-}
-
-.howHeader {
-  background-color: #FBAA20;
-  width: 100%;
-  height:100%;
-  margin-right:0;
-  margin-left:0;
-  padding-top:0;
-  padding-bottom:0;
-}
-
-.boxText {
-  color:#FFFFFF;
-  text-align: center
-}
-.center {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-}
-
 .content {
     min-height: 250px;
-    padding: 0;
-    margin-right: 0;
-    margin-left: 0;
-    padding-left: 0;
-    padding-right: 0
+    padding: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: auto;
+    padding-right: auto;
 }
 
 .box {
@@ -203,51 +124,6 @@ body {
     border-top:0; 
     margin-bottom:0;
     box-shadow: 0 0 0;
-}
-
-
-.box-body {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
-}
-
-.howTitle {
-  color: #FBAA20;
-  font-weight: bold;
-  text-align: center;
-  text-transform: uppercase
-}
-
-.dashboardTitle {
-  color: #2EADC5;
-  font-weight: bold;
-  text-align: center;
-  text-transform: uppercase
-}
-  
-.goalsHeader {
-  background-color: #36B885;
-  width: 100%;
-  height:100%;
-  margin-right:0;
-  margin-left:0;
-  padding-top:0;
-  padding-bottom:0;
-}
-
-.goalsTitle {
-  color: #36B885;
-  font-weight: bold;
-  text-align:left;
-  padding:20px;
-  text-transform: uppercase
-}
-
-.styleAttribute {
-margin-left: 40px;
-margin-right: 30px;
 }
 
 
@@ -314,6 +190,3 @@ margin-right: 30px;
 background-color: #FCEDE8!important;
 }
 
-.leaflet-container { 
-background: #FCEDE8; 
-}
