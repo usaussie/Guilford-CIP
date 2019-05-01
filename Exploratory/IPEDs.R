@@ -22,4 +22,12 @@ bigone <- gates %>%
   left_join(institutions)
 
 
+guilford <- bigone %>% 
+  filter(fips_county=="37081") %>% 
+  select(Institution_Name, Sector, total_complete_avg, debt_to_earnings_ratio_best, full_time_retention_rate_mean, total_students_entering_2016)
+
+write_rds(guilford, "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
+
+
+
 
