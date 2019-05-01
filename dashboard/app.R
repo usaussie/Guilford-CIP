@@ -45,7 +45,7 @@ sidebar <- dashboardSidebar(
     menuItem("Work", tabName = "work", icon = icon("briefcase")),
     menuItem("Play", tabName = "play", icon = icon("tree")),
     menuItem("Learn", tabName = "learn", icon = icon("graduation-cap")),
-    menuItem("Act", tabName = "act", icon = icon("hands-helping"))
+    menuItem("Act", tabName = "act", icon = icon("handshake"))
   ),
   sidebarSearchForm(
     label = "Search",
@@ -62,25 +62,25 @@ body <- dashboardBody(
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "dashboard.css")
   ),
-  
+
   # Start Tabs ----
   tabItems(
     # Tab for Description of the project----
     tabItem(
       tabName = "overview",
       tags$div(class = "overview-tab",
-      fluidRow(column(
-        12,
-        align = "center",
-        h1("GUILFORD COMMUNITY INDICATORS DASHBOARD")
-      )),
+      # fluidRow(column(
+      #   12,
+      #   align = "center",
+      #   h1("GUILFORD COMMUNITY INDICATORS DASHBOARD")
+      # )),
       
-      fluidRow(column(12,
-                      align = "center",
-                      box(
-                        width = NULL,
-                        h1("GUILFORD IMAGE")
-                      ))),
+      # fluidRow(column(12,
+      #                 align = "center",
+      #                 box(
+      #                   width = NULL,
+      #                   img(src='/images/guilford-logo.png', align = "left")
+      #                 ))),
       
       fluidRow(column(
         12,
@@ -136,7 +136,7 @@ body <- dashboardBody(
                    box(
                      title = "ACT",
                      width = NULL,
-                     icon("hands-helping", "fa-10x")
+                     icon("handshake", "fa-10x")
                    ))
             
             ) #End of the row
@@ -224,6 +224,12 @@ body <- dashboardBody(
     tabItem(
       tabName = "live",
       tags$div(class = "live-tab",
+               # <!-- Search form -->
+               #   <form class="form-inline md-form form-sm mt-0">
+               #   <i class="fas fa-search" aria-hidden="true"></i>
+               #   <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search">
+               #   </form>
+                 
       fluidRow(column(12,
                       align = "center",
                       box(
@@ -436,11 +442,53 @@ body <- dashboardBody(
     tabItem(
       tabName = "play",
       tags$div(class = "play-tab",
+               fluidRow(column(12,
+                               align = "center",
+                               box(
+                                 width = NULL,
+                                 h1("Image here")
+                               ))),         
       fluidRow(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+        column(12,
+               box(
+                 width = NULL, 
+                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                 
+               ))
+         ),
+      fluidRow(
+        column(10, 
+               offset=1, 
+               box(width = NULL, 
+                 title = "Annual weather"
+               ))
       ),
-      fluidRow(),
-      fluidRow()
+      fluidRow(), 
+      
+      fluidRow(
+        column(1, 
+               valueBox(100, subtitle = "tourism spending", width = NULL)), 
+        column(5, 
+               box(width = NULL,
+                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+                   )),
+        column(5, 
+               box(width = NULL,
+                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum."
+               )),
+        column(1, 
+               valueBox(100, subtitle = "walk score", width = NULL))
+        
+        
+      ), 
+      
+      fluidRow(
+        column(12, 
+               box(
+                 width = NULL, 
+                 title = "Parks Map"
+               ))
+      )
     )),
     
     #LEARN Tab ----
@@ -469,6 +517,23 @@ body <- dashboardBody(
       
       fluidRow(),
       fluidRow()
+      fluidRow(
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+      ),
+      fluidRow(
+        column(12, 
+               box(
+                 width = NULL, 
+                 title = "Schools Map"
+               ))
+      ),
+      fluidRow(
+        column(12,
+               box(
+                 width = NULL, 
+                 title = "ipeds here"
+               ))
+      )
     )),
     
     # ACT Tab ----
@@ -492,7 +557,7 @@ body <- dashboardBody(
 
 ui <- dashboardPage(
   title = "Guilford CIP",
-  skin = "black",
+  skin = "blue",
   dashboardHeader(title = "Guilford Community Indicators"),
   sidebar,
   body
