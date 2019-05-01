@@ -9,8 +9,6 @@ library(tidycensus)
 library(crayon)
 
 
-
-
 acsvars <- load_variables(2017, "acs1", cache = T) %>%
   mutate(level = str_count(label, pattern = "!!")) %>%
   rowwise() %>%
@@ -58,24 +56,27 @@ si_acs <- function(table, county = NULL, state = NULL, summary_var = "universe t
 # I Hispanic or Latino 
 
 
-# Per capita income by race ------------------------------------------------------
 
-pc_df <- lst()
+# Means of Transportation to Work  ----------------------------------------
+
+# Table B08105: Means of Transportation to Work 
+
+tr_df <- lst()
 
 for(letter in c("A", "B", "C", "D", "E", "F", "G", "H", "I")) {
-  tablenum <- paste0("B19301", letter)
+  tablenum <- paste0("B08105", letter)
   
   df_temp <- si_acs(tablenum, geography = "county", state = "NC", county  = "Guilford County", survey = "acs1") %>% 
-    select(county, estimate, label, level) %>% 
+    select(county, estimate, label, level, Total) %>% 
     mutate(race = letter) 
   
-  pc_df[[letter]] <- df_temp
+  tr_df[[letter]] <- df_temp
 }
 
 
-pc_income <- bind_rows(pc_df)
+transp <- bind_rows(tr_df)
 
-pc_income <- pc_income %>% 
+transp <- transp %>% 
   mutate(race = case_when(race == "A" ~ "White alone",
                           race == "B"~ "Black or African American Alone",
                           race == "C" ~ "American Indian and Alaska Native Alone",
@@ -86,76 +87,28 @@ pc_income <- pc_income %>%
                           race == "H" ~ "White Alone, Not Hispanic or Latino", 
                           race == "I" ~ "Hispanic or Latino"))
 
-pc_income_race <- pc_income %>% 
-  filter(race!="White Alone, Not Hispanic or Latino") %>% 
-  filter(race!="Hispanic or Latino") %>% 
-  select(race, estimate)
+transp_race <- transp %>% 
+  filter(level!=1) %>% 
+  filter(race == "White alone"|race == "Black or African American Alone"|race == "Two or More Races") %>% 
+  mutate(label = str_remove(label, "Estimate!!Total!!")) %>% 
+  mutate(perc = round(estimate/Total*100,0)) %>% 
+  select(race, label, perc) %>% 
+  spread(race, perc)
 
 billboarder() %>% 
-  bb_barchart(data = pc_income_race)
+  bb_barchart(data = transp_race) %>% 
+  bb_bar(padding = 2)
 
 
-pc_income_ethn <- pc_income %>% 
-  filter(race=="White Alone, Not Hispanic or Latino"| race =="Hispanic or Latino" ) %>% 
-  select(race, estimate)
-
-billboarder() %>% 
-  bb_barchart(data = pc_income_ethn)
-
-save(pc_income, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/pc_income.rda")
-
-
-
-# Median Income -----------------------------------------------------------
-
-# Table B19013: Median Household Income
-
-med_inc_df <- lst()
-
-for(letter in c("A", "B", "C", "D", "E", "F", "G", "H", "I")) {
-  tablenum <- paste0("B19013", letter)
+transp_ethn <- transp %>% 
+  filter(level!=1) %>% 
+  filter(race == "White Alone, Not Hispanic or Latino"|race == "Hispanic or Latino") %>% 
+  mutate(label = str_remove(label, "Estimate!!Total!!")) %>% 
+  mutate(perc = round(estimate/Total*100,0)) %>% 
+  select(race, label, perc) %>% 
+  filter(perc!=0) %>% 
+  spread(race, perc)
   
-  df_temp <- si_acs(tablenum, geography = "county", state = "NC", county  = "Guilford County", survey = "acs1") %>% 
-    select(county, estimate, label, level) %>% 
-    mutate(race = letter) 
-  
-  med_inc_df[[letter]] <- df_temp
-}
-
-
-med_income <- bind_rows(med_inc_df)
-
-med_income <- med_income %>% 
-  mutate(race = case_when(race == "A" ~ "White alone",
-                          race == "B"~ "Black or African American Alone",
-                          race == "C" ~ "American Indian and Alaska Native Alone",
-                          race == "D" ~ "Asian Alone",
-                          race == "E" ~ "Native Hawaiian and Other Pacific Islander Alone",
-                          race == "F" ~ "Some Other Race Alone",
-                          race == "G" ~ "Two or More Races",
-                          race == "H" ~ "White Alone, Not Hispanic or Latino", 
-                          race == "I" ~ "Hispanic or Latino"))
-
-med_income_race <- med_income %>% 
-  filter(race!="White Alone, Not Hispanic or Latino") %>% 
-  filter(race!="Hispanic or Latino") %>% 
-  select(race, estimate)
-
 billboarder() %>% 
-  bb_barchart(data = med_income_race)
-
-
-med_income_ethn <- med_income %>% 
-  filter(race=="White Alone, Not Hispanic or Latino"| race =="Hispanic or Latino" ) %>% 
-  select(race, estimate)
-
-billboarder() %>% 
-  bb_barchart(data = med_income_ethn)
-
-#save(med_income, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
-
-
-
-
-
-
+  bb_barchart(data = transp_ethn ) %>% 
+  bb_bar(padding = 2)

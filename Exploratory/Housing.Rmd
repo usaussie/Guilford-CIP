@@ -18,6 +18,7 @@ library(tidycensus)
 library(crayon)
 library(tigris)
 library(sf)
+library(stringr)
 
 ```
 
@@ -155,18 +156,18 @@ housing %>%
 
 geo_places <- county_subdivisions(state = "NC", cb = TRUE, class = "sf", county = "Guilford County")
 
-housing <- si_acs("B25002", geography = "tract", state = "NC", geometry = T, county = "Guilford County")%>% rename(GEOID = geoid) %>% filter(levlab == "Vacant")
+vacant_housing <- si_acs("B25002", geography = "tract", state = "NC", geometry = T, county = "Guilford County")%>% rename(GEOID = geoid) %>% filter(levlab == "Vacant")
 
 
 
-pal <- colorQuantile(palette = "viridis", domain = housing$estimate,  probs = seq(0, 1, 0.1))
+pal <- colorQuantile(palette = "viridis", domain = vacant_housing$estimate,  probs = seq(0, 1, 0.1))
 
 
-leaflet()
+#leaflet()
 
-housing %>% 
+vacant_housing %>% 
   leaflet(width = "100%") %>% 
-  addProviderTiles(provider = "CartoDB")# %>% 
+  addProviderTiles(providers$OpenStreetMap.Mapnik) %>% 
    addPolygons(
     stroke = F,
       fillColor = ~pal(estimate), 
@@ -183,6 +184,10 @@ housing %>%
               values = ~ estimate,
               title = "Vacant Houses",
               opacity = 1)
+
+
+#save(vacant_housing, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
+#save(geo_places, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
 
 ```
 

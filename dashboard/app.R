@@ -2,6 +2,7 @@ library(shiny)
 library(shinydashboard)
 library(billboarder)
 library(tidyverse)
+library(leaflet)
 
 
 # Load data ---------------------------------------------------------------
@@ -12,7 +13,11 @@ load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rd
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/pc_income.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
 
 
 # Define individual UI elements -------------------------------------------------------------
@@ -213,22 +218,44 @@ body <- dashboardBody(
                         h1("Image here")
                       ))),
       fluidRow(
+        column(
+          12,
+          box(width = NULL,
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
-      ),
+      ))),
       br(),
       br(),
       
+      # fluidRow(
+      #   column(
+      #     width = 8, offset = 2,
+      #     box(
+      #       width = NULL,
+      #       title = "Life Expectancy in Guilford County Compared to the State of North Carolina",
+      #     uiOutput("le")
+      #     )
+      #     
+      #   )
+      # ),
+      
+   
       fluidRow(
         column(
-          8, 
+          width = 8, 
           offset = 2, 
-          box(
-            width = NULL, 
-            uiOutput(
-              "le"
-            )
-          )
+          h1("Life Expectancy in Guilford County Compared to the State of North Carolina")
         )
+      ), 
+      
+      
+      fluidRow(
+        
+        column(width = 2, offset = 2,  valueBoxOutput("le_males", width = NULL)), 
+        column(width = 2, valueBoxOutput("le_fem", width = NULL)), 
+        column(width = 2, valueBoxOutput("le_white", width = NULL)),
+        column(width = 2, valueBoxOutput("le_afram", width = NULL))
+        
+        
       ),
       
       
@@ -240,26 +267,63 @@ body <- dashboardBody(
             h1("Birth charts here"))
       )),
       
+      # fluidRow(
+      #   column(
+      #     6,
+      #     align = "center", 
+      #     box(
+      #       title = "Life Expectancy in Guilford County and North Carolina by sex",
+      #       width = NULL, 
+      #       billboarderOutput("le_sex")
+      #     )
+      #   ),
+      #   column(
+      #     6,
+      #     align = "center", 
+      #     box(
+      #       title = "Life Expectancy in Guilford County and North Carolina by race",
+      #       width = NULL, 
+      #       billboarderOutput("le_race")
+      #     )
+      #   )
+      #   
+      # ),
+      
       
       fluidRow(
         column(
-          6, 
-          align= "center", 
-          h2("Life Expectancy by race/sex")
+          3, 
+          box(
+            width = NULL,
+            title = "Head of household by race/sex",
+            billboarderOutput("hh_race")
+          ) 
+          
         ),
         column(
-          6,
-          align = "center",
-          h2("Health 2 chart")
-        )
+          9,
+          box(
+            width = NULL,
+            title = "Health 2 chart"
+            
+          )
+          )
+        
         
       ), 
-      
       fluidRow(
-        column(12,
-               align = "center", 
-               h2("Head of household by race?"))
+        
+        column(8,
+               offset = 2,
+               box(width = NULL,
+                 title = "Vacant Houses+ Permits?",
+                 leafletOutput("vacant_houses_map")
+               ))
+        
       ),
+      
+      
+      fluidRow(),
       
       
       fluidRow(
@@ -316,14 +380,14 @@ body <- dashboardBody(
                align  ="center",
                box(
                  width = NULL, 
-                 title = "Per Capita Income by Race",
-                 billboarderOutput("pc_inc_race")
+                 title = "Median Household Income by Race",
+                 billboarderOutput("med_inc_race")
                )),
         column(5,
                box(
                  width = NULL, 
-                 title = "Per Capita Income by Ethnicity", 
-                 billboarderOutput("pc_inc_ethn")
+                 title = "Median Household Income by Ethnicity", 
+                 billboarderOutput("med_inc_ethn")
                ))
       ),
       fluidRow(
@@ -459,32 +523,109 @@ server <- function(input, output) {
       bb_donutchart(data = acs_ethn_county)
   })
   
-<<<<<<< HEAD
+
   
   # LIVE Tab ----
   
-  output$le <- renderUI({
-    paste0(paste('<b> <span style="color:#A50050;font-size:30px; font-family: Noto Sans, sans;">', "COMMUNITY MISSION", '</span>',"<br> </b>"))
+  output$le_males <- renderValueBox({
+    value <- life_expectancy%>% 
+      filter(key == "males") %>% 
+      mutate(diff = (`Guilford County`- `State of North Carolina`)*12) %>% 
+      mutate(diff = round(diff,0)) %>% 
+      pull (diff)
+    
+    valueBox(paste0(value, " Mo"), "Men", icon = icon("arrow-up"), color= "orange")
+    
   })
   
-  output$le_sex <- renderBillboarder({
+  output$le_fem <- renderValueBox({
+    value <- life_expectancy%>% 
+      filter(key == "females") %>% 
+      mutate(diff = (`Guilford County`- `State of North Carolina`)*12) %>% 
+      mutate(diff = round(diff,0)) %>% 
+      pull (diff)
     
-    le_sex <- life_expectancy %>% 
-      filter(key == "males"|key == "females")
-    
-    billboarder() %>% 
-      bb_barchart(data = le_sex)
+    valueBox(paste0(value, " months"), "Women", icon = icon("arrow-up"), color= "orange")
   })
   
   
-  output$le_race <- renderBillboarder({
+  output$le_white <- renderValueBox({
+    value <- life_expectancy%>% 
+      filter(key == "white") %>% 
+      mutate(diff = (`Guilford County`- `State of North Carolina`)*12) %>% 
+      mutate(diff = round(diff,0)) %>% 
+      pull (diff)
     
-    le_race <- life_expectancy %>% 
-      filter(key == "white"|key =="african_american")
-    
-    billboarder() %>% 
-      bb_barchart(data = le_race)
+    valueBox(paste0(value, " months"), "Race: White", icon = icon("arrow-up"), color= "orange")
   })
+  
+  output$le_afram <- renderValueBox({
+    value <- life_expectancy%>% 
+      filter(key == "african_american") %>% 
+      mutate(diff = (`Guilford County`- `State of North Carolina`)*12) %>% 
+      mutate(diff = round(diff,0)) %>% 
+      pull (diff)
+    
+    valueBox(paste0(value, " months"), "Race: African American", icon = icon("arrow-up"), color= "orange")
+  })
+  
+
+  
+  # output$le <- renderText({
+  #   
+  #   fem_le <- life_expectancy%>% 
+  #     filter(key == "females") %>% 
+  #     mutate(diff = (`Guilford County`- `State of North Carolina`)*12) %>% 
+  #     mutate(diff = round(diff,0)) %>% 
+  #     pull (diff)
+  #   
+  #   males_le <- life_expectancy%>% 
+  #     filter(key == "males") %>% 
+  #     mutate(diff = (`Guilford County`- `State of North Carolina`)*12) %>% 
+  #     mutate(diff = round(diff,0)) %>% 
+  #     pull (diff)
+  #   
+  #   white_le <- life_expectancy%>% 
+  #     filter(key == "white") %>% 
+  #     mutate(diff = (`Guilford County`- `State of North Carolina`)*12) %>% 
+  #     mutate(diff = round(diff,0)) %>% 
+  #     pull (diff)
+  #   
+  #   afram_le <- life_expectancy%>% 
+  #     filter(key == "african_american") %>% 
+  #     mutate(diff = (`Guilford County`- `State of North Carolina`)*12) %>% 
+  #     mutate(diff = round(diff,0)) %>% 
+  #     pull (diff)
+  #   
+  #   paste('<b><span style="color:#e54b21;font-size:45px;">', males_le, '</span>',    
+  #         '<b><span style="color:#AC492E;font-size:30px;"> MONTHS HIGHER </span>',
+  #         '<span style="color:#e54b21;font-size:45px;"> &nbsp; &nbsp;|&nbsp; &nbsp;' ,fem_le ,'</span>',    
+  #         '<b><span style="color:#AC492E;font-size:30px;"> MONTHS HIGHER </span>',
+  #         '<span style="color:#e54b21;font-size:45px;"> &nbsp; &nbsp;|&nbsp; &nbsp;' ,white_le ,'</span>',    
+  #         '<b><span style="color:#AC492E;font-size:30px;"> MONTHS HIGHER </span>',
+  #         '<span style="color:#e54b21;font-size:45px;"> &nbsp; &nbsp;|&nbsp; &nbsp;' ,afram_le ,'</span>',    
+  #         '<b><span style="color:#AC492E;font-size:30px;"> MONTHS HIGHER </span>')
+  #   
+  # })
+  
+  # output$le_sex <- renderBillboarder({
+  #   
+  #   le_sex <- life_expectancy %>% 
+  #     filter(key == "males"|key == "females")
+  #   
+  #   billboarder() %>% 
+  #     bb_barchart(data = le_sex)
+  # })
+  # 
+  # 
+  # output$le_race <- renderBillboarder({
+  #   
+  #   le_race <- life_expectancy %>% 
+  #     filter(key == "white"|key =="african_american")
+  #   
+  #   billboarder() %>% 
+  #     bb_barchart(data = le_race)
+  # })
   
   output$hh_race <- renderBillboarder({
     
@@ -493,9 +634,33 @@ server <- function(input, output) {
     
   })
     
+  output$vacant_houses_map <- renderLeaflet({
+    
+    pal <- colorQuantile(palette = "viridis", domain = vacant_housing$estimate,  probs = seq(0, 1, 0.1))
+    
+    vacant_housing %>% 
+      leaflet() %>% 
+      addProviderTiles(providers$Esri.WorldTopoMap) %>% 
+      addPolygons(
+        stroke = F,
+        
+        fillColor = ~pal(estimate), 
+        fillOpacity = 0.7
+      ) %>%  
+      addPolygons(data = geo_places,
+                  stroke = T, weight = 1,
+                  label = ~ NAME, 
+                  color = "white", 
+                  dashArray = "3"
+      ) %>% 
+      addLegend("bottomright",
+                pal = pal,
+                values = ~ estimate,
+                title = "Vacant Houses",
+                opacity = 1)
+  })
   
-=======
->>>>>>> aeec1a85ab23f665c35f4f6ca930eeb08f716bfb
+
   # WORK Tab ----
   
   output$emp_race <- renderBillboarder({
@@ -503,24 +668,24 @@ server <- function(input, output) {
       bb_barchart(data = emp_race)
   })
   
-  output$pc_inc_race <- renderBillboarder({
-    pc_income_race <- pc_income %>% 
+  output$med_inc_race <- renderBillboarder({
+    med_income_race <- med_income %>% 
       filter(race!="White Alone, Not Hispanic or Latino") %>% 
       filter(race!="Hispanic or Latino") %>% 
       select(race, estimate)
     
     billboarder() %>% 
-      bb_barchart(data = pc_income_race)
+      bb_barchart(data = med_income_race)
   })
   
-  output$pc_inc_ethn <- renderBillboarder({
+  output$med_inc_ethn <- renderBillboarder({
     
-    pc_income_ethn <- pc_income %>% 
+    med_income_ethn <- med_income %>% 
       filter(race=="White Alone, Not Hispanic or Latino"| race =="Hispanic or Latino" ) %>% 
       select(race, estimate)
     
     billboarder() %>% 
-      bb_barchart(data = pc_income_ethn)
+      bb_barchart(data = med_income_ethn)
   })
   
 }

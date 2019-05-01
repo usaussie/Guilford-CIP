@@ -308,3 +308,11 @@ margin-right: 30px;
 .sidebar-menu>.fa{
 	color: #ffffff
 }
+
+.bg-orange {
+background-color: #FCEDE8!important;
+}
+
+.leaflet-container { 
+background: #FCEDE8; 
+}"
