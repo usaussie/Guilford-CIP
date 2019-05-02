@@ -263,7 +263,7 @@ summarise(count = n()) %>%
 
 
 
-```{r Life expectancy}
+```{r prep life expectancy data}
 
 le1 <- le %>% 
   select(-c(x3, x5, x7, x9, x11)) %>% 
@@ -292,6 +292,15 @@ life_expectancy <- life_expectancy %>%
   mutate(`Guilford County` = round(`Guilford County`,1),
          `State of North Carolina` = round(`State of North Carolina`,1))
 
+
+```
+
+
+```{r Life expectancy}
+
+
+
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
 
 
 le_sex <- life_expectancy %>% 
