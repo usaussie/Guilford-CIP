@@ -8,7 +8,7 @@ download.file("http://dl.ncsbe.gov.s3.amazonaws.com/data/ncvoter41.zip", temp)
 temp <- unzip(temp)
 vote <- read_tsv(temp, guess_max = Inf)
 
-vote <- read_csv("/Volumes/GoogleDrive/My Drive/SI/DataScience/data/Guilford County CIP/From Jason/Registered Voters/ncvoter41.csv") #temporary for no internet
+vote <- read_csv("G:/My Drive/SI/DataScience/data/Guilford County CIP/From Jason/Registered Voters/ncvoter41.csv") #temporary for no internet
 
 guilfordzips <- c(27263, 27214, 27233, 27235, 27249, 27401, 27403, 27405, 27406, 27407, 27408, 27409, 27410, 27455, 27265, 27282, 27260, 27262, 27283, 27301, 27310, 27313, 27357, 27358, 27377)
 
