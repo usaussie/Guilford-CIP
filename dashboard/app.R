@@ -7,31 +7,33 @@ library(leaflet)
 
 # Load data ---------------------------------------------------------------
 
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
 
 
 
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
 
 # Define individual UI elements -------------------------------------------------------------
 
@@ -257,6 +259,27 @@ body <- dashboardBody(
       #   )
       # ),
       
+      
+      fluidRow(
+        column(
+          4,
+          box(
+            width = NULL, 
+            img(src = "life_expectancy.png", class = "leInfo")
+          )
+        ),
+        
+        column(
+          8,
+          box(
+            width = NULL, 
+            title= "BIRTHS IN GUILFORD COUNTY",
+            plotlyOutput("birth2")
+          )
+        
+        )
+      ),
+      
    
       fluidRow(
         column(
@@ -276,14 +299,19 @@ body <- dashboardBody(
         
         
       ),
-      
+      fluidRow(
+        column(12,
+               box(width = NULL, 
+                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget arcu dictum varius duis at consectetur lorem donec massa. Ut consequat semper viverra nam libero justo laoreet sit amet. Egestas congue quisque egestas diam in arcu. Suspendisse potenti nullam ac tortor vitae purus. At ultrices mi tempus imperdiet nulla malesuada pellentesque."
+               ))
+      ),
       
       fluidRow(column(
         10,
         offset = 1,
         align = "center",
         box(width = NULL,
-            h1("Birth charts here"))
+            plotlyOutput("births"))
       )),
       
       # fluidRow(
@@ -308,55 +336,35 @@ body <- dashboardBody(
       #   
       # ),
       
+      fluidRow(
+        column(12,
+               box(width = NULL, 
+                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus id interdum. Ligula ullamcorper malesuada proin libero nunc consequat interdum varius sit."
+                 
+               ))
+      ),
       
       fluidRow(
         column(
           3, 
           box(
             width = NULL,
-            title = "Head of household by race/sex",
+            title = "Head of household by race",
             billboarderOutput("hh_race")
           ) 
           
         ),
         column(
-          9,
+          8,
           box(
             width = NULL,
-            title = "Health 2 chart"
+            title = "Vacant Houses+ Permits?",
+            leafletOutput("vacant_houses_map")
             
           )
           )
         
         
-      ), 
-      fluidRow(
-        
-        column(8,
-               offset = 2,
-               box(width = NULL,
-                 title = "Vacant Houses+ Permits?",
-                 leafletOutput("vacant_houses_map")
-               ))
-        
-      ),
-      
-      
-      fluidRow(),
-      
-      
-      fluidRow(
-        column(
-          8, 
-          align = "center", 
-          h2("Vacant houses map?")
-        ), 
-        
-        column(
-          4, 
-          align = "center", 
-          h2("Permits for remodel")
-        )
       ), 
       
       fluidRow(
@@ -432,6 +440,14 @@ body <- dashboardBody(
       fluidRow(
         column(12,
                box(
+                 width = NULL, 
+                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                 
+               ))
+      ),
+      fluidRow(
+        column(12,
+               box(
                  "Means of transportation by race?"
                ))
       )
@@ -460,7 +476,8 @@ body <- dashboardBody(
         column(10, 
                offset=1, 
                box(width = NULL, 
-                 title = "Annual weather"
+                 title = "Average weather over the last 48 months",
+                 plotlyOutput("weather")
                ))
       ),
       fluidRow(), 
@@ -594,7 +611,8 @@ server <- function(input, output) {
   
   output$age <- renderBillboarder({
     billboarder() %>%
-      bb_barchart(data = gc_ages, stacked = T)
+      bb_lollipop(data = gc_ages)
+      #bb_barchart(data = gc_ages, stacked = T)
   })
   
   output$sex <- renderBillboarder({
@@ -718,6 +736,36 @@ server <- function(input, output) {
   #     bb_barchart(data = le_race)
   # })
   
+  output$birth2 <- renderPlotly({
+    
+    plot_ly(data = births, x =~yob, y = ~Females, type = 'scatter', mode = 'lines+markers', 
+            line= list(color= 'rgb(104,77,232)', width =2.5), 
+            marker = list(color= 'rgb(104,77,232)', width =3), 
+            name = 'Females') %>% 
+      add_trace(y=~Males, line = list(color='rgb(145, 150, 54)'), 
+                marker = list(color= 'rgb(145, 150, 54)'),
+                name = 'Males') %>% 
+      layout(yaxis = list(title = "", separatethousands = TRUE),
+             xaxis = list(title = "", tickangle = 45, tickfont = list(size = 10)),
+             legend = list(orientation = 'h', y = -0.2, x = 0.2))
+  })
+  
+  
+  output$births <- renderPlotly({
+    
+    plot_ly(data = births, x =~yob, y = ~Females, type = 'scatter', mode = 'lines+markers', 
+            line= list(color= 'rgb(104,77,232)', width =2.5), 
+            marker = list(color= 'rgb(104,77,232)', width =3), 
+            name = 'Females') %>% 
+      add_trace(y=~Males, line = list(color='rgb(145, 150, 54)'), 
+                marker = list(color= 'rgb(145, 150, 54)'),
+                name = 'Males') %>% 
+      layout(yaxis = list(title = "", separatethousands = TRUE),
+             xaxis = list(title = "", tickangle = 45, tickfont = list(size = 10)),
+             legend = list(orientation = 'h', y = -0.2, x = 0.2))
+  })
+  
+  
   output$hh_race <- renderBillboarder({
     
     billboarder() %>% 
@@ -763,10 +811,12 @@ server <- function(input, output) {
     med_income_race <- med_income %>% 
       filter(race!="White Alone, Not Hispanic or Latino") %>% 
       filter(race!="Hispanic or Latino") %>% 
+      filter(!is.na(estimate)) %>% 
       select(race, estimate)
     
     billboarder() %>% 
-      bb_barchart(data = med_income_race)
+      bb_lollipop(data = med_income_race)
+      #bb_barchart(data = med_income_race)
   })
   
   output$med_inc_ethn <- renderBillboarder({
@@ -776,7 +826,26 @@ server <- function(input, output) {
       select(race, estimate)
     
     billboarder() %>% 
-      bb_barchart(data = med_income_ethn)
+      bb_lollipop(data = med_income_ethn)
+      #bb_barchart(data = med_income_ethn)
+  })
+  
+  # PLAY Tab ----
+  
+  output$weather <- renderPlotly({
+    
+    plot_ly(data = weather) %>% 
+      add_trace(x =~month,y=~precipitation, type = 'bar',  
+                marker = list(color= 'rgb(223,226,213)'),
+                name = 'PPtn') %>% 
+      add_trace(x =~month, y = ~daily_avg, type = 'scatter', mode = 'lines', 
+                line= list(color= 'rgb(97,112,48)', width =2.5), 
+                name = 'Average Temperature', 
+                yaxis = "y2") %>% 
+      layout(yaxis = list(side = 'right', title = "Precipitation (in inches)"),
+             xaxis = list(title = ""),
+             yaxis2 = list(side = 'left', overlaying = "y", title = "Temp (in F)"),
+             legend = list(orientation = 'h', y = -0.2, x = 0.2))
   })
   
 }
