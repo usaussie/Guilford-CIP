@@ -32,6 +32,7 @@ load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_ho
 load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
 load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
 load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
 
 # Define individual UI elements -------------------------------------------------------------
 
@@ -524,13 +525,59 @@ body <- dashboardBody(
                  title = "Schools Map"
                )
       )),
+      
+      br(), 
+      br(), 
+      br(),
+      fluidRow(
+        column(6,
+               align = "center", 
+               h2("IMAGE")
+        ), 
+        column(6,
+               align = "center",
+               h2("IMAGE")
+        )), 
+      br(), 
+      br(),
       fluidRow(
         column(12,
-               box(
-                 width = NULL, 
-                 title = "ipeds here"
-               ))
-      )
+               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+        )),
+      br(),
+      fluidRow(column(
+                 6,
+                 box(width = NULL, title = "Percent of College and University Students by Institution",
+                     billboarderOutput("students"))
+               ),
+               column(
+                 6,
+                 box(width = NULL,
+                     title = "Completion Rates for Guilford County's Colleges and Universities",
+                     billboarderOutput("completion"))
+               )), 
+      br(), 
+      br(), 
+      br(), 
+      fluidRow(
+        column(12,
+               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+        )),
+      br(),
+      fluidRow(column(
+        6,
+        box(width = NULL,
+            title = "Debt to Income Ratio for Guilford County's Colleges and Universities",
+            billboarderOutput("debt"))
+
+      ),
+      column(
+        6,
+        box(width = NULL, 
+            title = "Retention Rates for Guilford County's Colleges and Universities",
+            billboarderOutput("retention"))
+      )) 
+      
     )),
     
     # ACT Tab ----
@@ -749,6 +796,73 @@ server <- function(input, output) {
                 values = ~ estimate,
                 title = "Vacant Houses",
                 opacity = 1)
+  })
+  
+  # LEARN tab ----
+  
+  output$students <- renderBillboarder({
+    
+    plot <- guilford %>% 
+      select(Institution_Name, total_students_entering_2016)
+      
+    
+    billboarder() %>%
+      bb_donutchart(data = plot) %>% 
+      bb_color(palette = c("#E54B21", "#113535", "#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637")) 
+    
+    
+  })
+  
+  output$completion <- renderBillboarder({
+    
+    plot <- guilford %>% 
+      select(Institution_Name, total_complete_avg) %>% 
+      mutate(total_complete_avg = total_complete_avg*100)
+    
+    billboarder() %>%
+      bb_barchart(data = plot, rotated = TRUE) %>% 
+      #bb_axis(x = list(tick = list(fit = T)), y = list(tick = list(fit = T))) %>%
+      bb_add_style(text = "font-size: 75%"
+      ) %>% 
+      bb_legend(show = FALSE) %>% 
+      bb_y_axis(tick = list(format = suffix("%"))) %>% 
+      bb_color(palette = c("#88853B")) 
+    
+    
+    
+  })
+  
+  output$retention <- renderBillboarder({
+    
+    plot <- guilford %>% 
+      select(Institution_Name, full_time_retention_rate_mean) %>% 
+      mutate(`Full Time Retention Rate` = full_time_retention_rate_mean*100)
+    
+    billboarder() %>%
+      bb_lollipop(data = plot, x = "full_time_retention_rate_mean", y = "Institution_Name", rotated = F) %>% 
+      #bb_axis(x = list(tick = list(fit = T)), y = list(tick = list(fit = T))) %>%
+      bb_add_style(text = "font-size: 75%"
+      ) %>% 
+      bb_legend(show = FALSE) %>% 
+      bb_y_axis(tick = list(format = suffix("%"))) %>% 
+      bb_color(palette = c("#113535"))
+    
+    
+  })
+  
+  output$debt <- renderBillboarder({
+    
+    plot <- guilford %>% 
+      select(Institution_Name, debt_to_earnings_ratio_best)
+    
+    billboarder() %>%
+      bb_barchart(data = plot, x = "debt_to_earnings_ratio_best", y = "Institution_Name", rotated = T) %>% 
+      #bb_axis(x = list(tick = list(fit = T)), y = list(tick = list(fit = T))) %>%
+      bb_add_style(text = "font-size: 75%") %>% 
+      bb_legend(show = FALSE) %>% 
+      bb_y_axis(tick = list(format = suffix("%"))) %>% 
+      bb_color(palette = c("#89ada7"))     
+    
   })
   
 

@@ -24,10 +24,20 @@ bigone <- gates %>%
 
 guilford <- bigone %>% 
   filter(fips_county=="37081") %>% 
-  select(Institution_Name, Sector, total_complete_avg, debt_to_earnings_ratio_best, full_time_retention_rate_mean, total_students_entering_2016)
+  select(Institution_Name, Sector, total_complete_avg, debt_to_earnings_ratio_best, full_time_retention_rate_mean, total_students_entering_2016) %>% 
+  slice(-9:-10)
 
-write_rds(guilford, "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
+save(guilford, file = "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
 
 
 
+plot <- guilford %>% 
+  select(Institution_Name, total_complete_avg)
 
+
+billboarder() %>%
+  bb_barchart(data = plot, x = "total_complete_avg", y = "Institution_Name", rotated = TRUE) %>% 
+  #bb_axis(x = list(tick = list(fit = T)), y = list(tick = list(fit = T))) %>%
+  bb_add_style(text = "font-size: 75%", position = "center"
+  ) %>% 
+  bb_legend(show = FALSE) 
