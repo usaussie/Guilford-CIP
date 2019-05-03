@@ -8,35 +8,36 @@ library(plotly)
 
 # Load data ---------------------------------------------------------------
 
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
 
 
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
-
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
 
 # Define individual UI elements -------------------------------------------------------------
 
@@ -666,25 +667,31 @@ server <- function(input, output) {
   
   output$age <- renderBillboarder({
     billboarder() %>%
-      bb_lollipop(data = gc_ages, point_size = 5, point_color = "#752107", line_color = "#752107" )
+      bb_lollipop(data = gc_ages, point_size = 5, point_color = "#617030", line_color = "#617030")
       #bb_barchart(data = gc_ages, stacked = T)
   })
   
   output$sex <- renderBillboarder({
     billboarder() %>%
-      bb_donutchart(data = gc_sex)
+      bb_donutchart(data = gc_sex) %>% 
+      bb_color(palette = c("#113535", "#CB942B", "#89ada7")) 
+    
     
   })
   
   output$race <- renderBillboarder({
     billboarder() %>% 
       bb_donutchart(data = race_county) %>% 
-      bb_donut()
+      bb_donut() %>% 
+      bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535")) 
+    
   })
   
   output$ethnicity <- renderBillboarder({
     billboarder() %>% 
-      bb_donutchart(data = acs_ethn_county)
+      bb_donutchart(data = acs_ethn_county) %>% 
+      bb_color(palette = c("#AC492E", "#113535", "#CB942B")) 
+    
   })
   
 
@@ -796,11 +803,11 @@ server <- function(input, output) {
   output$birth2 <- renderPlotly({
     
     plot_ly(data = births, x =~yob, y = ~Females, type = 'scatter', mode = 'lines+markers', 
-            line= list(color= 'rgb(104,77,232)', width =2.5), 
-            marker = list(color= 'rgb(104,77,232)', width =3), 
+            line= list(color= '#113535', width =2.5), 
+            marker = list(color= '#113535', width =3), 
             name = 'Females') %>% 
-      add_trace(y=~Males, line = list(color='rgb(145, 150, 54)'), 
-                marker = list(color= 'rgb(145, 150, 54)'),
+      add_trace(y=~Males, line = list(color='#CB942B'), 
+                marker = list(color= '#CB942B'),
                 name = 'Males') %>% 
       layout(yaxis = list(title = "", separatethousands = TRUE),
              xaxis = list(title = "", tickangle = 45, tickfont = list(size = 10)),
@@ -811,11 +818,11 @@ server <- function(input, output) {
   output$births <- renderPlotly({
     
     plot_ly(data = births, x =~yob, y = ~Females, type = 'scatter', mode = 'lines+markers', 
-            line= list(color= 'rgb(104,77,232)', width =2.5), 
-            marker = list(color= 'rgb(104,77,232)', width =3), 
+            line= list(color= '#89ada7', width =2.5), 
+            marker = list(color= '#89ada7', width =3), 
             name = 'Females') %>% 
-      add_trace(y=~Males, line = list(color='rgb(145, 150, 54)'), 
-                marker = list(color= 'rgb(145, 150, 54)'),
+      add_trace(y=~Males, line = list(color='#AC492E'), 
+                marker = list(color= '#AC492E'),
                 name = 'Males') %>% 
       layout(yaxis = list(title = "", separatethousands = TRUE),
              xaxis = list(title = "", tickangle = 45, tickfont = list(size = 10)),
@@ -826,7 +833,9 @@ server <- function(input, output) {
   output$hh_race <- renderBillboarder({
     
     billboarder() %>% 
-      bb_donutchart(data = hh_race)
+      bb_donutchart(data = hh_race) %>% 
+      bb_color(palette = c("#E54B21", "#113535", "#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637")) 
+    
     
   })
     
@@ -928,7 +937,9 @@ server <- function(input, output) {
   
   output$emp_race <- renderBillboarder({
     billboarder() %>% 
-      bb_barchart(data = emp_race)
+      bb_barchart(data = emp_race) %>% 
+      bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535")) 
+    
   })
   
   output$med_inc_race <- renderBillboarder({
@@ -939,7 +950,8 @@ server <- function(input, output) {
       select(race, estimate)
     
     billboarder() %>% 
-      bb_lollipop(data = med_income_race)
+      bb_lollipop(data = med_income_race, point_color = "#CB942B", line_color = "#CB942B") 
+    
       #bb_barchart(data = med_income_race)
   })
   
@@ -950,7 +962,7 @@ server <- function(input, output) {
       select(race, estimate)
     
     billboarder() %>% 
-      bb_lollipop(data = med_income_ethn)
+      bb_lollipop(data = med_income_ethn, point_color = "#026637", line_color = "#026637")
       #bb_barchart(data = med_income_ethn)
   })
   
