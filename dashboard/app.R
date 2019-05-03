@@ -3,37 +3,39 @@ library(shinydashboard)
 library(billboarder)
 library(tidyverse)
 library(leaflet)
+library(plotly)
 
 
 # Load data ---------------------------------------------------------------
 
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
 
 
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
 
 
 # Define individual UI elements -------------------------------------------------------------
@@ -265,8 +267,9 @@ body <- dashboardBody(
         column(
           4,
           box(
-            width = NULL, 
+            width = NULL,
             img(src = "life_expectancy.png", class = "leInfo")
+            
           )
         ),
         
@@ -658,7 +661,7 @@ server <- function(input, output) {
   
   output$age <- renderBillboarder({
     billboarder() %>%
-      bb_lollipop(data = gc_ages)
+      bb_lollipop(data = gc_ages, point_size = 5, point_color = "#752107", line_color = "#752107" )
       #bb_barchart(data = gc_ages, stacked = T)
   })
   
@@ -682,6 +685,8 @@ server <- function(input, output) {
 
   
   # LIVE Tab ----
+  
+  
   
   output$le_males <- renderValueBox({
     value <- life_expectancy%>% 
