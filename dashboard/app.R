@@ -171,19 +171,21 @@ body <- dashboardBody(
       br(),
       
       fluidRow(column (2,
-                       fluidRow(
-                         box(
-                           width = NULL,
-                           valueBoxOutput("total_population", width = NULL)
-                         )
-                       ),
-                       fluidRow(
-                         box(
-                           width = NULL,
-                           valueBoxOutput("median_age", width = NULL)
-                         )
-                       ))
-                       ,
+                       img(src = "pop_age.png", class = "popAge")
+                       # fluidRow(
+                       #   box(
+                       #     width = NULL,
+                       #     valueBoxOutput("total_population", width = NULL)
+                       #   )
+                       # ),
+                       # fluidRow(
+                       #   box(
+                       #     width = NULL,
+                       #     valueBoxOutput("median_age", width = NULL)
+                       #   )
+                       # )
+                       )
+                        ,
                column(
                  5,
                  box(width = NULL, title = "Age Distribution in Guilford County",
@@ -268,6 +270,9 @@ body <- dashboardBody(
           4,
           box(
             width = NULL,
+            title = "",
+            br(),
+            br(),
             img(src = "life_expectancy.png", class = "leInfo")
             
           )
