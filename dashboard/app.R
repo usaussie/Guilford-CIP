@@ -5,7 +5,6 @@ library(tidyverse)
 library(leaflet)
 library(plotly)
 
-
 # Load data ---------------------------------------------------------------
 
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
@@ -66,7 +65,8 @@ sidebar <- dashboardSidebar(
 
 body <- dashboardBody(
   tags$head(
-    tags$link(rel = "stylesheet", type = "text/css", href = "dashboard.css")
+    tags$link(rel = "stylesheet", type = "text/css", href = "dashboard.css"),
+    tags$script(src="scripts/myscript.js")
   ),
 
   # Start Tabs ----
@@ -81,13 +81,6 @@ body <- dashboardBody(
         h1("GUILFORD COMMUNITY INDICATORS DASHBOARD")
       )),
       
-      # fluidRow(column(12,
-      #                 align = "center",
-      #                 box(
-      #                   width = NULL,
-      #                   img(src='/images/guilford-logo.png', align = "left")
-      #                 ))),
-
       fluidRow(column(
         12,
         box(
@@ -107,43 +100,54 @@ body <- dashboardBody(
       tags$div(class = "overview-icons",
         fluidRow(
             column(2,
+                   tags$div(class="box-link",
+                   tags$a(href = "#shiny-tab-civic", "data-toggle"="tab", "data-value"="civic",
                    box(
                      title = "CIVIC",
                      width = NULL,
                      icon("chart-bar", "fa-10x")
-                   )),
-            
+                    )))),
             column(2,
+                   tags$div(class="box-link",
+                   tags$a(href = "#shiny-tab-live", "data-toggle"="tab", "data-value"="live",
                    box(
                      title = "LIVE",
                      width = NULL,
                      icon("home", "fa-10x")
-                   )),
+                   )))),
             column(2,
+                   tags$div(class="box-link",
+                   tags$a(href = "#shiny-tab-work", "data-toggle"="tab", "data-value"="work",
                    box(
                      title = "WORK",
                      width = NULL,
                      icon("briefcase", "fa-10x")
-                   )),
+                   )))),
             column(2,
+                   tags$div(class="box-link",
+                   tags$a(href = "#shiny-tab-play", "data-toggle"="tab", "data-value"="play",
                    box(
                      title = "PLAY",
                      width = NULL,
                      icon("tree", "fa-10x")
-                   )),
+                   )))),
             
             column(2,
+                   tags$div(class="box-link",
+                   tags$a(href = "#shiny-tab-learn", "data-toggle"="tab", "data-value"="learn",
                    box(
                      title = "LEARN",
                      width = NULL,
                      icon("graduation-cap", "fa-10x")
-                   )),
+                   )))),
             column(2,
+                   tags$div(class="box-link",
+                   tags$a(href = "#shiny-tab-act", "data-toggle"="tab", "data-value"="act",
                    box(
                      title = "ACT",
                      width = NULL,
                      icon("handshake", "fa-10x")
-                   ))
+                   ))))
             
             ) #End of the row
         ) #End of overview-icons class
