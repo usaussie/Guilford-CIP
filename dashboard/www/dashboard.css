@@ -57,6 +57,9 @@ body {
     background-color: #2A3236;
     color: #ffffff;
     border-bottom: 0 solid transparent;
+    font-family: 'Roboto Condensed';
+font-weight: 500;
+line-height: 1.1;
 }
 
 .skin-blue .main-header .logo:hover {
@@ -207,6 +210,22 @@ margin-bottom: 20px;
   width: 100%;
   max-width:  100%;
   height: auto;
+}
+
+.bannerImg{
+  width: 100%;
+}
+
+.myFrame {
   
-  
+  padding:  100px 0;
+  width: auto;
+  max-width:  100%;
+  height: auto;
+}
+
+.tourismInfo {
+  width:  100%;
+  max-width: 100%;
+  heigh: auto;
 }

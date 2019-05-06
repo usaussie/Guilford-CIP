@@ -8,36 +8,36 @@ library(plotly)
 
 # Load data ---------------------------------------------------------------
 
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
-# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
 
 
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
 
 # Define individual UI elements -------------------------------------------------------------
 
@@ -472,7 +472,8 @@ body <- dashboardBody(
                                align = "center",
                                box(
                                  width = NULL,
-                                 h1("Image here")
+                                 img(src = "play.png", class = "bannerImg")
+                                
                                ))),         
       fluidRow(
         column(12,
@@ -490,24 +491,33 @@ body <- dashboardBody(
                  plotlyOutput("weather")
                ))
       ),
-      fluidRow(), 
-      
       fluidRow(
-        column(1, 
-               valueBox(100, subtitle = "tourism spending", width = NULL)), 
-        column(5, 
-               box(width = NULL,
-                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
-                   )),
-        column(5, 
-               box(width = NULL,
-                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum."
+        column(4, 
+               box(
+                 width = NULL, 
+                 br(),
+                 br(),
+                 br(),
+                 HTML('<iframe id = "myFrame" src="https://www.youtube.com/embed/ScMzIvxBSi4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
                )),
-        column(1, 
-               valueBox(100, subtitle = "walk score", width = NULL))
         
-        
+      column(2,
+             box(
+               width = NULL, 
+               img(src = "tourism.png", class = "tourismInfo")
+             )),
+      column(6, 
+             br(),
+             br(),
+             br(),
+             box(
+               width = NULL, 
+               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+               
+             ))
       ), 
+      
+      fluidRow(), 
       
       fluidRow(
         column(12, 
@@ -628,7 +638,7 @@ body <- dashboardBody(
 ui <- dashboardPage(
   title = "Guilford CIP",
   skin = "blue",
-  dashboardHeader(title = "Guilford Community Indicators"),
+  dashboardHeader(title = "GUILFORD CIP DASHBOARD"),
   sidebar,
   body
 )
