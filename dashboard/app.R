@@ -3,6 +3,7 @@ library(shinydashboard)
 library(billboarder)
 library(tidyverse)
 library(leaflet)
+library(plotly)
 
 
 # Load data ---------------------------------------------------------------
@@ -18,7 +19,25 @@ load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housi
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
 
+
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
 
 # Define individual UI elements -------------------------------------------------------------
 
@@ -32,7 +51,7 @@ sidebar <- dashboardSidebar(
     menuItem("Work", tabName = "work", icon = icon("briefcase")),
     menuItem("Play", tabName = "play", icon = icon("tree")),
     menuItem("Learn", tabName = "learn", icon = icon("graduation-cap")),
-    menuItem("Act", tabName = "act", icon = icon("hands-helping"))
+    menuItem("Act", tabName = "act", icon = icon("handshake"))
   ),
   sidebarSearchForm(
     label = "Search",
@@ -49,7 +68,7 @@ body <- dashboardBody(
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "dashboard.css")
   ),
-  
+
   # Start Tabs ----
   tabItems(
     # Tab for Description of the project----
@@ -62,13 +81,13 @@ body <- dashboardBody(
         h1("GUILFORD COMMUNITY INDICATORS DASHBOARD")
       )),
       
-      fluidRow(column(12,
-                      align = "center",
-                      box(
-                        width = NULL,
-                        h1("GUILFORD IMAGE")
-                      ))),
-      
+      # fluidRow(column(12,
+      #                 align = "center",
+      #                 box(
+      #                   width = NULL,
+      #                   img(src='/images/guilford-logo.png', align = "left")
+      #                 ))),
+
       fluidRow(column(
         12,
         box(
@@ -123,7 +142,7 @@ body <- dashboardBody(
                    box(
                      title = "ACT",
                      width = NULL,
-                     icon("hands-helping", "fa-10x")
+                     icon("handshake", "fa-10x")
                    ))
             
             ) #End of the row
@@ -244,6 +263,28 @@ body <- dashboardBody(
       #   )
       # ),
       
+      
+      fluidRow(
+        column(
+          4,
+          box(
+            width = NULL,
+            img(src = "life_expectancy.png", class = "leInfo")
+            
+          )
+        ),
+        
+        column(
+          8,
+          box(
+            width = NULL, 
+            title= "BIRTHS IN GUILFORD COUNTY",
+            plotlyOutput("birth2")
+          )
+        
+        )
+      ),
+      
    
       fluidRow(
         column(
@@ -263,14 +304,19 @@ body <- dashboardBody(
         
         
       ),
-      
+      fluidRow(
+        column(12,
+               box(width = NULL, 
+                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget arcu dictum varius duis at consectetur lorem donec massa. Ut consequat semper viverra nam libero justo laoreet sit amet. Egestas congue quisque egestas diam in arcu. Suspendisse potenti nullam ac tortor vitae purus. At ultrices mi tempus imperdiet nulla malesuada pellentesque."
+               ))
+      ),
       
       fluidRow(column(
         10,
         offset = 1,
         align = "center",
         box(width = NULL,
-            h1("Birth charts here"))
+            plotlyOutput("births"))
       )),
       
       # fluidRow(
@@ -295,55 +341,35 @@ body <- dashboardBody(
       #   
       # ),
       
+      fluidRow(
+        column(12,
+               box(width = NULL, 
+                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus id interdum. Ligula ullamcorper malesuada proin libero nunc consequat interdum varius sit."
+                 
+               ))
+      ),
       
       fluidRow(
         column(
           3, 
           box(
             width = NULL,
-            title = "Head of household by race/sex",
+            title = "Head of household by race",
             billboarderOutput("hh_race")
           ) 
           
         ),
         column(
-          9,
+          8,
           box(
             width = NULL,
-            title = "Health 2 chart"
+            title = "Vacant Houses+ Permits?",
+            leafletOutput("vacant_houses_map")
             
           )
           )
         
         
-      ), 
-      fluidRow(
-        
-        column(8,
-               offset = 2,
-               box(width = NULL,
-                 title = "Vacant Houses+ Permits?",
-                 leafletOutput("vacant_houses_map")
-               ))
-        
-      ),
-      
-      
-      fluidRow(),
-      
-      
-      fluidRow(
-        column(
-          8, 
-          align = "center", 
-          h2("Vacant houses map?")
-        ), 
-        
-        column(
-          4, 
-          align = "center", 
-          h2("Permits for remodel")
-        )
       ), 
       
       fluidRow(
@@ -419,6 +445,14 @@ body <- dashboardBody(
       fluidRow(
         column(12,
                box(
+                 width = NULL, 
+                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                 
+               ))
+      ),
+      fluidRow(
+        column(12,
+               box(
                  "Means of transportation by race?"
                ))
       )
@@ -429,11 +463,54 @@ body <- dashboardBody(
     tabItem(
       tabName = "play",
       tags$div(class = "play-tab",
+               fluidRow(column(12,
+                               align = "center",
+                               box(
+                                 width = NULL,
+                                 h1("Image here")
+                               ))),         
       fluidRow(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+        column(12,
+               box(
+                 width = NULL, 
+                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                 
+               ))
+         ),
+      fluidRow(
+        column(10, 
+               offset=1, 
+               box(width = NULL, 
+                 title = "Average weather over the last 48 months",
+                 plotlyOutput("weather")
+               ))
       ),
-      fluidRow(),
-      fluidRow()
+      fluidRow(), 
+      
+      fluidRow(
+        column(1, 
+               valueBox(100, subtitle = "tourism spending", width = NULL)), 
+        column(5, 
+               box(width = NULL,
+                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+                   )),
+        column(5, 
+               box(width = NULL,
+                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum."
+               )),
+        column(1, 
+               valueBox(100, subtitle = "walk score", width = NULL))
+        
+        
+      ), 
+      
+      fluidRow(
+        column(12, 
+               box(
+                 width = NULL, 
+                 title = "Parks Map"
+               ))
+      )
     )),
     
     #LEARN Tab ----
@@ -441,11 +518,87 @@ body <- dashboardBody(
     tabItem(
       tabName = "learn",
       tags$div(class = "learn-tab",
+               fluidRow(column(12,
+                               align = "center",
+                               box(
+                                 width = NULL,
+                                 h1("BANNER Image here")
+                               ))),
+               fluidRow(column(12,
+                               align = "center",
+                               h1(
+                                 "LEARN"
+                               ))),
+               br(),
+               br(),
+
       fluidRow(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+        column(12,
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+      )),
+      br(), 
+      br(),
+      br(),
+      fluidRow(
+        column(12, 
+               box(
+                 width = NULL, 
+                 title = "Schools Map"
+               )
+      )),
+      
+      br(), 
+      br(), 
+      br(),
+      fluidRow(
+        column(6,
+               align = "center", 
+               h2("IMAGE")
+        ), 
+        column(6,
+               align = "center",
+               h2("IMAGE")
+        )), 
+      br(), 
+      br(),
+      fluidRow(
+        column(12,
+               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+        )),
+      br(),
+      fluidRow(column(
+                 6,
+                 box(width = NULL, title = "Percent of College and University Students by Institution",
+                     billboarderOutput("students"))
+               ),
+               column(
+                 6,
+                 box(width = NULL,
+                     title = "Completion Rates for Guilford County's Colleges and Universities",
+                     billboarderOutput("completion"))
+               )), 
+      br(), 
+      br(), 
+      br(), 
+      fluidRow(
+        column(12,
+               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+        )),
+      br(),
+      fluidRow(column(
+        6,
+        box(width = NULL,
+            title = "Debt to Income Ratio for Guilford County's Colleges and Universities",
+            billboarderOutput("debt"))
+
       ),
-      fluidRow(),
-      fluidRow()
+      column(
+        6,
+        box(width = NULL, 
+            title = "Retention Rates for Guilford County's Colleges and Universities",
+            billboarderOutput("retention"))
+      )) 
+      
     )),
     
     # ACT Tab ----
@@ -469,7 +622,7 @@ body <- dashboardBody(
 
 ui <- dashboardPage(
   title = "Guilford CIP",
-  skin = "black",
+  skin = "blue",
   dashboardHeader(title = "Guilford Community Indicators", tags$li(img(src='/images/guilford-logo.png'), class="dropdown")),
   sidebar,
   body
@@ -509,29 +662,38 @@ server <- function(input, output) {
   
   output$age <- renderBillboarder({
     billboarder() %>%
-      bb_barchart(data = gc_ages, stacked = T)
+      bb_lollipop(data = gc_ages, point_size = 5, point_color = "#617030", line_color = "#617030")
+      #bb_barchart(data = gc_ages, stacked = T)
   })
   
   output$sex <- renderBillboarder({
     billboarder() %>%
-      bb_donutchart(data = gc_sex)
+      bb_donutchart(data = gc_sex) %>% 
+      bb_color(palette = c("#113535", "#CB942B", "#89ada7")) 
+    
     
   })
   
   output$race <- renderBillboarder({
     billboarder() %>% 
       bb_donutchart(data = race_county) %>% 
-      bb_donut()
+      bb_donut() %>% 
+      bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535")) 
+    
   })
   
   output$ethnicity <- renderBillboarder({
     billboarder() %>% 
-      bb_donutchart(data = acs_ethn_county)
+      bb_donutchart(data = acs_ethn_county) %>% 
+      bb_color(palette = c("#AC492E", "#113535", "#CB942B")) 
+    
   })
   
 
   
   # LIVE Tab ----
+  
+  
   
   output$le_males <- renderValueBox({
     value <- life_expectancy%>% 
@@ -633,10 +795,42 @@ server <- function(input, output) {
   #     bb_barchart(data = le_race)
   # })
   
+  output$birth2 <- renderPlotly({
+    
+    plot_ly(data = births, x =~yob, y = ~Females, type = 'scatter', mode = 'lines+markers', 
+            line= list(color= '#113535', width =2.5), 
+            marker = list(color= '#113535', width =3), 
+            name = 'Females') %>% 
+      add_trace(y=~Males, line = list(color='#CB942B'), 
+                marker = list(color= '#CB942B'),
+                name = 'Males') %>% 
+      layout(yaxis = list(title = "", separatethousands = TRUE),
+             xaxis = list(title = "", tickangle = 45, tickfont = list(size = 10)),
+             legend = list(orientation = 'h', y = -0.2, x = 0.2))
+  })
+  
+  
+  output$births <- renderPlotly({
+    
+    plot_ly(data = births, x =~yob, y = ~Females, type = 'scatter', mode = 'lines+markers', 
+            line= list(color= '#89ada7', width =2.5), 
+            marker = list(color= '#89ada7', width =3), 
+            name = 'Females') %>% 
+      add_trace(y=~Males, line = list(color='#AC492E'), 
+                marker = list(color= '#AC492E'),
+                name = 'Males') %>% 
+      layout(yaxis = list(title = "", separatethousands = TRUE),
+             xaxis = list(title = "", tickangle = 45, tickfont = list(size = 10)),
+             legend = list(orientation = 'h', y = -0.2, x = 0.2))
+  })
+  
+  
   output$hh_race <- renderBillboarder({
     
     billboarder() %>% 
-      bb_donutchart(data = hh_race)
+      bb_donutchart(data = hh_race) %>% 
+      bb_color(palette = c("#E54B21", "#113535", "#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637")) 
+    
     
   })
     
@@ -666,22 +860,94 @@ server <- function(input, output) {
                 opacity = 1)
   })
   
+  # LEARN tab ----
+  
+  output$students <- renderBillboarder({
+    
+    plot <- guilford %>% 
+      select(Institution_Name, total_students_entering_2016)
+      
+    
+    billboarder() %>%
+      bb_donutchart(data = plot) %>% 
+      bb_color(palette = c("#E54B21", "#113535", "#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637")) 
+    
+    
+  })
+  
+  output$completion <- renderBillboarder({
+    
+    plot <- guilford %>% 
+      select(Institution_Name, total_complete_avg) %>% 
+      mutate(total_complete_avg = total_complete_avg*100)
+    
+    billboarder() %>%
+      bb_barchart(data = plot, rotated = TRUE) %>% 
+      #bb_axis(x = list(tick = list(fit = T)), y = list(tick = list(fit = T))) %>%
+      bb_add_style(text = "font-size: 75%"
+      ) %>% 
+      bb_legend(show = FALSE) %>% 
+      bb_y_axis(tick = list(format = suffix("%"))) %>% 
+      bb_color(palette = c("#88853B")) 
+    
+    
+    
+  })
+  
+  output$retention <- renderBillboarder({
+    
+    plot <- guilford %>% 
+      select(Institution_Name, full_time_retention_rate_mean) %>% 
+      mutate(`Full Time Retention Rate` = full_time_retention_rate_mean*100)
+    
+    billboarder() %>%
+      bb_lollipop(data = plot, x = "full_time_retention_rate_mean", y = "Institution_Name", rotated = F) %>% 
+      #bb_axis(x = list(tick = list(fit = T)), y = list(tick = list(fit = T))) %>%
+      bb_add_style(text = "font-size: 75%"
+      ) %>% 
+      bb_legend(show = FALSE) %>% 
+      bb_y_axis(tick = list(format = suffix("%"))) %>% 
+      bb_color(palette = c("#113535"))
+    
+    
+  })
+  
+  output$debt <- renderBillboarder({
+    
+    plot <- guilford %>% 
+      select(Institution_Name, debt_to_earnings_ratio_best)
+    
+    billboarder() %>%
+      bb_barchart(data = plot, x = "debt_to_earnings_ratio_best", y = "Institution_Name", rotated = T) %>% 
+      #bb_axis(x = list(tick = list(fit = T)), y = list(tick = list(fit = T))) %>%
+      bb_add_style(text = "font-size: 75%") %>% 
+      bb_legend(show = FALSE) %>% 
+      bb_y_axis(tick = list(format = suffix("%"))) %>% 
+      bb_color(palette = c("#89ada7"))     
+    
+  })
+  
 
   # WORK Tab ----
   
   output$emp_race <- renderBillboarder({
     billboarder() %>% 
-      bb_barchart(data = emp_race)
+      bb_barchart(data = emp_race) %>% 
+      bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535")) 
+    
   })
   
   output$med_inc_race <- renderBillboarder({
     med_income_race <- med_income %>% 
       filter(race!="White Alone, Not Hispanic or Latino") %>% 
       filter(race!="Hispanic or Latino") %>% 
+      filter(!is.na(estimate)) %>% 
       select(race, estimate)
     
     billboarder() %>% 
-      bb_barchart(data = med_income_race)
+      bb_lollipop(data = med_income_race, point_color = "#CB942B", line_color = "#CB942B") 
+    
+      #bb_barchart(data = med_income_race)
   })
   
   output$med_inc_ethn <- renderBillboarder({
@@ -691,7 +957,26 @@ server <- function(input, output) {
       select(race, estimate)
     
     billboarder() %>% 
-      bb_barchart(data = med_income_ethn)
+      bb_lollipop(data = med_income_ethn, point_color = "#026637", line_color = "#026637")
+      #bb_barchart(data = med_income_ethn)
+  })
+  
+  # PLAY Tab ----
+  
+  output$weather <- renderPlotly({
+    
+    plot_ly(data = weather) %>% 
+      add_trace(x =~month,y=~precipitation, type = 'bar',  
+                marker = list(color= 'rgb(223,226,213)'),
+                name = 'PPtn') %>% 
+      add_trace(x =~month, y = ~daily_avg, type = 'scatter', mode = 'lines', 
+                line= list(color= 'rgb(97,112,48)', width =2.5), 
+                name = 'Average Temperature', 
+                yaxis = "y2") %>% 
+      layout(yaxis = list(side = 'right', title = "Precipitation (in inches)"),
+             xaxis = list(title = ""),
+             yaxis2 = list(side = 'left', overlaying = "y", title = "Temp (in F)"),
+             legend = list(orientation = 'h', y = -0.2, x = 0.2))
   })
   
 }
