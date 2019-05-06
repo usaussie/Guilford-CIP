@@ -22,6 +22,7 @@ load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expecta
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
 
 
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
@@ -38,6 +39,7 @@ load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
 
 # Define individual UI elements -------------------------------------------------------------
 
@@ -77,20 +79,15 @@ body <- dashboardBody(
       tags$div(class = "overview-tab",
       fluidRow(column(
         12,
-        align = "center",
-        h1("GUILFORD COMMUNITY INDICATORS DASHBOARD")
+        box(
+          width = NULL, 
+          img(src = "/images/overview.png", class = "bannerImg")
+        )
       )),
       
-      # fluidRow(column(12,
-      #                 align = "center",
-      #                 box(
-      #                   width = NULL,
-      #                   img(src='/images/guilford-logo.png', align = "left")
-      #                 ))),
-
-      fluidRow(column(
+     fluidRow(column(
         12,
-        box(
+        box(class = "boxText",
           width = NULL,
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
           dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada
@@ -155,17 +152,13 @@ body <- dashboardBody(
     tabItem(
       tabName = "civic",
       tags$div(class = "civic-tab",
-      fluidRow(column(12,
-                      align = "center",
-                      h1(
-                        "CIVIC"
-                      ))),
-      fluidRow(column(12,
-                      align = "center",
-                      box(
-                        width = NULL,
-                        h1("Image here")
-                      ))),
+               fluidRow(column(
+                 12,
+                 box(
+                   width = NULL, 
+                   img(src = "/images/civic.png", class = "bannerImg")
+                 )
+               )),
       fluidRow(
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
       ),
@@ -201,7 +194,7 @@ body <- dashboardBody(
       fluidRow(
         column(
           12,
-          box(
+          box( class = "boxText",
             width = NULL,
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
              
@@ -238,16 +231,18 @@ body <- dashboardBody(
                #   <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search">
                #   </form>
                  
-      fluidRow(column(12,
-                      align = "center",
-                      box(
-                        width = NULL,
-                        h1("Image here")
-                      ))),
+      fluidRow(column(
+                 12,
+                 box(
+                   width = NULL, 
+                   img(src = "/images/live.png", class = "bannerImg")
+                 )
+               )),
       fluidRow(
         column(
           12,
-          box(width = NULL,
+          box(class = "boxText",
+            width = NULL,
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
       ))),
       br(),
@@ -311,7 +306,7 @@ body <- dashboardBody(
       ),
       fluidRow(
         column(12,
-               box(width = NULL, 
+               box(class = "boxText", width = NULL, 
                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget arcu dictum varius duis at consectetur lorem donec massa. Ut consequat semper viverra nam libero justo laoreet sit amet. Egestas congue quisque egestas diam in arcu. Suspendisse potenti nullam ac tortor vitae purus. At ultrices mi tempus imperdiet nulla malesuada pellentesque."
                ))
       ),
@@ -348,7 +343,7 @@ body <- dashboardBody(
       
       fluidRow(
         column(12,
-               box(width = NULL, 
+               box(class= "boxText", width = NULL, 
                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus id interdum. Ligula ullamcorper malesuada proin libero nunc consequat interdum varius sit."
                  
                ))
@@ -395,17 +390,18 @@ body <- dashboardBody(
     tabItem(
       tabName = "work",
       tags$div(class = "work-tab",
-      fluidRow(column(12,
-                      align = "center",
-                      box(
-                        width = NULL,
-                        h1("Image here")
-                      ))),
+      fluidRow(column(
+                 12,
+                 box(
+                   width = NULL, 
+                   img(src = "/images/work.png", class = "bannerImg")
+                 )
+               )),
       
       fluidRow(
         column(
           12, 
-          box(
+          box(class = "boxText",
             width = NULL, 
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
             )
@@ -430,7 +426,7 @@ body <- dashboardBody(
       fluidRow(
         column(
           12, 
-          box(
+          box(class = "boxText",
             width = NULL, 
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
           )
@@ -449,17 +445,26 @@ body <- dashboardBody(
       ),
       fluidRow(
         column(12,
-               box(
+               box(class = "boxText",
                  width = NULL, 
                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
                  
                ))
       ),
       fluidRow(
-        column(12,
+        column(6,
+               box(width = NULL, 
+                 "Means of Transportation by Race",
+                 billboarderOutput("transportation_race")
+               )),
+        column(6, 
                box(
-                 "Means of transportation by race?"
-               ))
+                 width = NULL, 
+                 "Means of Transportation by Ethnicity",
+                 billboarderOutput("transportation_ethnicity")
+               )
+          
+        )
       )
     )),
     
@@ -468,7 +473,7 @@ body <- dashboardBody(
     tabItem(
       tabName = "play",
       tags$div(class = "play-tab",
-               fluidRow(column(12,
+      fluidRow(column(12,
                                align = "center",
                                box(
                                  width = NULL,
@@ -477,7 +482,7 @@ body <- dashboardBody(
                                ))),         
       fluidRow(
         column(12,
-               box(
+               box(class = "boxText",
                  width = NULL, 
                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
                  
@@ -510,7 +515,7 @@ body <- dashboardBody(
              br(),
              br(),
              br(),
-             box(
+             box(class = "boxText",
                width = NULL, 
                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
                
@@ -537,20 +542,18 @@ body <- dashboardBody(
                                align = "center",
                                box(
                                  width = NULL,
-                                 h1("BANNER Image here")
-                               ))),
-               fluidRow(column(12,
-                               align = "center",
-                               h1(
-                                 "LEARN"
-                               ))),
+                                 img(src = "/Images/learn.png", class = "bannerImg")
+                                 
+                               ))),    
                br(),
                br(),
 
       fluidRow(
         column(12,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
-      )),
+               box(class= "boxText",
+                 width = NULL, 
+                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+                  ))),
       br(), 
       br(),
       br(),
@@ -578,8 +581,11 @@ body <- dashboardBody(
       br(),
       fluidRow(
         column(12,
-               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
-        )),
+               box(class = "boxText",
+                   width = NULL, 
+                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+                   
+               ))),
       br(),
       fluidRow(column(
                  6,
@@ -597,8 +603,11 @@ body <- dashboardBody(
       br(), 
       fluidRow(
         column(12,
-               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
-        )),
+               box(class = "boxText",
+                 width = NULL, 
+                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+                 
+               ))),
       br(),
       fluidRow(column(
         6,
@@ -621,9 +630,20 @@ body <- dashboardBody(
     tabItem(
       tabName = "act",
       tags$div(class = "act-tab",
+               fluidRow(column(12,
+                               align = "center",
+                               box(
+                                 width = NULL,
+                                 img(src = "/Images/act.png", class = "bannerImg")
+                                 
+                               ))),  
       fluidRow(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
-      ),
+        column(12,
+               box(class = "boxText",
+                   width = NULL, 
+                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+                   
+               ))),
       fluidRow(),
       fluidRow()
     )
@@ -948,6 +968,7 @@ server <- function(input, output) {
   output$emp_race <- renderBillboarder({
     billboarder() %>% 
       bb_barchart(data = emp_race) %>% 
+      bb_bar(padding = 2) %>% 
       bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535")) 
     
   })
@@ -976,6 +997,45 @@ server <- function(input, output) {
       #bb_barchart(data = med_income_ethn)
   })
   
+  
+  output$transportation_race <- renderBillboarder({
+    
+    transp_race <- transp %>% 
+      filter(level!=1) %>% 
+      filter(race == "White alone"|race == "Black or African American Alone"|race == "Two or More Races") %>% 
+      mutate(label = str_remove(label, "Estimate!!Total!!")) %>% 
+      mutate(perc = round(estimate/Total*100,0)) %>% 
+      select(race, label, perc) %>% 
+      spread(race, perc)
+    
+    billboarder() %>% 
+      bb_barchart(data = transp_race, rotated = T) %>% 
+      bb_bar(padding = 2) %>% 
+      bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535"))
+    
+  })
+  
+  
+  output$transportation_ethnicity <- renderBillboarder({
+    
+    transp_ethn <- transp %>% 
+      filter(level!=1) %>% 
+      filter(race == "White Alone, Not Hispanic or Latino"|race == "Hispanic or Latino") %>% 
+      mutate(label = str_remove(label, "Estimate!!Total!!")) %>% 
+      mutate(perc = round(estimate/Total*100,0)) %>% 
+      select(race, label, perc) %>% 
+      filter(perc!=0) %>% 
+      spread(race, perc)
+    
+    billboarder() %>% 
+      bb_barchart(data = transp_ethn, rotated = T) %>% 
+      bb_bar(padding = 2) %>% 
+      bb_color(palette = c("#AC492E", "#113535", "#CB942B")) 
+    
+    
+  })
+  
+  
   # PLAY Tab ----
   
   output$weather <- renderPlotly({
@@ -988,9 +1048,9 @@ server <- function(input, output) {
                 line= list(color= 'rgb(97,112,48)', width =2.5), 
                 name = 'Average Temperature', 
                 yaxis = "y2") %>% 
-      layout(yaxis = list(side = 'right', title = "Precipitation (in inches)"),
-             xaxis = list(title = ""),
-             yaxis2 = list(side = 'left', overlaying = "y", title = "Temp (in F)"),
+      layout(xaxis = list(title = ""),
+             yaxis = list(side = 'right', title = "Precipitation (in inches)", showgrid = F),
+             yaxis2 = list(side = 'left', overlaying = "y", title = "Temp (in F)", showgrid = F),
              legend = list(orientation = 'h', y = -0.2, x = 0.2))
   })
   

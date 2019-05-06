@@ -87,6 +87,8 @@ transp <- transp %>%
                           race == "H" ~ "White Alone, Not Hispanic or Latino", 
                           race == "I" ~ "Hispanic or Latino"))
 
+#save(transp, file ="G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
+
 transp_race <- transp %>% 
   filter(level!=1) %>% 
   filter(race == "White alone"|race == "Black or African American Alone"|race == "Two or More Races") %>% 
@@ -96,8 +98,9 @@ transp_race <- transp %>%
   spread(race, perc)
 
 billboarder() %>% 
-  bb_barchart(data = transp_race) %>% 
-  bb_bar(padding = 2)
+  bb_barchart(data = transp_race, rotated = T) %>% 
+  bb_bar(padding = 2) %>% 
+  bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535"))
 
 
 transp_ethn <- transp %>% 

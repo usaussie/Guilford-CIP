@@ -279,5 +279,14 @@ margin-bottom: 20px;
 .tourismInfo {
   width:  100%;
   max-width: 100%;
-  heigh: auto;
+  height: auto;
 }
+
+
+.box .boxText {
+  text-align: left;
+  
+}
+  
+}
+
