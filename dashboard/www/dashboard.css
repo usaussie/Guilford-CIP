@@ -288,5 +288,8 @@ margin-bottom: 20px;
   
 }
   
+.bb svg .element {
+  overflow: scroll;
+  
+  
 }
-

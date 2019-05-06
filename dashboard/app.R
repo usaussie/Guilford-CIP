@@ -22,6 +22,7 @@ load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/voters.rda")
 food_stores <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/Food Stores/food stores full lst.rds")
 food_stores1 <- do.call(rbind, lapply(food_stores, data.frame, stringsAsFactors=FALSE))
 death <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_addresses_geocoded.rds")
@@ -45,6 +46,7 @@ schools1 <- do.call(rbind, lapply(schools, data.frame, stringsAsFactors=FALSE))
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/voters.rda")
 # food_stores <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/Food Stores/food stores full lst.rds")
 # food_stores1 <- do.call(rbind, lapply(food_stores, data.frame, stringsAsFactors=FALSE))
 # death <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_addresses_geocoded.rds")
@@ -674,8 +676,15 @@ body <- dashboardBody(
                    
                ))),
       fluidRow(
-        h1("Registered Voters"),
-        column(6),
+       
+        column(6,
+          box(
+            width = NULL, 
+            title = "Race and Party Affliation of Registered Voters",
+            billboarderOutput("voters_rp")
+            
+          )
+        ),
         column(6)
       ),
       fluidRow(
@@ -783,7 +792,7 @@ server <- function(input, output) {
       mutate(diff = round(diff,0)) %>% 
       pull (diff)
     
-    valueBox(paste0(value, " Mo"), "Men", icon = icon("arrow-up"), color= "orange")
+    valueBox(paste0(value, " months"), "Men", icon = icon("arrow-up"), color= "orange")
     
   })
   
@@ -1143,6 +1152,25 @@ server <- function(input, output) {
     
   })
   
+  
+  output$voters_rp <- renderBillboarder({
+    voters_rp <- active_voters %>% 
+      group_by(party_cd, race_code) %>% 
+      summarise(count = n()) %>% 
+      mutate(denom = sum(count)) %>% 
+      mutate(perc = round(count/denom*100, 0) ) %>% 
+      select(party_cd, race_code, perc) %>% 
+      filter(perc!=0) %>%
+      filter(!is.na(perc)) %>% 
+      spread(race_code, perc) 
+    
+    
+    billboarder() %>% 
+      bb_barchart(data = voters_rp) %>% 
+      bb_bar(padding = 2) %>% 
+      bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535"))
+      
+  })
   
 
 

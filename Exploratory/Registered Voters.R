@@ -61,11 +61,11 @@ library(billboarder)
 vote <- read_csv("G:/My Drive/SI/DataScience/data/Guilford County CIP/From Jason/Registered Voters/ncvoter41.csv") #temporary for no internet
 
 
-levels(as.factor(vote$county_desc))
+levels(as.factor(vote$party_cd))
 levels(as.factor(vote$race_code))
 
 # Race codes: "A" "B" "I" "M" "O" "U" "W"
-#Guessing? :
+# Guessing? :
 
 # A: Asian
 # B: Black
@@ -79,6 +79,27 @@ active_voters <- vote %>%
   filter(voter_status_desc == "ACTIVE") %>% 
   select(county_id, county_desc, voter_status_desc, race_code, ethnic_code, party_cd, gender_code, birth_year)
 
+
+active_voters <- active_voters %>% 
+  mutate(party_cd = case_when(party_cd == "CST"~"Constitution Party",
+                              party_cd == "DEM"~ "Democratic Party",
+                              party_cd == "GRE"~"Green Party",
+                              party_cd == "LIB" ~ "Libertarian Party", 
+                              party_cd == "REP"~ "Republican Party",
+                              party_cd == "UNA" ~ "Unaffiliated")) %>% 
+  mutate(race_code = case_when(race_code == "A" ~ "Asian",
+                               race_code == "B" ~ "Black", 
+                               race_code == "I"~"Native American",
+                               race_code == "M" ~ "Multiracial", 
+                               race_code == "O" ~"Other", 
+                               race_code == "U" ~"Unknown", 
+                               race_code == "W" ~"White")) %>% 
+  mutate(gender_code = case_when(gender_code == "M" ~ "Male", 
+                                 gender_code == "F" ~ "Female", 
+                                 gender_code == "U" ~ "Unknown"))
+
+
+#save (active_voters, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/voters.rda")
 
 # Party affiliation
 party <- active_voters %>% 
@@ -118,6 +139,7 @@ billboarder(data = voters_gender) %>%
 
 # Race and Party
 
+
 voters_rp <- active_voters %>% 
   group_by(party_cd, race_code) %>% 
   summarise(count = n()) %>% 
@@ -126,7 +148,7 @@ voters_rp <- active_voters %>%
   select(party_cd, race_code, perc) %>% 
   filter(perc!=0) %>%
   filter(!is.na(perc)) %>% 
-  spread(race_code, perc)
+  spread(race_code, perc) 
 
 
 billboarder() %>% 
