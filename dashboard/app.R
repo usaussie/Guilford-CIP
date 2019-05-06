@@ -8,38 +8,45 @@ library(plotly)
 
 # Load data ---------------------------------------------------------------
 
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
 
 
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
-# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
+food_stores <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/Food Stores/food stores full lst.rds")
+food_stores1 <- do.call(rbind, lapply(food_stores, data.frame, stringsAsFactors=FALSE))
+death <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_addresses_geocoded.rds")
+parks <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/Parks/parks full lst.rds")
+parks1 <- do.call(rbind, lapply(parks, data.frame, stringsAsFactors=FALSE))
+schools <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/Parks/schools full lst.rds")
+schools1 <- do.call(rbind, lapply(schools, data.frame, stringsAsFactors=FALSE))
 
 # Define individual UI elements -------------------------------------------------------------
 
@@ -375,12 +382,15 @@ body <- dashboardBody(
       fluidRow(
         column(12, 
                align = "center", 
-               h2("Food Deserts Map"))
+               h1("Food Deserts Map"),
+               leafletOutput("food_stores_map")
+               )
       ), 
       fluidRow(
         column(12, 
                align = "center", 
-               h2("deaths"))
+               h1("Deaths Map"),
+               leafletOutput("death_map"))
       )
     )),
     
@@ -528,7 +538,8 @@ body <- dashboardBody(
         column(12, 
                box(
                  width = NULL, 
-                 title = "Parks Map"
+                 title = "Parks Map",
+                 leafletOutput("parks_map")
                ))
       )
     )),
@@ -561,7 +572,8 @@ body <- dashboardBody(
         column(12, 
                box(
                  width = NULL, 
-                 title = "Schools Map"
+                 title = "Schools Map",
+                 leafletOutput("schools_map")
                )
       )),
       
@@ -895,6 +907,19 @@ server <- function(input, output) {
                 opacity = 1)
   })
   
+  output$food_stores_map <- renderLeaflet({
+    leaflet(data = food_stores1) %>%
+      addTiles() %>%
+      addCircleMarkers(lat = ~lat, lng = ~lon, popup = ~name,
+                       stroke = TRUE, fillOpacity = 0.075) 
+  })
+  
+  output$death_map <- renderLeaflet({
+    leaflet(data = death) %>%
+      addTiles() %>%
+      addMarkers(lat = ~location.y, lng = ~location.x,
+                 clusterOptions = markerClusterOptions())
+  })
   # LEARN tab ----
   
   output$students <- renderBillboarder({
@@ -960,6 +985,13 @@ server <- function(input, output) {
       bb_y_axis(tick = list(format = suffix("%"))) %>% 
       bb_color(palette = c("#89ada7"))     
     
+  })
+  
+  output$schools_map <- renderLeaflet({
+    leaflet(data = schools1) %>%
+      addTiles() %>%
+      addMarkers(lat = ~lat, lng = ~lon, popup = ~name,
+                 clusterOptions = markerClusterOptions())
   })
   
 
@@ -1054,6 +1086,12 @@ server <- function(input, output) {
              legend = list(orientation = 'h', y = -0.2, x = 0.2))
   })
   
+  output$parks_map <- renderLeaflet({
+    leaflet(data = parks1) %>%
+      addTiles() %>%
+      addMarkers(lat = ~lat, lng = ~lon, popup = ~name,
+                 clusterOptions = markerClusterOptions())
+  })
 }
 
 
