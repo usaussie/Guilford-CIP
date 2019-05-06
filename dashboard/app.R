@@ -673,8 +673,25 @@ body <- dashboardBody(
                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
                    
                ))),
-      fluidRow(),
-      fluidRow()
+      fluidRow(
+        h1("Registered Voters"),
+        column(6),
+        column(6)
+      ),
+      fluidRow(
+        column(4, 
+               offset = 1,
+               box(
+                 width = NULL, 
+                 "Video"
+               )), 
+        column(6, 
+               box( class = "boxGsheet",
+                 width = NULL, 
+                 htmlOutput("gsheet")
+               ))
+        
+      )
     )
     
       ))
@@ -1103,12 +1120,33 @@ server <- function(input, output) {
              legend = list(orientation = 'h', y = -0.2, x = 0.2))
   })
   
+  
   output$parks_map <- renderLeaflet({
     leaflet(data = parks1) %>%
       addTiles() %>%
       addMarkers(lat = ~lat, lng = ~lon, popup = ~name,
                  clusterOptions = markerClusterOptions())
   })
+
+  
+  # ACT Tab ----
+  
+  output$gsheet <- renderUI({
+    
+    projects <- gs_title("projects")
+    act_project <- gs_read(ss=projects, ws = "Sheet1")
+    
+    list <- act_project %>% 
+      select(act) 
+    
+    HTML(paste(list$act, sep = '</br>'))
+    
+  })
+  
+  
+
+
+
 }
 
 

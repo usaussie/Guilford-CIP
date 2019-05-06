@@ -174,3 +174,19 @@ save(acs_ethn_county, file = "G:/My Drive/SI/DataScience/data/Guilford County CI
 
 ```
 
+
+
+```{r gsheet }
+
+projects <- gs_title("projects")
+act_project <- gs_read(ss=projects, ws = "Sheet1")
+
+list <- act_project %>% 
+  select(act) 
+
+HTML(paste(list$act, sep = '<ul> <li> </li>'))
+
+
+
+```
+
