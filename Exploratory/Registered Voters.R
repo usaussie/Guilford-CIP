@@ -118,7 +118,7 @@ billboarder(data = voters_gender) %>%
 
 # Race and Party
 
-active_voters %>% 
+voters_rp <- active_voters %>% 
   group_by(party_cd, race_code) %>% 
   summarise(count = n()) %>% 
   mutate(denom = sum(count)) %>% 
@@ -130,26 +130,80 @@ active_voters %>%
 
 
 billboarder() %>% 
-  bb_barchart(data = active_voters)
+  bb_barchart(data = voters_rp)
   
-
-
 
 # gender and Party
 
+voters_gp <- active_voters %>% 
+  group_by(gender_code, party_cd) %>% 
+  summarise(count = n()) %>% 
+  mutate(denom = sum(count)) %>% 
+  mutate(perc = round(count/denom*100, 0) ) %>% 
+  select(gender_code, party_cd, perc) %>% 
+  filter(perc!=0) %>%
+  filter(!is.na(perc), !is.na(gender_code)) %>% 
+  spread(party_cd, perc)
+
+billboarder() %>% 
+  bb_barchart(data = voters_gp)
 
 
 
 # Age for active voters?
 
+allvoters_age <- vote %>% 
+  mutate(current_age  = 2019 - birth_year) %>% 
+mutate(age_bin = case_when(current_age<25 ~ "less than 25", 
+                           current_age<60 ~ "25- 60", 
+                           current_age >=60 ~"above 60")) %>% 
+  select(age_bin, voter_status_desc) %>% 
+  group_by(age_bin, voter_status_desc) %>% 
+  summarise(count = n()) %>% 
+  mutate(denom = sum(count)) %>% 
+  mutate(perc = round(count/denom*100, 0)) %>% 
+  filter(perc!=0) %>% 
+  select(age_bin, voter_status_desc, perc) %>% 
+  spread(voter_status_desc, perc)
 
+billboarder(data = allvoters_age) %>% 
+  bb_barchart()
 
 
 # Age and Party
 
 
+voters_ap <- vote %>% 
+  mutate(current_age  = 2019 - birth_year) %>% 
+  mutate(age_bin = case_when(current_age<25 ~ "less than 25", 
+                             current_age<60 ~ "25- 60", 
+                             current_age >=60 ~"above 60")) %>% 
+  select(age_bin, party_cd) %>% 
+  group_by(age_bin, party_cd) %>% 
+  summarise(count = n()) %>% 
+  mutate(denom = sum(count)) %>% 
+  mutate(perc = round(count/denom*100, 0)) %>% 
+  filter(perc!=0) %>% 
+  select(age_bin, party_cd, perc) %>% 
+  spread(party_cd, perc)
+
+billboarder() %>% 
+  bb_barchart(data = voters_ap
+              )
 
 
 
+#Voter status and race
 
+voter_status <- vote %>% 
+  group_by(race_code, voter_status_desc) %>% 
+  summarise(count = n()) %>% 
+  mutate(denom = sum(count)) %>% 
+  mutate(perc = round(count/denom*100,0)) %>% 
+  select(race_code, voter_status_desc, perc) %>% 
+  spread(voter_status_desc,perc )
+
+billboarder(data = voter_status) %>% 
+  bb_barchart()
+  
 
