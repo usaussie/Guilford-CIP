@@ -1,53 +1,155 @@
 require(tidyverse)
 require(siverse)
 require(fs)
+library(billboarder)
+
 
 #This is also available from Jason in that folder, but he shared this code as to  how he obtained it.
-temp <- file_temp()
-download.file("http://dl.ncsbe.gov.s3.amazonaws.com/data/ncvoter41.zip", temp)
-temp <- unzip(temp)
-vote <- read_tsv(temp, guess_max = Inf)
+# temp <- file_temp()
+# download.file("http://dl.ncsbe.gov.s3.amazonaws.com/data/ncvoter41.zip", temp)
+# temp <- unzip(temp)
+# vote <- read_tsv(temp, guess_max = Inf)
 
-vote <- read_csv("/Volumes/GoogleDrive/My Drive/SI/DataScience/data/Guilford County CIP/From Jason/Registered Voters/ncvoter41.csv") #temporary for no internet
+#vote <- read_csv("/Volumes/GoogleDrive/My Drive/SI/DataScience/data/Guilford County CIP/From Jason/Registered Voters/ncvoter41.csv") #temporary for no internet
 
-guilfordzips <- c(27263, 27214, 27233, 27235, 27249, 27401, 27403, 27405, 27406, 27407, 27408, 27409, 27410, 27455, 27265, 27282, 27260, 27262, 27283, 27301, 27310, 27313, 27357, 27358, 27377)
+# guilfordzips <- c(27263, 27214, 27233, 27235, 27249, 27401, 27403, 27405, 27406, 27407, 27408, 27409, 27410, 27455, 27265, 27282, 27260, 27262, 27283, 27301, 27310, 27313, 27357, 27358, 27377)
+# 
+# vote <- vote %>% filter(zip_code%in% guilfordzips)
+# # Make address for geocoding --------------------------------------------------------------------------------------
+# 
+# 
+# vote <- vote %>%
+#   mutate(full_address = glue("{res_street_address}, {res_city_desc}, {state_cd} {zip_code}"))
+# 
+# # Guilford ArcGIS -------------------------------------------------------------------------------------------------
+# 
+# distinct_full_address <- vote %>% distinct(full_address)
+# 
+# pb <- progress_estimated(nrow(distinct_full_address))
+# 
+# geo_pull <- distinct_full_address %>%
+#   mutate(json = map(full_address, function(full_address) {
+# 
+#     try(pb$tick()$print())
+# 
+#     GET(url = "http://gis.guilfordcountync.gov/arcgis/rest/services/Geocode_Services/GCStrts_Parcels_Composite/GeocodeServer/findAddressCandidates",
+#         query = list(f = "json",
+#                      SingleLine = full_address,
+#                      outSR = "4326",
+#                      outFields = "StreetName, Match_addr",
+#                      maxLocations = 1)) %>%
+#       pluck("content") %>%
+#       rawToChar() %>%
+#       jsonlite::fromJSON() %>%
+#       pluck("candidates")
+# 
+#   }))
+# 
+# arcgis_geocoded <- geo_pull %>%
+#   mutate(json = map(json, ~ if(is.null(.x)) {
+#     tibble(attributes.StreetName = NA_character_, attributes.Match_addr = NA_character_)
+#   }
+#   else do.call(data.frame, c(.x, stringsAsFactors = FALSE)))) %>%
+#   unnest()
+# 
+# write_rds(arcgis_geocoded, "~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/voter_addresses_geocoded.rds")
 
-vote <- vote %>% filter(zip_code%in% guilfordzips)
-# Make address for geocoding --------------------------------------------------------------------------------------
 
 
-vote <- vote %>%
-  mutate(full_address = glue("{res_street_address}, {res_city_desc}, {state_cd} {zip_code}"))
+# Voters ------------------------------------------------------------------
 
-# Guilford ArcGIS -------------------------------------------------------------------------------------------------
+vote <- read_csv("G:/My Drive/SI/DataScience/data/Guilford County CIP/From Jason/Registered Voters/ncvoter41.csv") #temporary for no internet
 
-distinct_full_address <- vote %>% distinct(full_address)
 
-pb <- progress_estimated(nrow(distinct_full_address))
+levels(as.factor(vote$county_desc))
+levels(as.factor(vote$race_code))
 
-geo_pull <- distinct_full_address %>%
-  mutate(json = map(full_address, function(full_address) {
+# Race codes: "A" "B" "I" "M" "O" "U" "W"
+#Guessing? :
 
-    try(pb$tick()$print())
+# A: Asian
+# B: Black
+# I: American Indian
+# M: Multiracial
+# O: Other
+# U: Unknown
+# W: White
 
-    GET(url = "http://gis.guilfordcountync.gov/arcgis/rest/services/Geocode_Services/GCStrts_Parcels_Composite/GeocodeServer/findAddressCandidates",
-        query = list(f = "json",
-                     SingleLine = full_address,
-                     outSR = "4326",
-                     outFields = "StreetName, Match_addr",
-                     maxLocations = 1)) %>%
-      pluck("content") %>%
-      rawToChar() %>%
-      jsonlite::fromJSON() %>%
-      pluck("candidates")
+active_voters <- vote %>% 
+  filter(voter_status_desc == "ACTIVE") %>% 
+  select(county_id, county_desc, voter_status_desc, race_code, ethnic_code, party_cd, gender_code, birth_year)
 
-  }))
 
-arcgis_geocoded <- geo_pull %>%
-  mutate(json = map(json, ~ if(is.null(.x)) {
-    tibble(attributes.StreetName = NA_character_, attributes.Match_addr = NA_character_)
-  }
-  else do.call(data.frame, c(.x, stringsAsFactors = FALSE)))) %>%
-  unnest()
+# Party affiliation
+party <- active_voters %>% 
+  count(party_cd) 
 
-write_rds(arcgis_geocoded, "~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/voter_addresses_geocoded.rds")
+billboarder(data = party) %>% 
+  bb_donutchart()
+
+
+# Ethnicity
+
+voters_ethn <- active_voters %>% 
+  count(ethnic_code) 
+ 
+billboarder(data = voters_ethn) %>% 
+  bb_donutchart()
+
+# Race
+
+voters_race <- active_voters %>% 
+  count(race_code)
+
+billboarder(data = voters_race) %>% 
+  bb_donutchart()
+
+
+
+# Gender
+
+voters_gender <- active_voters %>% 
+  count(gender_code) %>% 
+  filter(!is.na(gender_code))
+
+billboarder(data = voters_gender) %>% 
+  bb_donutchart()
+
+
+# Race and Party
+
+active_voters %>% 
+  group_by(party_cd, race_code) %>% 
+  summarise(count = n()) %>% 
+  mutate(denom = sum(count)) %>% 
+  mutate(perc = round(count/denom*100, 0) ) %>% 
+  select(party_cd, race_code, perc) %>% 
+  filter(perc!=0) %>%
+  filter(!is.na(perc)) %>% 
+  spread(race_code, perc)
+
+
+billboarder() %>% 
+  bb_barchart(data = active_voters)
+  
+
+
+
+# gender and Party
+
+
+
+
+# Age for active voters?
+
+
+
+
+# Age and Party
+
+
+
+
+
+
+
