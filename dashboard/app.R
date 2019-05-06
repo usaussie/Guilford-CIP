@@ -75,11 +75,11 @@ body <- dashboardBody(
     tabItem(
       tabName = "overview",
       tags$div(class = "overview-tab",
-      # fluidRow(column(
-      #   12,
-      #   align = "center",
-      #   h1("GUILFORD COMMUNITY INDICATORS DASHBOARD")
-      # )),
+      fluidRow(column(
+        12,
+        align = "center",
+        h1("GUILFORD COMMUNITY INDICATORS DASHBOARD")
+      )),
       
       # fluidRow(column(12,
       #                 align = "center",
@@ -87,7 +87,7 @@ body <- dashboardBody(
       #                   width = NULL,
       #                   img(src='/images/guilford-logo.png', align = "left")
       #                 ))),
-      
+
       fluidRow(column(
         12,
         box(
@@ -638,7 +638,7 @@ body <- dashboardBody(
 ui <- dashboardPage(
   title = "Guilford CIP",
   skin = "blue",
-  dashboardHeader(title = "GUILFORD CIP DASHBOARD"),
+  dashboardHeader(title = "Guilford Community Indicators", tags$li(img(src='/images/guilford-logo.png'), class="dropdown")),
   sidebar,
   body
 )
