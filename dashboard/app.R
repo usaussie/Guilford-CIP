@@ -5,7 +5,6 @@ library(tidyverse)
 library(leaflet)
 library(plotly)
 
-
 # Load data ---------------------------------------------------------------
 
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
@@ -23,7 +22,13 @@ load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
-
+food_stores <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/Food Stores/food stores full lst.rds")
+food_stores1 <- do.call(rbind, lapply(food_stores, data.frame, stringsAsFactors=FALSE))
+death <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_addresses_geocoded.rds")
+parks <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/Parks/parks full lst.rds")
+parks1 <- do.call(rbind, lapply(parks, data.frame, stringsAsFactors=FALSE))
+schools <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/Parks/schools full lst.rds")
+schools1 <- do.call(rbind, lapply(schools, data.frame, stringsAsFactors=FALSE))
 
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
@@ -40,6 +45,13 @@ load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportati
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
+# food_stores <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/Food Stores/food stores full lst.rds")
+# food_stores1 <- do.call(rbind, lapply(food_stores, data.frame, stringsAsFactors=FALSE))
+# death <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_addresses_geocoded.rds")
+# parks <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/Parks/parks full lst.rds")
+# parks1 <- do.call(rbind, lapply(parks, data.frame, stringsAsFactors=FALSE))
+# schools <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/Parks/schools full lst.rds")
+# schools1 <- do.call(rbind, lapply(schools, data.frame, stringsAsFactors=FALSE))
 
 # Define individual UI elements -------------------------------------------------------------
 
@@ -68,7 +80,8 @@ sidebar <- dashboardSidebar(
 
 body <- dashboardBody(
   tags$head(
-    tags$link(rel = "stylesheet", type = "text/css", href = "dashboard.css")
+    tags$link(rel = "stylesheet", type = "text/css", href = "dashboard.css"),
+    tags$script(src="scripts/myscript.js")
   ),
 
   # Start Tabs ----
@@ -85,7 +98,7 @@ body <- dashboardBody(
         )
       )),
       
-     fluidRow(column(
+      fluidRow(column(
         12,
         box(class = "boxText",
           width = NULL,
@@ -104,43 +117,54 @@ body <- dashboardBody(
       tags$div(class = "overview-icons",
         fluidRow(
             column(2,
+                   tags$div(class="box-link",
+                   tags$a(href = "#shiny-tab-civic", "data-toggle"="tab", "data-value"="civic",
                    box(
                      title = "CIVIC",
                      width = NULL,
                      icon("chart-bar", "fa-10x")
-                   )),
-            
+                    )))),
             column(2,
+                   tags$div(class="box-link",
+                   tags$a(href = "#shiny-tab-live", "data-toggle"="tab", "data-value"="live",
                    box(
                      title = "LIVE",
                      width = NULL,
                      icon("home", "fa-10x")
-                   )),
+                   )))),
             column(2,
+                   tags$div(class="box-link",
+                   tags$a(href = "#shiny-tab-work", "data-toggle"="tab", "data-value"="work",
                    box(
                      title = "WORK",
                      width = NULL,
                      icon("briefcase", "fa-10x")
-                   )),
+                   )))),
             column(2,
+                   tags$div(class="box-link",
+                   tags$a(href = "#shiny-tab-play", "data-toggle"="tab", "data-value"="play",
                    box(
                      title = "PLAY",
                      width = NULL,
                      icon("tree", "fa-10x")
-                   )),
+                   )))),
             
             column(2,
+                   tags$div(class="box-link",
+                   tags$a(href = "#shiny-tab-learn", "data-toggle"="tab", "data-value"="learn",
                    box(
                      title = "LEARN",
                      width = NULL,
                      icon("graduation-cap", "fa-10x")
-                   )),
+                   )))),
             column(2,
+                   tags$div(class="box-link",
+                   tags$a(href = "#shiny-tab-act", "data-toggle"="tab", "data-value"="act",
                    box(
                      title = "ACT",
                      width = NULL,
                      icon("handshake", "fa-10x")
-                   ))
+                   ))))
             
             ) #End of the row
         ) #End of overview-icons class
@@ -375,12 +399,15 @@ body <- dashboardBody(
       fluidRow(
         column(12, 
                align = "center", 
-               h2("Food Deserts Map"))
+               h1("Food Deserts Map"),
+               leafletOutput("food_stores_map")
+               )
       ), 
       fluidRow(
         column(12, 
                align = "center", 
-               h2("deaths"))
+               h1("Deaths Map"),
+               leafletOutput("death_map"))
       )
     )),
     
@@ -528,7 +555,8 @@ body <- dashboardBody(
         column(12, 
                box(
                  width = NULL, 
-                 title = "Parks Map"
+                 title = "Parks Map",
+                 leafletOutput("parks_map")
                ))
       )
     )),
@@ -561,7 +589,8 @@ body <- dashboardBody(
         column(12, 
                box(
                  width = NULL, 
-                 title = "Schools Map"
+                 title = "Schools Map",
+                 leafletOutput("schools_map")
                )
       )),
       
@@ -912,6 +941,19 @@ server <- function(input, output) {
                 opacity = 1)
   })
   
+  output$food_stores_map <- renderLeaflet({
+    leaflet(data = food_stores1) %>%
+      addTiles() %>%
+      addCircleMarkers(lat = ~lat, lng = ~lon, popup = ~name,
+                       stroke = TRUE, fillOpacity = 0.075) 
+  })
+  
+  output$death_map <- renderLeaflet({
+    leaflet(data = death) %>%
+      addTiles() %>%
+      addMarkers(lat = ~location.y, lng = ~location.x,
+                 clusterOptions = markerClusterOptions())
+  })
   # LEARN tab ----
   
   output$students <- renderBillboarder({
@@ -977,6 +1019,13 @@ server <- function(input, output) {
       bb_y_axis(tick = list(format = suffix("%"))) %>% 
       bb_color(palette = c("#89ada7"))     
     
+  })
+  
+  output$schools_map <- renderLeaflet({
+    leaflet(data = schools1) %>%
+      addTiles() %>%
+      addMarkers(lat = ~lat, lng = ~lon, popup = ~name,
+                 clusterOptions = markerClusterOptions())
   })
   
 
@@ -1072,6 +1121,14 @@ server <- function(input, output) {
   })
   
   
+  output$parks_map <- renderLeaflet({
+    leaflet(data = parks1) %>%
+      addTiles() %>%
+      addMarkers(lat = ~lat, lng = ~lon, popup = ~name,
+                 clusterOptions = markerClusterOptions())
+  })
+
+  
   # ACT Tab ----
   
   output$gsheet <- renderUI({
@@ -1087,6 +1144,9 @@ server <- function(input, output) {
   })
   
   
+
+
+
 }
 
 
