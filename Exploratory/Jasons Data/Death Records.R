@@ -267,7 +267,7 @@ deaths <- dr %>%
 
 save(deaths, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/deaths.rda")
 
-
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/deaths.rda")
 library(billboarder)
 
 
