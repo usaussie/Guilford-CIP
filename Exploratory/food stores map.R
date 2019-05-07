@@ -1,8 +1,12 @@
 library(leaflet)
 library(shiny)
 
-food_stores <- read_rds("~/Google Drive File Stream/My Drive/SI/DataScience/data/Guilford County CIP/Food Stores/food stores full lst.rds")
+#food_stores <- read_rds("~/Google Drive File Stream/My Drive/SI/DataScience/data/Guilford County CIP/Food Stores/food stores full lst.rds")
+food_stores <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/Food Stores/food stores full lst.rds")
 food_stores1 <- do.call(rbind, lapply(food_stores, data.frame, stringsAsFactors=FALSE))
+
+#save(food_stores1, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/food_stores.rda")
+
 
 ui <- fluidPage(
   leafletOutput("food_stores_map")

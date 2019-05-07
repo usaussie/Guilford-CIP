@@ -23,14 +23,14 @@ load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda"
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/voters.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/food_stores.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/schools.rda")
 projects <- read_csv("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/projects.csv")
-food_stores <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/Food Stores/food stores full lst.rds")
-food_stores1 <- do.call(rbind, lapply(food_stores, data.frame, stringsAsFactors=FALSE))
+
 death <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_addresses_geocoded.rds")
 parks <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/Parks/parks full lst.rds")
 parks1 <- do.call(rbind, lapply(parks, data.frame, stringsAsFactors=FALSE))
-schools <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/Parks/schools full lst.rds")
-schools1 <- do.call(rbind, lapply(schools, data.frame, stringsAsFactors=FALSE))
+
 
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
@@ -48,14 +48,15 @@ schools1 <- do.call(rbind, lapply(schools, data.frame, stringsAsFactors=FALSE))
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/voters.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/food_stores.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/schools.rda")
+
 #projects <- read_csv("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/projects.csv")
-# food_stores <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/Food Stores/food stores full lst.rds")
-# food_stores1 <- do.call(rbind, lapply(food_stores, data.frame, stringsAsFactors=FALSE))
+
 # death <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_addresses_geocoded.rds")
 # parks <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/Parks/parks full lst.rds")
 # parks1 <- do.call(rbind, lapply(parks, data.frame, stringsAsFactors=FALSE))
-# schools <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/Parks/schools full lst.rds")
-# schools1 <- do.call(rbind, lapply(schools, data.frame, stringsAsFactors=FALSE))
+
 
 # Define individual UI elements -------------------------------------------------------------
 
@@ -90,10 +91,17 @@ body <- dashboardBody(
 
   # Start Tabs ----
   tabItems(
-    # Tab for Description of the project----
+    # OVERVIEW Tab ----
     tabItem(
       tabName = "overview",
-      tags$div(class = "overview-tab",
+      tags$div(
+        class = "overview-tab",
+      fluidRow(
+        column(12,
+               align = "center",
+               img(src = "/images/guilford-logo.png", class = "logoImg"))
+      ),
+      
       fluidRow(column(
         12,
         box(
@@ -391,7 +399,7 @@ body <- dashboardBody(
           8,
           box(
             width = NULL,
-            title = "Vacant Houses+ Permits?",
+            title = "Percentage of Vacant Houses",
             leafletOutput("vacant_houses_map")
             
           )

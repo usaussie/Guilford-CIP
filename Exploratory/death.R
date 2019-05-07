@@ -3,6 +3,9 @@ library(shiny)
 
 death <- read_rds("~/Google Drive File Stream/My Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_addresses_geocoded.rds")
 
+death <- read_csv("G:/My Drive/SI/DataScience/data/Guilford County CIP/From Jason/deathRecordsMaster.csv")
+
+
 acsvars <- load_variables(2017, "acs5", cache = T) %>%
   mutate(level = str_count(label, pattern = "!!")) %>%
   rowwise() %>%

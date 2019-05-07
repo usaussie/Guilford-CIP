@@ -9,8 +9,10 @@ options(warnPartialMatchArgs = F)
 
 # Dictionary ------------------------------------------------------------------------------------------------------
 
-dicdr <- read_excel("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/2014 DEATH DETAIL DESCRIPTION_NS.XLS") %>%
+dicdr <- read_excel("G:/My Drive/SI/DataScience/data/Guilford County CIP/From Jason/2014 DEATH DETAIL DESCRIPTION_NS.XLS") %>%
   clean_names()
+# dicdr <- read_excel("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/2014 DEATH DETAIL DESCRIPTION_NS.XLS") %>%
+#   clean_names()
 
 dicdr <- dicdr %>% fill(everything())
 
@@ -23,7 +25,11 @@ dicdr <- dicdr %>%
 
 # Data ------------------------------------------------------------------------------------------------------------
 
-dr <- read_csv("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_records_test.csv", guess_max = 553841) %>%
+# dr <- read_csv("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_records_test.csv", guess_max = 553841) %>%
+#   clean_names() %>%
+#   remove_empty(which = "cols")
+
+dr <- read_csv("G:/My Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_records_test.csv", guess_max = 553841) %>%
   clean_names() %>%
   remove_empty(which = "cols")
 
@@ -244,3 +250,28 @@ dr %>%
   ggplot(aes(x = lon, y = lat, color = age)) +
   geom_point(size = .4) +
   scale_color_viridis(option = "plasma", direction = -1)
+
+
+
+# Billboarder for dashboard -----------------------------------------------
+
+pct <- function(x) (x*100)
+
+deaths <- dr %>%
+  filter(age <= 135, sex != "U", whiteblack != "Other") %>% 
+  unite(sexrace, whiteblack, sex) %>%
+  tabyl(manner, sexrace) %>%
+  adorn_percentages("col") %>%
+  untabyl() %>% 
+  mutate_if(is.numeric, pct )
+
+save(deaths, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/deaths.rda")
+
+
+library(billboarder)
+
+
+deaths_un <- deaths %>% filter(manner== "Accident"|manner == "Homicide"| manner == "Suicide"| manner == "Unknown")
+
+billboarder() %>% 
+  bb_barchart(data = deaths_un)
