@@ -88,8 +88,8 @@ active_voters <- active_voters %>%
                               party_cd == "REP"~ "Republican Party",
                               party_cd == "UNA" ~ "Unaffiliated")) %>% 
   mutate(race_code = case_when(race_code == "A" ~ "Asian",
-                               race_code == "B" ~ "Black", 
-                               race_code == "I"~"Native American",
+                               race_code == "B" ~ "Black or African American", 
+                               race_code == "I"~"American Indian or Alaska Native",
                                race_code == "M" ~ "Multiracial", 
                                race_code == "O" ~"Other", 
                                race_code == "U" ~"Unknown", 
@@ -100,6 +100,8 @@ active_voters <- active_voters %>%
 
 
 #save (active_voters, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/voters.rda")
+
+#load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/voters.rda")
 
 # Party affiliation
 party <- active_voters %>% 

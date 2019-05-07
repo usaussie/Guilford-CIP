@@ -145,7 +145,15 @@ race_county <- acs_lst$county %>%
   filter(county == "Guilford County") %>% 
   filter(race != "hispanic") %>% 
   filter(race!="nonhispanicwhite") %>% 
-  select(race,n)
+  select(race,n) %>% 
+  mutate(race = str_to_sentence(race)) %>% 
+  mutate(race = case_when(race == "Hawaii_pacisl" ~ "Native Hawaiian or Other Pacific Islander",
+                          race == "Black" ~ "Black or African American",
+                          race == "Multi" ~ "Multiracial",
+                          race == "Native" ~ "American Indian or Alaska Native", 
+                          TRUE~race))
+
+levels(as.factor(race_county$race))
 
 billboarder() %>% 
   bb_donutchart(data = race_county) %>% 

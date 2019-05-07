@@ -23,6 +23,7 @@ load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda"
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/voters.rda")
+projects <- read_csv("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/projects.csv")
 food_stores <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/Food Stores/food stores full lst.rds")
 food_stores1 <- do.call(rbind, lapply(food_stores, data.frame, stringsAsFactors=FALSE))
 death <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_addresses_geocoded.rds")
@@ -47,6 +48,7 @@ schools1 <- do.call(rbind, lapply(schools, data.frame, stringsAsFactors=FALSE))
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/voters.rda")
+#projects <- read_csv("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/projects.csv")
 # food_stores <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/Food Stores/food stores full lst.rds")
 # food_stores1 <- do.call(rbind, lapply(food_stores, data.frame, stringsAsFactors=FALSE))
 # death <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_addresses_geocoded.rds")
@@ -208,7 +210,7 @@ body <- dashboardBody(
                         ,
                column(
                  5,
-                 box(width = NULL, title = "Age Distribution in Guilford County",
+                 box(width = NULL, title = "Age",
                      billboarderOutput("age"))
                ),
                column(
@@ -483,13 +485,13 @@ body <- dashboardBody(
       fluidRow(
         column(6,
                box(width = NULL, 
-                 "Means of Transportation by Race",
+                 title = "Means of Transportation by Race",
                  billboarderOutput("transportation_race")
                )),
         column(6, 
                box(
                  width = NULL, 
-                 "Means of Transportation by Ethnicity",
+                 title = "Means of Transportation by Ethnicity",
                  billboarderOutput("transportation_ethnicity")
                )
           
@@ -685,7 +687,12 @@ body <- dashboardBody(
             
           )
         ),
-        column(6)
+        column(6, 
+               box(
+                 width = NULL, 
+                 title = "Gender and Party Affiliation of Registered Voters",
+                 billboarderOutput("voters_gp")
+               ))
       ),
       fluidRow(
         column(4, 
@@ -695,9 +702,9 @@ body <- dashboardBody(
                  "Video"
                )), 
         column(6, 
-               box( class = "boxGsheet",
+               box(
                  width = NULL, 
-                 htmlOutput("gsheet")
+                 htmlOutput("act_projects")
                ))
         
       )
@@ -723,7 +730,7 @@ ui <- dashboardPage(
 # Define the server -----------------------------------------------------
 
 server <- function(input, output) {
-  # Civic Tab ----
+  # CIVIC Tab ----
   
   output$total_population <- renderValueBox({
     total <- gc_sex %>%
@@ -752,7 +759,8 @@ server <- function(input, output) {
   
   output$age <- renderBillboarder({
     billboarder() %>%
-      bb_lollipop(data = gc_ages, point_size = 5, point_color = "#617030", line_color = "#617030")
+      bb_lollipop(data = gc_ages, point_size = 5, point_color = "#617030", line_color = "#617030") %>% 
+      bb_axis(x =list(height = 80))
       #bb_barchart(data = gc_ages, stacked = T)
   })
   
@@ -982,16 +990,17 @@ server <- function(input, output) {
     
     plot <- guilford %>% 
       select(Institution_Name, total_complete_avg) %>% 
-      mutate(total_complete_avg = total_complete_avg*100)
+      mutate(total_complete_avg = total_complete_avg*100) %>% 
+      arrange(desc(total_complete_avg))
     
     billboarder() %>%
       bb_barchart(data = plot, rotated = TRUE) %>% 
       #bb_axis(x = list(tick = list(fit = T)), y = list(tick = list(fit = T))) %>%
-      bb_add_style(text = "font-size: 75%"
-      ) %>% 
+      #bb_add_style(text = "font-size: 75%"  ) %>% 
       bb_legend(show = FALSE) %>% 
       bb_y_axis(tick = list(format = suffix("%"))) %>% 
-      bb_color(palette = c("#88853B")) 
+      bb_color(palette = c("#88853B")) %>% 
+      bb_x_axis(tick = list(width = 250))
     
     
     
@@ -1001,16 +1010,17 @@ server <- function(input, output) {
     
     plot <- guilford %>% 
       select(Institution_Name, full_time_retention_rate_mean) %>% 
-      mutate(`Full Time Retention Rate` = full_time_retention_rate_mean*100)
+      mutate(full_time_retention_rate_mean = full_time_retention_rate_mean*100) %>% 
+      arrange(desc(full_time_retention_rate_mean))
     
     billboarder() %>%
       bb_lollipop(data = plot, x = "full_time_retention_rate_mean", y = "Institution_Name", rotated = F) %>% 
       #bb_axis(x = list(tick = list(fit = T)), y = list(tick = list(fit = T))) %>%
-      bb_add_style(text = "font-size: 75%"
-      ) %>% 
+      #bb_add_style(text = "font-size: 75%"     ) %>% 
       bb_legend(show = FALSE) %>% 
       bb_y_axis(tick = list(format = suffix("%"))) %>% 
-      bb_color(palette = c("#113535"))
+      bb_color(palette = c("#113535")) %>% 
+      bb_axis(x =list(height = 60))
     
     
   })
@@ -1018,15 +1028,17 @@ server <- function(input, output) {
   output$debt <- renderBillboarder({
     
     plot <- guilford %>% 
-      select(Institution_Name, debt_to_earnings_ratio_best)
+      select(Institution_Name, debt_to_earnings_ratio_best) %>% 
+      arrange(desc(debt_to_earnings_ratio_best))
     
     billboarder() %>%
       bb_barchart(data = plot, x = "debt_to_earnings_ratio_best", y = "Institution_Name", rotated = T) %>% 
       #bb_axis(x = list(tick = list(fit = T)), y = list(tick = list(fit = T))) %>%
-      bb_add_style(text = "font-size: 75%") %>% 
+      #bb_add_style(text = "font-size: 75%") %>% 
       bb_legend(show = FALSE) %>% 
       bb_y_axis(tick = list(format = suffix("%"))) %>% 
-      bb_color(palette = c("#89ada7"))     
+      bb_color(palette = c("#89ada7"))   %>% 
+      bb_x_axis(tick = list(width = 250))  
     
   })
   
@@ -1044,7 +1056,8 @@ server <- function(input, output) {
     billboarder() %>% 
       bb_barchart(data = emp_race) %>% 
       bb_bar(padding = 2) %>% 
-      bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535")) 
+      bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535")) %>% 
+      bb_y_axis(tick = list(format = suffix("%")))
     
   })
   
@@ -1053,10 +1066,14 @@ server <- function(input, output) {
       filter(race!="White Alone, Not Hispanic or Latino") %>% 
       filter(race!="Hispanic or Latino") %>% 
       filter(!is.na(estimate)) %>% 
-      select(race, estimate)
+      select(race, estimate) %>% 
+      arrange(desc(estimate))
     
     billboarder() %>% 
-      bb_lollipop(data = med_income_race, point_color = "#CB942B", line_color = "#CB942B") 
+      bb_lollipop(data = med_income_race, point_color = "#CB942B", line_color = "#CB942B") %>% 
+      bb_axis(x =list(height = 40))%>% 
+      bb_y_axis(tick = list(format = htmlwidgets::JS("d3.format(',')")
+      ))
     
       #bb_barchart(data = med_income_race)
   })
@@ -1068,7 +1085,10 @@ server <- function(input, output) {
       select(race, estimate)
     
     billboarder() %>% 
-      bb_lollipop(data = med_income_ethn, point_color = "#026637", line_color = "#026637")
+      bb_lollipop(data = med_income_ethn, point_color = "#026637", line_color = "#026637") %>% 
+      bb_axis(x =list(height = 20)) %>% 
+      bb_y_axis(tick = list(format = htmlwidgets::JS("d3.format(',')")
+      ))
       #bb_barchart(data = med_income_ethn)
   })
   
@@ -1086,7 +1106,9 @@ server <- function(input, output) {
     billboarder() %>% 
       bb_barchart(data = transp_race, rotated = T) %>% 
       bb_bar(padding = 2) %>% 
-      bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535"))
+      bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535"))%>% 
+      bb_y_axis(tick = list(format = suffix("%"))) %>% 
+      bb_x_axis(tick = list(width = 250))
     
   })
   
@@ -1105,7 +1127,9 @@ server <- function(input, output) {
     billboarder() %>% 
       bb_barchart(data = transp_ethn, rotated = T) %>% 
       bb_bar(padding = 2) %>% 
-      bb_color(palette = c("#AC492E", "#113535", "#CB942B")) 
+      bb_color(palette = c("#AC492E", "#113535", "#CB942B")) %>% 
+      bb_x_axis(tick = list(width = 250)) %>% 
+      bb_y_axis(tick = list(format = suffix("%")))
     
     
   })
@@ -1140,15 +1164,32 @@ server <- function(input, output) {
   
   # ACT Tab ----
   
-  output$gsheet <- renderUI({
+  output$act_projects <- renderUI({
     
-    projects <- gs_title("projects")
-    act_project <- gs_read(ss=projects, ws = "Sheet1")
+  value <- projects %>% 
+    select(act)
     
-    list <- act_project %>% 
-      select(act) 
+    HTML(paste(value$act, sep = '</br>'))
     
-    HTML(paste(list$act, sep = '</br>'))
+  })
+  
+  output$voters_gp <- renderBillboarder({
+    voters_gp <- active_voters %>% 
+      group_by(gender_code, party_cd) %>% 
+      summarise(count = n()) %>% 
+      mutate(denom = sum(count)) %>% 
+      mutate(perc = round(count/denom*100, 0) ) %>% 
+      select(gender_code, party_cd, perc) %>% 
+      filter(perc!=0) %>%
+      filter(!is.na(perc), !is.na(gender_code)) %>% 
+      spread(party_cd, perc)
+    
+    billboarder() %>% 
+      bb_barchart(data = voters_gp) %>% 
+      bb_bar(padding = 2) %>% 
+      bb_color(palette = c("#071a1e", "#026637", "#88853b", "#3a7993")) %>% 
+      bb_y_axis(tick = list(format = suffix("%"))) 
+    
     
   })
   
@@ -1166,9 +1207,11 @@ server <- function(input, output) {
     
     
     billboarder() %>% 
-      bb_barchart(data = voters_rp) %>% 
+      bb_barchart(data = voters_rp, rotated = F) %>% 
       bb_bar(padding = 2) %>% 
-      bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535"))
+      bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535"))%>% 
+      bb_y_axis(tick = list(format = suffix("%")))  %>% 
+      bb_axis(x =list(height = 50)) 
       
   })
   

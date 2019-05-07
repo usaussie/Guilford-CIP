@@ -116,10 +116,10 @@ line-height: 1.1;
 
 .box {
   
-    width: -moz-min-content;  /* Firefox/Gecko */
-    width: -webkit-min-content;   /* Webkit */    
-    width: min-content;
-    width: 100%;
+    /*width: -moz-min-content;  /* Firefox/Gecko */
+   /* width: -webkit-min-content;   /* Webkit */    
+    /*width: min-content;
+    width: 100%;*/
 
     text-align: center;
     position: relative;
