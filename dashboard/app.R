@@ -27,11 +27,13 @@ load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda"
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/voters.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/deaths.rda")
 schools <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/schools.rds")
 parks <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/parks.rds")
 food_stores <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/food_stores.rds")
-projects <- read_csv("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/projects.csv")
+projects_csv <- read_csv("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/projects.csv")
 death <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_addresses_geocoded.rds")
+projects_txt <- file("./data/projects_act.txt")
 
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
@@ -49,6 +51,7 @@ death <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/From Jaso
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/voters.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/deaths.rda")
 # projects <- read_csv("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/projects.csv")
 # death <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_addresses_geocoded.rds")
 # schools <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/schools.rds")
@@ -199,7 +202,7 @@ body <- dashboardBody(
       br(),
 
       fluidRow(column (2,
-                       img(src = "pop_age.png", class = "popAge")
+                       img(src = "/images/pop_age.png", class = "popAge")
                        # fluidRow(
                        #   box(
                        #     width = NULL,
@@ -265,6 +268,7 @@ body <- dashboardBody(
                #   <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search">
                #   </form>
 
+      
       fluidRow(column(
                  12,
                  box(
@@ -281,6 +285,26 @@ body <- dashboardBody(
       ))),
       br(),
       br(),
+      
+      fluidRow(
+        column(
+          12,
+          box(
+            class = "boxText",
+            width = NULL,
+            h1("DEMOGRAPHICS")
+          )
+        )
+        
+      ),
+      fluidRow(
+        column(
+          12,
+          box(class = "boxText",
+              width = NULL,
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+          ))),
+      
 
       # fluidRow(
       #   column(
@@ -293,31 +317,72 @@ body <- dashboardBody(
       #
       #   )
       # ),
-
-
+      
       fluidRow(
         column(
-          4,
+          4, 
+          offset  = 1, 
           box(
             width = NULL,
             title = "",
             br(),
             br(),
-            img(src = "life_expectancy.png", class = "leInfo")
-
-          )
+            img(src = "/images/life_expectancy.png", class = "leInfo")
+            )
         ),
-
+        
         column(
-          8,
+          5,
           box(
-            width = NULL,
-            title= "BIRTHS IN GUILFORD COUNTY",
-            plotlyOutput("birth2")
+            width = NULL, 
+            title = "Image"
           )
-
         )
       ),
+
+
+      # fluidRow(
+      #   column(
+      #     4,
+      #     box(
+      #       width = NULL,
+      #       title = "",
+      #       br(),
+      #       br(),
+      #       img(src = "life_expectancy.png", class = "leInfo")
+      # 
+      #     )
+      #   ),
+      # 
+      #   column(
+      #     8,
+      #     box(
+      #       width = NULL,
+      #       title= "BIRTHS IN GUILFORD COUNTY",
+      #       plotlyOutput("birth2")
+      #     )
+      # 
+      #   )
+      # ),
+      
+      fluidRow(
+        column(
+          4,
+          box(title = " ",
+            class ="boxText",
+            width = NULL, 
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc. Bibendum enim facilisis gravida neque convallis. Ac felis donec et odio pellentesque diam volutpat commodo sed. Rhoncus est pellentesque elit ullamcorper dignissim cras tincidunt lobortis feugiat.")
+        ),
+        column(
+          8, 
+          box(
+            width = NULL, 
+            title= "Births Over Time",
+            plotlyOutput("birth2")
+          )
+        )
+      ),
+      
 
 
       fluidRow(
@@ -374,6 +439,7 @@ body <- dashboardBody(
       #   )
       #
       # ),
+      
 
       fluidRow(
         column(12,
@@ -383,6 +449,44 @@ body <- dashboardBody(
                ))
       ),
 
+      fluidRow(
+        column(
+          5,
+          box(
+            width = NULL,
+            billboarderOutput("deaths"),
+            title = "Unnatural Deaths by Race and Sex"
+          )
+        ),
+        column(
+          7,
+          box(
+            width = NULL, 
+            leafletOutput("death_map"),
+            title = "Deaths: Map"
+          )
+        )
+      ),
+      
+      fluidRow(
+        column(
+          12,
+          box(
+            class = "boxText",
+            width = NULL,
+            h1("HOUSING")
+          )
+        )
+      ),
+      
+      fluidRow(
+        column(12,
+               box(class = "boxText", width = NULL,
+                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget arcu dictum varius duis at consectetur lorem donec massa. Ut consequat semper viverra nam libero justo laoreet sit amet. Egestas congue quisque egestas diam in arcu. Suspendisse potenti nullam ac tortor vitae purus. At ultrices mi tempus imperdiet nulla malesuada pellentesque."
+               ))
+      ),
+      
+      
       fluidRow(
         column(
           3,
@@ -407,18 +511,16 @@ body <- dashboardBody(
       ),
 
       fluidRow(
-        column(12,
-               align = "center",
-               h1("Food Deserts Map"),
-               leafletOutput("food_stores_map")
+        column(10,
+               offset =1, 
+               box(
+                 width = NULL, 
+                 leafletOutput("food_stores_map")
+               )
+               
                )
       ),
-      fluidRow(
-        column(12,
-               align = "center",
-               h1("Deaths Map"),
-               leafletOutput("death_map"))
-      )
+      fluidRow()
     )),
 
     # WORK Tab ----
@@ -514,7 +616,7 @@ body <- dashboardBody(
                                align = "center",
                                box(
                                  width = NULL,
-                                 img(src = "play.png", class = "bannerImg")
+                                 img(src = "/images/play.png", class = "bannerImg")
 
                                ))),
       fluidRow(
@@ -546,7 +648,7 @@ body <- dashboardBody(
       column(2,
              box(
                width = NULL,
-               img(src = "tourism.png", class = "tourismInfo")
+               img(src = "/images/tourism.png", class = "tourismInfo")
              )),
       column(6,
              br(),
@@ -705,7 +807,7 @@ body <- dashboardBody(
                offset = 1,
                box(
                  width = NULL,
-                 "Video"
+                 htmlOutput("txt_act_projects")
                )),
         column(6,
                box(
@@ -839,6 +941,17 @@ server <- function(input, output) {
       pull (diff)
 
     valueBox(paste0(value, " months"), "Race: African American", icon = icon("arrow-up"), color= "orange")
+  })
+  
+  output$deaths <- renderBillboarder({
+    deaths_un <- deaths %>% filter(manner== "Accident"|manner == "Homicide"| manner == "Suicide"| manner == "Unknown")
+    
+    billboarder() %>% 
+      bb_barchart(data = deaths_un) %>% 
+      bb_y_axis(tick = list(format = suffix("%"))) %>%
+      bb_color(palette = c("#ac492e", "#113535", "#88853b", "#3a7993"))
+      
+    
   })
 
 
@@ -1169,10 +1282,20 @@ server <- function(input, output) {
 
 
   # ACT Tab ----
+  
+  output$txt_act_projects <- renderUI({
+    
+    value <- readLines(projects_txt)
+    
+    txt <- paste(value,  sep ='\n')
+    
+    
+    
+  })
 
   output$act_projects <- renderUI({
 
-  value <- projects %>%
+  value <- projects_csv %>%
     select(act)
 
     HTML(paste(value$act, sep = '</br>'))
