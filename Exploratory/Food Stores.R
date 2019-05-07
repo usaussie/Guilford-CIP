@@ -11,8 +11,8 @@ options(warnPartialMatchArgs = F)
 
 # Only uncomment and run the below code if you make a change - prevent using our API unless necessary.
 
-#
-#
+
+
 # place_types <- c("supermarket",
 #                  "grocery_or_supermarket")
 #
@@ -73,11 +73,24 @@ all_results %>% select(-types, -iter, -place_type_search) %>% distinct
 
 
 
-all_results %>%
+all_results <- all_results %>%
   mutate(istype_gas_station = map_lgl(types, ~any("gas_station" %in% .x)))
 
 results <- all_results %>%
+  filter(!istype_gas_station) %>%
   distinct(id, name, place_id, price_level, rating, user_ratings_total, lat, lon)
+
+
+results <- results %>%
+  mutate(place_details = map(place_id, ~google_place_details(.x)))
+
+results <- results %>%
+  mutate(zip = map_dbl(place_details, ~.x %>% pluck("result") %>% pluck("address_components") %>% filter(types == "postal_code") %>% pull(short_name) %>% as.numeric))
+
+# Zip codes in Guilford county: https://www.bestplaces.net/find/zip.aspx?st=nc&county=37081
+guilfordzips <- c(27263, 27214, 27233, 27235, 27249, 27401, 27403, 27405, 27406, 27407, 27408, 27409, 27410, 27455, 27265, 27282, 27260, 27262, 27283, 27301, 27310, 27313, 27357, 27358, 27377)
+
+results <- results %>% filter(zip %in% guilfordzips | is.na(zip))
 
 write_rds(results, "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/food_stores.rds")
 
