@@ -68,5 +68,8 @@ all_results %>% count(place_id,  sort = T) %>% count(n)
 results <- all_results %>%
   distinct(id, name, place_id, rating, user_ratings_total, lat, lon)
 
-google_map(data = results, location = guilford) %>%
-  add_markers()
+write_rds(results, "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/parks.rds")
+
+
+# google_map(data = results, location = guilford) %>%
+#   add_markers()

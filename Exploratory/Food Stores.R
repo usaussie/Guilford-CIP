@@ -79,5 +79,8 @@ all_results %>%
 results <- all_results %>%
   distinct(id, name, place_id, price_level, rating, user_ratings_total, lat, lon)
 
+write_rds(results, "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/food_stores.rds")
+
+
 google_map(data = results, location = guilford) %>%
   add_markers()
