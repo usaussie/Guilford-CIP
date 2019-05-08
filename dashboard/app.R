@@ -28,6 +28,7 @@ load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/voters.rda")
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/deaths.rda")
+load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/tourism.rda")
 schools <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/schools.rds")
 parks <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/parks.rds")
 food_stores <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/food_stores.rds")
@@ -52,6 +53,7 @@ projects_txt <- file("./data/projects_act.txt")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/voters.rda")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/deaths.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/tourism.rda")
 # projects <- read_csv("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/projects.csv")
 # death <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_addresses_geocoded.rds")
 # schools <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/schools.rds")
@@ -651,6 +653,18 @@ body <- dashboardBody(
                )
 
         )
+      ),
+      fluidRow(
+        column(6,
+               box(
+                 width = NULL, 
+                 title = "Community Projects"
+               )),
+        column(6, 
+               box(
+                 width = NULL, 
+                 title = "Resources"
+               ))
       )
     )),
 
@@ -725,7 +739,8 @@ body <- dashboardBody(
       column(6,
              box(
                width = NULL, 
-               title = "Visitor spending over time"
+               title = "Visitor Spending Over Time", 
+               plotlyOutput("tourism_spending")
              ))
       ),
 
@@ -738,6 +753,31 @@ body <- dashboardBody(
                  width = NULL,
                  title = "Parks Map",
                  leafletOutput("parks_map")
+               ))
+      ), 
+      fluidRow(
+        column(6, 
+               box(
+                 width = NULL, 
+                 img(src = "/images/play02.png")
+               )),
+        column(
+          6, 
+          box(
+          width = NULL, 
+          title = "Strava img here"
+        ))
+      ),
+      fluidRow(
+        column(6,
+               box(
+                 width = NULL, 
+                 title = "Community Projects"
+               )),
+        column(6, 
+               box(
+                 width = NULL, 
+                 title = "Resources"
                ))
       )
     )),
@@ -854,7 +894,19 @@ body <- dashboardBody(
         box(width = NULL,
             title = "Retention Rates for Guilford County's Colleges and Universities",
             billboarderOutput("retention"))
-      ))
+      )),
+      fluidRow(
+        column(6,
+               box(
+                 width = NULL, 
+                 title = "Community Projects"
+               )),
+        column(6, 
+               box(
+                 width = NULL, 
+                 title = "Resources"
+               ))
+      )
 
     )),
 
@@ -1382,6 +1434,23 @@ server <- function(input, output) {
       addMarkers(lat = ~lat, lng = ~lon, popup = ~name,
                  clusterOptions = markerClusterOptions())
   })
+  
+  
+  output$tourism_spending <- renderBillboarder({
+    plot <- tourism %>% 
+      select(year, expenditures, tax_savings)
+    
+    plot_ly(data = plot) %>% 
+      add_trace(x =~year, y = ~expenditures, type = 'scatter', mode = 'lines+markers',
+                line= list(color= '#113535', width =2.5),
+                marker = list(color= '#113535', width =3),
+                name = 'Expenditures') %>% 
+      layout(yaxis = list(title = " Expenditure in Millions", separatethousands = TRUE, side = 'left'),
+             xaxis = list(title = "", tickangle = 45, tickfont = list(size = 10)),
+             legend = list(orientation = 'h', y = -0.2, x = 0.2))
+  })
+  
+  
 
 
   # ACT Tab ----
@@ -1424,6 +1493,7 @@ server <- function(input, output) {
 
 
   })
+  
 
 
   output$voters_rp <- renderBillboarder({
@@ -1446,6 +1516,8 @@ server <- function(input, output) {
       bb_axis(x =list(height = 50))
 
   })
+  
+  
 
 
 

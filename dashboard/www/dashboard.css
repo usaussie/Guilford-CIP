@@ -263,6 +263,7 @@ margin-bottom: 20px;
 .live02{
   width: 100%;
   height: auto;
+  vertical-align: center;
 }
 
 .subtitle h1{
@@ -271,6 +272,12 @@ margin-bottom: 20px;
   font-size: 100px;
 }
 
+
+.work01{
+  width: 90%;
+  height: auto;
+  
+}
 
 .work02{
   width: 90%;
@@ -284,6 +291,12 @@ margin-bottom: 20px;
 }
 
 .learn02{
+   width: 100%;
+  height: auto;
+}
+
+
+.act01{
    width: 100%;
   height: auto;
 }
