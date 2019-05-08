@@ -198,9 +198,13 @@ body <- dashboardBody(
                    img(src = "/images/civic.png", class = "bannerImg")
                  )
                )),
-      fluidRow(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
-      ),
+               fluidRow(
+                 column(
+                   12,
+                   box(class = "boxText",
+                       width = NULL,
+                       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                   ))),
       br(),
 
       fluidRow(column (2,
@@ -718,6 +722,7 @@ body <- dashboardBody(
         )
       ),
       
+      fluidRow(),
       
       fluidRow(
        
@@ -756,16 +761,23 @@ body <- dashboardBody(
                ))
       ), 
       fluidRow(
+        column(12,
+               box(class = "boxText",
+                   width = NULL,
+                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+                   
+               ))),
+      fluidRow(
         column(6, 
-               box(
+               box( title = "",
                  width = NULL, 
-                 img(src = "/images/play02.png")
+                 img(src = "/images/play02.png", class = "play02")
                )),
         column(
           6, 
-          box(
+          box( title = "Strava HeatMap  of Bike/Running Lanes",
           width = NULL, 
-          title = "Strava img here"
+          img(src = "/images/strava.png", class ="strava")
         ))
       ),
       fluidRow(
@@ -922,17 +934,18 @@ body <- dashboardBody(
                                  img(src = "/Images/act.png", class = "bannerImg")
 
                                ))),
-      fluidRow(
-        column(12,
-               box(class = "boxText",
-                   width = NULL,
-                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
-
-               ))),
+               fluidRow(
+                 column(
+                   12,
+                   box(class = "boxText",
+                       width = NULL,
+                       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                   ))),
+      
       fluidRow(
         column(
           8, 
-          offset = 1,
+          offset = 2,
           box(
             width = NULL, 
             img(src = "/images/act01.jpg", class ="act01")
@@ -940,6 +953,13 @@ body <- dashboardBody(
         )
       ),
       
+      fluidRow(
+        column(12,
+               box(class = "boxText",
+                   width = NULL,
+                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+                   
+               ))),
       fluidRow(
 
         column(6,
@@ -960,12 +980,12 @@ body <- dashboardBody(
       fluidRow(
         column(4,
                offset = 1,
-               box(
+               box(title = "Community Projects",
                  width = NULL,
                  htmlOutput("txt_act_projects")
                )),
         column(6,
-               box(
+               box(title = "Resources",
                  width = NULL,
                  htmlOutput("act_projects")
                ))
