@@ -59,6 +59,7 @@ projects_txt <- file("./data/projects_act.txt")
 # schools <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/schools.rds")
 # food_stores <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/food_stores.rds")
 # parks <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/parks.rds")
+# projects_txt <- file("./data/projects_act.txt")
 
 
 # Define individual UI elements -------------------------------------------------------------
