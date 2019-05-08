@@ -283,16 +283,14 @@ body <- dashboardBody(
             width = NULL,
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
       ))),
-      br(),
-      br(),
       
       fluidRow(
         column(
           12,
           box(
-            class = "boxText",
+            class = "subtitle",
             width = NULL,
-            h1("DEMOGRAPHICS")
+            h1("PEOPLE")
           )
         )
         
@@ -325,17 +323,15 @@ body <- dashboardBody(
           box(
             width = NULL,
             title = "",
-            br(),
-            br(),
             img(src = "/images/life_expectancy.png", class = "leInfo")
             )
         ),
         
         column(
           5,
-          box(
+          box(title = "",
             width = NULL, 
-            title = "Image"
+            img(src = "/images/live01.jpg", class = "live01")
           )
         )
       ),
@@ -410,13 +406,13 @@ body <- dashboardBody(
                ))
       ),
 
-      fluidRow(column(
-        10,
-        offset = 1,
-        align = "center",
-        box(width = NULL,
-            plotlyOutput("births"))
-      )),
+      # fluidRow(column(
+      #   10,
+      #   offset = 1,
+      #   align = "center",
+      #   box(width = NULL,
+      #       plotlyOutput("births"))
+      # )),
 
       # fluidRow(
       #   column(
@@ -451,7 +447,7 @@ body <- dashboardBody(
 
       fluidRow(
         column(
-          5,
+          7,
           box(
             width = NULL,
             billboarderOutput("deaths"),
@@ -459,22 +455,30 @@ body <- dashboardBody(
           )
         ),
         column(
-          7,
+          5, 
           box(
-            width = NULL, 
-            leafletOutput("death_map"),
-            title = "Deaths: Map"
+            width = NULL,
+            title = "Head of household by race",
+            billboarderOutput("hh_race")
           )
         )
+        # column(
+        #   7,
+        #   box(
+        #     width = NULL, 
+        #     leafletOutput("death_map"),
+        #     title = "Deaths: Map"
+        #   )
+        # )
       ),
       
       fluidRow(
         column(
           12,
           box(
-            class = "boxText",
+            class = "subtitle",
             width = NULL,
-            h1("HOUSING")
+            h1("PLACES")
           )
         )
       ),
@@ -486,22 +490,34 @@ body <- dashboardBody(
                ))
       ),
       
-      
       fluidRow(
         column(
-          3,
-          box(
-            width = NULL,
-            title = "Head of household by race",
-            billboarderOutput("hh_race")
+          5, 
+          box(title =  "",
+            width = NULL, 
+            img(src = "/images/live02.jpg", class = "live02")
           )
-
+          
         ),
+        
+        column(7,
+               box(title = "Access to Food Stores",
+                 width = NULL, 
+                 leafletOutput("food_stores_map")
+               )
+               
+        )
+      ),
+      
+      fluidRow(
+        
         column(
           8,
-          box(
+          offset = 2,
+          box(class = "boxText",
             width = NULL,
             title = "Percentage of Vacant Houses",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien.",
             leafletOutput("vacant_houses_map")
 
           )
@@ -510,17 +526,19 @@ body <- dashboardBody(
 
       ),
 
+      
       fluidRow(
-        column(10,
-               offset =1, 
+        column(6,
                box(
                  width = NULL, 
-                 leafletOutput("food_stores_map")
-               )
-               
-               )
-      ),
-      fluidRow()
+                 title = "Community Projects"
+               )),
+        column(6, 
+               box(
+                 width = NULL, 
+                 title = "Resources"
+               ))
+      )
     )),
 
     # WORK Tab ----
@@ -546,42 +564,71 @@ body <- dashboardBody(
             )
           )
       ),
-
-      fluidRow(
-        column(6,
-               align  ="center",
-               box(
-                 width = NULL,
-                 title = "Median Household Income by Race",
-                 billboarderOutput("med_inc_race")
-               )),
-        column(5,
-               box(
-                 width = NULL,
-                 title = "Median Household Income by Ethnicity",
-                 billboarderOutput("med_inc_ethn")
-               ))
-      ),
-      fluidRow(
-        column(
-          12,
-          box(class = "boxText",
-            width = NULL,
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
-          )
-        )
-      ),
-
+      
       fluidRow(
         column(10,
                offset = 1,
                align = "center",
-
+               
                box(width = NULL,
                    title = "Employment  Percentage (Civilian Labor Force) by Race and Sex",
                    billboarderOutput("emp_race"))
-               )
+        )
       ),
+      
+      fluidRow(
+        column(
+          12,
+          box(class = "boxText",
+              width = NULL,
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+          )
+        )
+      ),
+      
+      fluidRow(
+        column(
+          10, offset = 1,
+          box(
+            width = NULL, 
+            img(src = "/images/work01.jpg", class ="work01")
+          )
+        )
+      ),
+      br(),
+
+      fluidRow(
+        column(6,
+               align  ="center",
+               box(class ="boxText",
+                 width = NULL,
+                 title = "Median Household Income by Race",
+                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. ",
+                 "",
+                 "",
+                 billboarderOutput("med_inc_race")
+               )),
+        column(5,
+               box(class = "boxText",
+                 width = NULL,
+                 title = "Median Household Income by Ethnicity",
+                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id.    ",
+                 billboarderOutput("med_inc_ethn")
+               ))
+      ),
+      
+      br(),
+      br(),
+      
+      fluidRow(
+        column(10, offset = 1,
+               box(
+                 width = NULL, 
+                 img(src = "/images/work02.jpg", class = "work02")
+               ))
+      ),
+
+      
       fluidRow(
         column(12,
                box(class = "boxText",
@@ -636,21 +683,37 @@ body <- dashboardBody(
                ))
       ),
       fluidRow(
-        column(4,
-               box(
-                 width = NULL,
-                 br(),
-                 br(),
-                 br(),
-                 HTML('<iframe id = "myFrame" src="https://www.youtube.com/embed/ScMzIvxBSi4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
-               )),
+        column(
+          8, 
+          box(
+            width = NULL, 
+            #HTML('<iframe id = "myFrame" src="https://www.youtube.com/embed/ScMzIvxBSi4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
+            HTML('<iframe width="1100" height="260" src="https://www.youtube.com/embed/ScMzIvxBSi4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
+          )
+        ),
+        
+        column(
+          4, 
+          box(
+            class = "boxText",
+             width = NULL,
+             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+             
+             
+          )
+        )
+      ),
+      
+      
+      fluidRow(
+       
 
       column(2,
              box(
                width = NULL,
                img(src = "/images/tourism.png", class = "tourismInfo")
              )),
-      column(6,
+      column(4,
              br(),
              br(),
              br(),
@@ -658,13 +721,19 @@ body <- dashboardBody(
                width = NULL,
                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
 
+             )),
+      column(6,
+             box(
+               width = NULL, 
+               title = "Visitor spending over time"
              ))
       ),
 
       fluidRow(),
 
       fluidRow(
-        column(12,
+        column(10,
+               offset = 1,
                box(
                  width = NULL,
                  title = "Parks Map",
@@ -698,7 +767,8 @@ body <- dashboardBody(
       br(),
       br(),
       fluidRow(
-        column(12,
+        column(10,
+               offset = 1,
                box(
                  width = NULL,
                  title = "Schools Map",
@@ -711,13 +781,18 @@ body <- dashboardBody(
       br(),
       fluidRow(
         column(6,
-               align = "center",
-               h2("IMAGE")
+               box(
+                 width = NULL, 
+                 img(src = "/images/learn01.jpg", class = "learn01")
+               )
         ),
         column(6,
-               align = "center",
-               h2("IMAGE")
-        )),
+               box(class = "boxText",
+                   width = NULL,
+                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+                   
+               ))
+        ),
       br(),
       br(),
       fluidRow(
@@ -750,6 +825,23 @@ body <- dashboardBody(
 
                ))),
       br(),
+      
+      fluidRow(
+        column(6,
+               box(class = "boxText",
+                   width = NULL,
+                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+                   
+                   
+               )
+        ),
+        column(6,
+               box(
+                 width = NULL, 
+                 img(src = "/images/learn02.jpg", class= "learn02")
+               )
+        )
+        ),
       fluidRow(column(
         6,
         box(width = NULL,
@@ -785,6 +877,17 @@ body <- dashboardBody(
                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
 
                ))),
+      fluidRow(
+        column(
+          8, 
+          offset = 1,
+          box(
+            width = NULL, 
+            img(src = "/images/act01.jpg", class ="act01")
+          )
+        )
+      ),
+      
       fluidRow(
 
         column(6,
@@ -1027,19 +1130,19 @@ server <- function(input, output) {
   })
 
 
-  output$births <- renderPlotly({
-
-    plot_ly(data = births, x =~yob, y = ~Females, type = 'scatter', mode = 'lines+markers',
-            line= list(color= '#89ada7', width =2.5),
-            marker = list(color= '#89ada7', width =3),
-            name = 'Females') %>%
-      add_trace(y=~Males, line = list(color='#AC492E'),
-                marker = list(color= '#AC492E'),
-                name = 'Males') %>%
-      layout(yaxis = list(title = "", separatethousands = TRUE),
-             xaxis = list(title = "", tickangle = 45, tickfont = list(size = 10)),
-             legend = list(orientation = 'h', y = -0.2, x = 0.2))
-  })
+  # output$births <- renderPlotly({
+  # 
+  #   plot_ly(data = births, x =~yob, y = ~Females, type = 'scatter', mode = 'lines+markers',
+  #           line= list(color= '#89ada7', width =2.5),
+  #           marker = list(color= '#89ada7', width =3),
+  #           name = 'Females') %>%
+  #     add_trace(y=~Males, line = list(color='#AC492E'),
+  #               marker = list(color= '#AC492E'),
+  #               name = 'Males') %>%
+  #     layout(yaxis = list(title = "", separatethousands = TRUE),
+  #            xaxis = list(title = "", tickangle = 45, tickfont = list(size = 10)),
+  #            legend = list(orientation = 'h', y = -0.2, x = 0.2))
+  # })
 
 
   output$hh_race <- renderBillboarder({

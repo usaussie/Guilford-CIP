@@ -237,7 +237,7 @@ margin-bottom: 20px;
 .myFrame {
   
   padding:  100px 0;
-  width: auto;
+  width: 100%;
   max-width:  100%;
   height: auto;
 }
@@ -260,3 +260,30 @@ margin-bottom: 20px;
   
 }
 
+.live02{
+  width: 100%;
+  height: auto;
+}
+
+.subtitle h1{
+  font-weight: 700;
+  letter-spacing: 3px;
+  font-size: 100px;
+}
+
+
+.work02{
+  width: 90%;
+  height: auto;
+  
+}
+
+.learn01{
+   width: 100%;
+  height: auto;
+}
+
+.learn02{
+   width: 100%;
+  height: auto;
+}
