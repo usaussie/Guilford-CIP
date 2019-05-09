@@ -1,5 +1,6 @@
 require(tidyverse)
 require(siverse)
+require(httr)
 
 pm <- read_csv("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/fourMonthsPermitting.csv") %>%
   bind_rows(read_csv("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/fiveYearPermitting.csv"), .id = "source") %>%
@@ -17,33 +18,48 @@ pm <- pm %>%
 
 # Guilford ArcGIS -------------------------------------------------------------------------------------------------
 
-distinct_full_address <- pm %>% distinct(full_address)
+# distinct_full_address <- pm %>% distinct(full_address)
+#
+# pb <- progress_estimated(nrow(distinct_full_address))
+#
+# geo_pull <- distinct_full_address %>%
+#   mutate(json = map(full_address, function(full_address) {
+#
+#     try(pb$tick()$print())
+#
+#     GET(url = "http://gis.guilfordcountync.gov/arcgis/rest/services/Geocode_Services/GCStrts_Parcels_Composite/GeocodeServer/findAddressCandidates",
+#         query = list(f = "json",
+#                      SingleLine = full_address,
+#                      outSR = "4326",
+#                      outFields = "StreetName, Match_addr",
+#                      maxLocations = 1)) %>%
+#       pluck("content") %>%
+#       rawToChar() %>%
+#       jsonlite::fromJSON() %>%
+#       pluck("candidates")
+#
+#     }))
+#
+# arcgis_geocoded <- geo_pull %>%
+#   mutate(json = map(json, ~ if(is.null(.x)) {
+#     tibble(attributes.StreetName = NA_character_, attributes.Match_addr = NA_character_)
+#   }
+#     else do.call(data.frame, c(.x, stringsAsFactors = FALSE)))) %>%
+#   unnest()
+#
+# write_rds(arcgis_geocoded, "~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/permit_addresses_geocoded.rds")
 
-pb <- progress_estimated(nrow(distinct_full_address))
+arcgis_geocoded <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/permit_addresses_geocoded.rds")
 
-geo_pull <- distinct_full_address %>%
-  mutate(json = map(full_address, function(full_address) {
+pm <- pm %>%
+  left_join(arcgis_geocoded) %>%
+  rename(lat = location.y, lon = location.x)
 
-    try(pb$tick()$print())
 
-    GET(url = "http://gis.guilfordcountync.gov/arcgis/rest/services/Geocode_Services/GCStrts_Parcels_Composite/GeocodeServer/findAddressCandidates",
-        query = list(f = "json",
-                     SingleLine = full_address,
-                     outSR = "4326",
-                     outFields = "StreetName, Match_addr",
-                     maxLocations = 1)) %>%
-      pluck("content") %>%
-      rawToChar() %>%
-      jsonlite::fromJSON() %>%
-      pluck("candidates")
+#Center of Guilford County, NC:
+guilford <- c(36.086046, -79.796661)
 
-    }))
-
-arcgis_geocoded <- geo_pull %>%
-  mutate(json = map(json, ~ if(is.null(.x)) {
-    tibble(attributes.StreetName = NA_character_, attributes.Match_addr = NA_character_)
-  }
-    else do.call(data.frame, c(.x, stringsAsFactors = FALSE)))) %>%
-  unnest()
-
-write_rds(arcgis_geocoded, "~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/permit_addresses_geocoded.rds")
+pm %>%
+  filter(!is.na(permitfees)) %>%
+google_map(data = ., location = guilford) %>%
+  add_heatmap(lat = "lat", lon = "lon", weight = "permitfees")
