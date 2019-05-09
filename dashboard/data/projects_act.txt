@@ -3,3 +3,13 @@ Project 1
 Project 2
 
 Added from git
+
+Trying with br breaks <BR><BR>
+
+TEST<BR><BR>
+
+Trying with line return ns \n\n
+
+test2\n\n
+
+test3\n\n
