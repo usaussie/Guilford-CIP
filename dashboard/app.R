@@ -1261,8 +1261,8 @@ server <- function(input, output) {
     
     pal <- colorNumeric(palette = "viridis",   domain = vacant_housing$estimate)
 
-    vacant_housing %>%
-      leaflet() %>%
+    
+      leaflet(data = vacant_housing) %>%
       addTiles(options = tileOptions(minZoom = 5)) %>%
       setMaxBounds(-84, 35, -79, 37) %>% 
       addPolygons(
