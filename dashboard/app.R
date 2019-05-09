@@ -7,34 +7,62 @@ library(plotly)
 
 # Load data ---------------------------------------------------------------
 
+#load from github
+
+load("./data/ages.rda")
+load("./data/race.rda")
+load("./data/ethnicity.rda")
+load("./data/sex.rda")
+load("./data/emp_race.rda")
+load("./data/age.rda")
+load("./data/med_income.rda")
+load("./data/vacant_housing.rda")
+load("./data/geo_places.rda")
+load("./data/hh_race.rda")
+load("./data/life_expectancy.rda")
+load("./data/births.rda")
+load("./data/weather.rda")
+load("./data/ipeds.rda")
+load("./data/transportation.rda")
+load("./data/voters.rda")
+load("./data/deaths.rda")
+load("./data/tourism.rda")
+schools <- read_rds("./data/schools.rds")
+parks <- read_rds("./data/parks.rds")
+food_stores <- read_rds("./data/food_stores.rds")
+projects_csv <- read_csv("./data/projects.csv")
+projects_txt <- read_lines("./data/projects_act.txt")
+
+
+#load from drive
 
 
 
 
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/voters.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/deaths.rda")
-load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/tourism.rda")
-schools <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/schools.rds")
-parks <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/parks.rds")
-food_stores <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/food_stores.rds")
-projects_csv <- read_csv("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/projects.csv")
-death <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_addresses_geocoded.rds")
-projects_txt <- file("./data/projects_act.txt")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/voters.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/deaths.rda")
+# load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/tourism.rda")
+# schools <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/schools.rds")
+# parks <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/parks.rds")
+# food_stores <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/food_stores.rds")
+# projects_csv <- read_csv("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/projects.csv")
+# death <- read_rds("G:/My Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_addresses_geocoded.rds")
+# projects_txt <- read_lines("./data/projects_act.txt")
 
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
@@ -103,14 +131,14 @@ body <- dashboardBody(
       fluidRow(
         column(12,
                align = "center",
-               img(src = "/images/guilford-logo.png", class = "logoImg"))
+               img(src = "./Images/guilford-logo.png", class = "logoImg"))
       ),
       
       fluidRow(column(
         12,
         box(
           width = NULL,
-          img(src = "/images/overview.png", class = "bannerImg")
+          img(src = "./Images/overview.png", class = "bannerImg")
         )
       )),
 
@@ -196,7 +224,7 @@ body <- dashboardBody(
                  12,
                  box(
                    width = NULL,
-                   img(src = "/images/civic.png", class = "bannerImg")
+                   img(src = "./Images/civic.png", class = "bannerImg")
                  )
                )),
                fluidRow(
@@ -209,7 +237,7 @@ body <- dashboardBody(
       br(),
 
       fluidRow(column (2,
-                       img(src = "/images/pop_age.png", class = "popAge")
+                       img(src = "./Images/pop_age.png", class = "popAge")
                        # fluidRow(
                        #   box(
                        #     width = NULL,
@@ -280,7 +308,7 @@ body <- dashboardBody(
                  12,
                  box(
                    width = NULL,
-                   img(src = "/images/live.png", class = "bannerImg")
+                   img(src = "./Images/live.png", class = "bannerImg")
                  )
                )),
       fluidRow(
@@ -330,7 +358,7 @@ body <- dashboardBody(
           box(
             width = NULL,
             title = "",
-            img(src = "/images/life_expectancy.png", class = "leInfo")
+            img(src = "./Images/life_expectancy.png", class = "leInfo")
             )
         ),
         
@@ -338,7 +366,7 @@ body <- dashboardBody(
           5,
           box(title = "",
             width = NULL, 
-            img(src = "/images/live01.jpg", class = "live01")
+            img(src = "./Images/live01.jpg", class = "live01")
           )
         )
       ),
@@ -502,7 +530,7 @@ body <- dashboardBody(
           5, 
           box(title =  "",
             width = NULL, 
-            img(src = "/images/live02.jpg", class = "live02")
+            img(src = "./Images/live02.jpg", class = "live02")
           )
           
         ),
@@ -558,7 +586,7 @@ body <- dashboardBody(
                  12,
                  box(
                    width = NULL,
-                   img(src = "/images/work.png", class = "bannerImg")
+                   img(src = "./Images/work.png", class = "bannerImg")
                  )
                )),
 
@@ -598,7 +626,7 @@ body <- dashboardBody(
           10, offset = 1,
           box(
             width = NULL, 
-            img(src = "/images/work01.jpg", class ="work01")
+            img(src = "./Images/work01.jpg", class ="work01")
           )
         )
       ),
@@ -631,7 +659,7 @@ body <- dashboardBody(
         column(10, offset = 1,
                box(
                  width = NULL, 
-                 img(src = "/images/work02.jpg", class = "work02")
+                 img(src = "./Images/work02.jpg", class = "work02")
                ))
       ),
 
@@ -682,7 +710,7 @@ body <- dashboardBody(
                                align = "center",
                                box(
                                  width = NULL,
-                                 img(src = "/images/play.png", class = "bannerImg")
+                                 img(src = "./Images/play.png", class = "bannerImg")
 
                                ))),
       fluidRow(
@@ -731,7 +759,7 @@ body <- dashboardBody(
       column(2,
              box(
                width = NULL,
-               img(src = "/images/tourism.png", class = "tourismInfo")
+               img(src = "./Images/tourism.png", class = "tourismInfo")
              )),
       column(4,
              br(),
@@ -772,13 +800,13 @@ body <- dashboardBody(
         column(6, 
                box( title = "",
                  width = NULL, 
-                 img(src = "/images/play02.png", class = "play02")
+                 img(src = "./Images/play02.png", class = "play02")
                )),
         column(
           6, 
           box( title = "Strava HeatMap  of Bike/Running Lanes",
           width = NULL, 
-          img(src = "/images/strava.png", class ="strava")
+          img(src = "./Images/strava.png", class ="strava")
         ))
       ),
       fluidRow(
@@ -804,7 +832,7 @@ body <- dashboardBody(
                                align = "center",
                                box(
                                  width = NULL,
-                                 img(src = "/Images/learn.png", class = "bannerImg")
+                                 img(src = "./Images/learn.png", class = "bannerImg")
 
                                ))),
                br(),
@@ -836,7 +864,7 @@ body <- dashboardBody(
         column(6,
                box(
                  width = NULL, 
-                 img(src = "/images/learn01.jpg", class = "learn01")
+                 img(src = "./Images/learn01.jpg", class = "learn01")
                )
         ),
         column(6,
@@ -891,7 +919,7 @@ body <- dashboardBody(
         column(6,
                box(
                  width = NULL, 
-                 img(src = "/images/learn02.jpg", class= "learn02")
+                 img(src = "./Images/learn02.jpg", class= "learn02")
                )
         )
         ),
@@ -932,7 +960,7 @@ body <- dashboardBody(
                                align = "center",
                                box(
                                  width = NULL,
-                                 img(src = "/Images/act.png", class = "bannerImg")
+                                 img(src = "./Images/act.png", class = "bannerImg")
 
                                ))),
                fluidRow(
@@ -949,7 +977,7 @@ body <- dashboardBody(
           offset = 2,
           box(
             width = NULL, 
-            img(src = "/images/act01.jpg", class ="act01")
+            img(src = "./Images/act01.jpg", class ="act01")
           )
         )
       ),
@@ -983,7 +1011,7 @@ body <- dashboardBody(
                offset = 1,
                box(title = "Community Projects",
                  width = NULL,
-                 htmlOutput("txt_act_projects")
+                 textOutput("txt_act_projects")
                )),
         column(6,
                box(title = "Resources",
@@ -1004,7 +1032,7 @@ body <- dashboardBody(
 ui <- dashboardPage(
   title = "Guilford CIP",
   skin = "blue",
-  dashboardHeader(title = "Guilford Community Indicators", tags$li(img(src='/images/guilford-logo.png'), class="dropdown")),
+  dashboardHeader(title = "Guilford Community Indicators", tags$li(img(src='./Images/guilford-logo.png'), class="dropdown")),
   sidebar,
   body
 )
@@ -1229,11 +1257,14 @@ server <- function(input, output) {
 
   output$vacant_houses_map <- renderLeaflet({
 
-    pal <- colorQuantile(palette = "viridis", domain = vacant_housing$estimate,  probs = seq(0, 1, 0.1))
+    #pal <- colorQuantile(palette = "viridis", domain = vacant_housing$estimate,  probs = seq(0, 1, 0.1))
+    
+    pal <- colorNumeric(palette = "viridis",   domain = vacant_housing$estimate)
 
     vacant_housing %>%
       leaflet() %>%
-      addProviderTiles(providers$Esri.WorldTopoMap) %>%
+      addTiles(options = tileOptions(minZoom = 5)) %>%
+      setMaxBounds(-84, 35, -79, 37) %>% 
       addPolygons(
         stroke = F,
 
@@ -1255,17 +1286,19 @@ server <- function(input, output) {
 
   output$food_stores_map <- renderLeaflet({
     leaflet(data = food_stores) %>%
-      addTiles() %>%
+      addTiles(options = tileOptions(minZoom = 5)) %>%
+      setMaxBounds(-84, 35, -79, 37) %>% 
       addCircleMarkers(lat = ~lat, lng = ~lon, popup = ~name,
                        stroke = TRUE, fillOpacity = 0.075)
   })
 
-  output$death_map <- renderLeaflet({
-    leaflet(data = death) %>%
-      addTiles() %>%
-      addMarkers(lat = ~location.y, lng = ~location.x,
-                 clusterOptions = markerClusterOptions())
-  })
+  # output$death_map <- renderLeaflet({
+  #   leaflet(data = death) %>%
+  #     addTiles(options = tileOptions(minZoom = 5)) %>%
+  #     setMaxBounds(-84, 35, -79, 37) %>% 
+  #     addMarkers(lat = ~location.y, lng = ~location.x,
+  #                clusterOptions = markerClusterOptions())
+  # })
   # LEARN tab ----
 
   output$students <- renderBillboarder({
@@ -1339,7 +1372,8 @@ server <- function(input, output) {
 
   output$schools_map <- renderLeaflet({
     leaflet(data = schools) %>%
-      addTiles() %>%
+      addTiles(options = tileOptions(minZoom = 5)) %>%
+      setMaxBounds(-84, 35, -79, 37) %>% 
       addMarkers(lat = ~lat, lng = ~lon, popup = ~name,
                  clusterOptions = markerClusterOptions())
   })
@@ -1451,7 +1485,8 @@ server <- function(input, output) {
 
   output$parks_map <- renderLeaflet({
     leaflet(data = parks) %>%
-      addTiles() %>%
+      addTiles(options = tileOptions(minZoom = 5)) %>%
+      setMaxBounds(-84, 35, -79, 37) %>% 
       addMarkers(lat = ~lat, lng = ~lon, popup = ~name,
                  clusterOptions = markerClusterOptions())
   })
@@ -1476,11 +1511,11 @@ server <- function(input, output) {
 
   # ACT Tab ----
   
-  output$txt_act_projects <- renderUI({
+  output$txt_act_projects <- renderText({
     
-    value <- readLines(projects_txt)
+   print(projects_txt)
     
-    txt <- paste(value,  sep ='\n')
+    #print(cat(projects_txt, sep = "\n"))
     
     
     

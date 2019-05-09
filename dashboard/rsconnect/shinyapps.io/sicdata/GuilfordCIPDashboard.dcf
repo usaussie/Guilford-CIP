@@ -1,0 +1,12 @@
+name: GuilfordCIPDashboard
+title: GuilfordCIPDashboard
+username:
+account: sicdata
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 919348
+bundleId: 2071234
+url: https://sicdata.shinyapps.io/GuilfordCIPDashboard/
+when: 1557369093.8621
+asMultiple: FALSE
+asStatic: FALSE
