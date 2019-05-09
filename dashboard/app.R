@@ -1272,7 +1272,6 @@ server <- function(input, output) {
       setMaxBounds(-84, 35, -79, 37) %>%
       addPolygons(
         stroke = F,
-
         fillColor = ~pal(percent),
         fillOpacity = 0.7
       ) %>%
