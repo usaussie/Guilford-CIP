@@ -224,6 +224,18 @@ dr %>%
   separate(sexrace, into = c("Race", "Sex")) %>%
   ggplot(aes(x = manner, y = pct, fill = Race, color = Sex)) + geom_col(position = "dodge", size = 2) + scale_y_continuous(labels = scales::percent) + scale_fill_manual(values = c("black","white")) + scale_color_manual(values = c("pink", "lightblue"))
 
+#Do this timeline
+dr %>%
+  filter(age <= 135, sex != "U", whiteblack != "Other") %>%
+  unite(sexrace, whiteblack, sex) %>%
+  tabyl(manner, sexrace, year) %>% #what is year?
+  adorn_percentages("col") %>%
+  untabyl() %>%
+  filter(manner != "Natural") %>%
+  gather(sexrace, pct, -manner) %>%
+  separate(sexrace, into = c("Race", "Sex")) %>%
+  ggplot(aes(x = manner, y = pct, fill = Race, color = Sex)) + geom_col(position = "dodge", size = 2) + scale_y_continuous(labels = scales::percent) + scale_fill_manual(values = c("black","white")) + scale_color_manual(values = c("pink", "lightblue"))
+
 
   ggplot(aes(x = manner, fill = whiteblack)) + geom_bar() + facet_wrap(~sex)
 
@@ -251,6 +263,12 @@ dr %>%
   geom_point(size = .4) +
   scale_color_viridis(option = "plasma", direction = -1)
 
+# Lifespan by race and location map
+dr %>%
+  filter(lat > 35.5, lon < -79.5, age > 60, age < 90) %>%
+  filter(whiteblack = "White") %>%
+  ggplot(aes(x = lon, y = lat, fill = age)) +
+  geom_heatmap?
 
 
 # Billboarder for dashboard -----------------------------------------------
@@ -258,11 +276,11 @@ dr %>%
 pct <- function(x) (x*100)
 
 deaths <- dr %>%
-  filter(age <= 135, sex != "U", whiteblack != "Other") %>% 
+  filter(age <= 135, sex != "U", whiteblack != "Other") %>%
   unite(sexrace, whiteblack, sex) %>%
   tabyl(manner, sexrace) %>%
   adorn_percentages("col") %>%
-  untabyl() %>% 
+  untabyl() %>%
   mutate_if(is.numeric, pct )
 
 save(deaths, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/deaths.rda")
@@ -273,5 +291,5 @@ library(billboarder)
 
 deaths_un <- deaths %>% filter(manner== "Accident"|manner == "Homicide"| manner == "Suicide"| manner == "Unknown")
 
-billboarder() %>% 
+billboarder() %>%
   bb_barchart(data = deaths_un)
