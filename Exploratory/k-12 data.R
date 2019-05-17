@@ -51,11 +51,24 @@ spg <- bind_rows(
 
 spg <- spg %>%
   mutate(state_board_region = str_remove(state_board_region, " Region"),
-         state_board_region = str_replace(state_board_region, "-", " "))
+         state_board_region = str_replace(state_board_region, "-", " ")) %>%
+  mutate(spg_score = as.numeric(spg_score))
 
 spg <- spg %>%
   filter(district_name == "Guilford County Schools")
 
+### Plots
 spg %>%
   count(year, spg_grade) %>%
-  ggplot(aes)
+  ggplot(aes(x = year, y = n, color = spg_grade)) +
+  geom_point() + geom_line()
+  geom_col(position = "dodge")
+
+spg %>%
+  tabyl(year, spg_grade) %>%
+  adorn_percentages() %>%
+  adorn_totals("col") %>%
+  adorn_pct_formatting()
+
+spg %>%
+  ggplot(aes(x = as.character(year), y = spg_score)) + geom_violin()
