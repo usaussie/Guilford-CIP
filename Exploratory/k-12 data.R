@@ -107,3 +107,50 @@ dd <- dir_ls(path_expand("~/Google Drive/SI/DataScience/Data/Guilford County CIP
   bind_rows()
 
 
+#NOTE THAT PER A CALL WITH CURTIS SONNEMAN @ NC Dept of Public Instruction ( 919-807-3877), the 13-14 data matches up to the years beyond where the row is "College and Career Ready".  HOWEVER, THIS WILL NOT BE THE CASE for the next year (ie 18-19!)
+
+dd <- dd %>%
+  mutate(standard_ccr_level_4_5_glp_level_3_above = ifelse(year == 13, "College and Career Ready", standard_ccr_level_4_5_glp_level_3_above)) %>%
+  mutate(subject = str_remove(subject, " \\(Standard 4 year\\)"))
+
+#Abbreviations: http://www.ncpublicschools.org/docs/accountability/reporting/readywebsiteabbreviations1213.pdf
+# AIG Academically or Intellectually Gifted
+# EDS Economically Disadvantaged Students
+# LEP Limited English Proficient
+# SWD Students With Disabilities
+# AMIN American Indian
+# ASIAN Asian
+# BLACK Black
+# HISP Hispanic
+# >=2RACES Two or More Races
+# WHITE White
+# MALE Male
+# FEMALE Female
+# ALLSGRP All Subgroups
+
+# Experimental:
+dd %>%
+  filter(school_name == "Guilford County Schools") %>%
+  filter(standard_ccr_level_4_5_glp_level_3_above == "College and Career Ready" | standard_ccr_level_4_5_glp_level_3_above == "Standard (4 Year)" | standard_ccr_level_4_5_glp_level_3_above == "Met UNC Minimum") %>%
+  select(-starts_with("num_")) %>%
+  gather(key = "group", value = "percent", starts_with("percent_")) %>%
+  mutate(percent = parse_number(percent)) %>%
+  filter(subject %in% c("All EOG/EOC Subjects", "All EOC Subjects", "All EOG Subjects", "Graduation Rate", "The ACT - Composite Score")) %>%
+  ggplot(aes(x = year, y = percent, color = group, fill = group)) +
+    geom_point() + geom_line() +
+    facet_wrap(~subject)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
