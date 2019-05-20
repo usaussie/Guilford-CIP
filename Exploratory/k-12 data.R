@@ -72,3 +72,38 @@ spg %>%
 
 spg %>%
   ggplot(aes(x = as.character(year), y = spg_score)) + geom_violin()
+
+
+# Ready Drill Down ------------------------------------------------------------------------------------------------
+
+
+dd <- dir_ls(path_expand("~/Google Drive/SI/DataScience/Data/Guilford County CIP/K-12 Data"), regexp = "/acct{0,1}drilldwn\\d{2}.xlsx") %>%
+  map(function(file) {
+
+    raw <- suppressMessages(read_excel(file, n_max = 20, col_types = "text")) #expect warnings
+
+    header_rownum <- raw %>%
+      mutate(rownum = row_number()) %>%
+      filter_at(1, all_vars(str_detect(., "[Dd]istrict"))) %>%
+      pull(rownum)
+
+    header <- raw %>% slice(header_rownum) %>% gather(key = "row", value = "header")
+
+    pre_header <- raw %>% slice(header_rownum - 1) %>% gather(key = "row", value = "pre_header")
+
+    col_names <- left_join(pre_header, header, by = "row") %>%
+      fill(pre_header) %>%
+      mutate(pre_header = case_when(pre_header == "Percent" ~ "percent",
+                                    pre_header == "Denominator" ~ "num",
+                                    TRUE ~ NA_character_)) %>%
+      unite(col = full_header, pre_header, header, na.rm = T) %>%
+      pull(full_header)
+
+    read_excel(file, skip = header_rownum + 1, col_names = col_names) %>%
+        add_column(year = parse_number(basename(file))) %>%
+        clean_names()
+  }
+  ) %>%
+  bind_rows()
+
+
