@@ -84,3 +84,22 @@ write_rds(results, "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashb
 
 # google_map(data = results, location = guilford) %>%
 #   add_markers()
+
+
+
+# Classify Schools ------------------------------------------------------------------------------------------------
+
+require(tidytext)
+
+results %>%
+  unnest_tokens(word, name) %>%
+  count(word, sort = T)
+
+results <- results %>%
+  mutate(class = case_when(str_detect(name, fixed("high", ignore_case = T)) ~ "high",
+                           str_detect(name, fixed("elementary", ignore_case = T)) ~ "elementary",
+                           str_detect(name, fixed("middle", ignore_case = T)) ~ "middle",
+                           str_detect(name, fixed("preschool", ignore_case = T)) ~ "prek",
+                           str_detect(name, fixed("high", ignore_case = T)) ~ "high")) #This is prone to error because if they have multiple hits, it will overwrite.  Work in progress to test for thsi or use an alternate method that would catch multi hits.
+
+
