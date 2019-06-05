@@ -97,3 +97,18 @@ write_rds(results, "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashb
 
 google_map(data = results, location = guilford) %>%
   add_markers()
+
+
+# Kendall's Updates -------------------------------------------------------
+
+#Food stores Updates
+
+original_food_stores <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/food_stores.rds")
+view(original_food_stores)
+
+#Data exploration shows that many Family Dollar and Walmart stores are very close to each other - example 3 Family Dollar stores in High Point
+filter_food_stores <- original_food_stores %>%
+  filter(str_detect(name, "Publix Event Planning at Westchester Square", negate = TRUE) , str_detect(name, "Superior Foods Supermarket", negate = TRUE) 
+         , str_detect(name, "The Fresh Market - Corporate Office", negate = TRUE))
+
+save(filter_food_stores, file = "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/food_stores_1.rda")
