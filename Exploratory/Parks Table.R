@@ -84,3 +84,44 @@ write_rds(results, "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashb
 
 # google_map(data = results, location = guilford) %>%
 #   add_markers()
+
+# Kendall's updates
+library(tidyverse)
+library(stringr)
+library(dplyr)
+
+original_parks <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/parks.rds")
+
+#Updating NA's to 0 to group parks data 
+parks2 <- original_parks
+parks2[is.na(parks2)] <- 0
+
+by_name <- parks2 %>% group_by(name)
+by_name <- by_name %>% summarise(user_ratings_total = sum(user_ratings_total), rating = mean(rating))
+
+parks2$user_ratings_total <- NULL
+parks2$rating <- NULL
+parks2 <- distinct(parks2, name, .keep_all = TRUE)
+
+new_parks <- inner_join(by_name, parks2, by = "name", copy = FALSE)
+view(new_parks)
+
+#Filtering
+target <- c("Park")
+
+#Filtering for names with parks included assuming any leftover names without parks are most likely not a park
+filter_parks <- new_parks %>%
+  filter(str_detect(name, "Park", negate = FALSE) | str_detect(name, "park", negate = FALSE) 
+         | str_detect(name, "parks", negate = FALSE) | str_detect(name, "Parks", negate = FALSE))
+
+view(filter_parks)
+#Seperating out the non-park names
+filter_no_parks <- new_parks %>%
+  filter(str_detect(name, "Park", negate = TRUE) , str_detect(name, "park", negate = TRUE) 
+         , str_detect(name, "parks", negate = TRUE) , str_detect(name, "Parks", negate = TRUE))
+
+
+save(filter_parks, file = "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/parks_1.rda")
+
+save(filter_no_parks, file = "~/Google Drive/SI/DataScience/data/Guilford County CIP/Parks/no_parks_1.rda")
+
