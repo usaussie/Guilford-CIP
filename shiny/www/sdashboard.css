@@ -1,0 +1,277 @@
+
+
+.col-sm-8 {
+    width: 100%;
+}
+
+
+a[data-value="Overview"] {
+  color:#801d72;
+}
+
+a[data-value="Civic"] {
+  color:#752a07;
+}
+
+
+a[data-value="Live"] {
+  color:#E54B21;
+}
+
+a[data-value="Work"] {
+  color:#113535;
+}
+
+a[data-value="Play"] {
+  color:#617030;
+}
+
+a[data-value="Learn"] {
+  color:#cb942b;
+}
+
+a[data-value="Act"] {
+  color:#89ada7;
+}
+
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    color: #333;
+    cursor: default;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+}
+
+body {
+  background-color: #ffffff;
+}
+
+
+.main-header {
+    height: 70px;
+}
+
+.content-wrapper{
+  background-color: #ffffff;
+}
+
+
+
+.getBox {
+  width :100%;
+}
+
+.getImage{
+  width :100%;
+}
+
+.footerBox{
+  text-align: center;
+  font-size: 10px;
+  background-color: #F5F5F5;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.content {
+    min-height: 250px;
+    padding: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: auto;
+    padding-right: auto;
+}
+
+
+
+
+
+.overview-tab .row {
+  padding-left: 10px;
+  
+}
+
+
+
+.box-body .fa-10x{
+  font-size: 7em;
+  position: relative;
+}
+
+/* Center align box titles*/
+.box-header .box-title{
+  text-align: center;
+  font-size: 2.5em;
+}
+
+/* Changing font color*/
+
+.civic-tab h1, .civic-tab h2, .civic-tab h3 .civic-tab p {
+  color: #752a07;
+}
+
+
+header.main-header {
+  position: relative;
+  width: 100%;
+  height: 70px;
+}
+
+header.main-header .navbar .navbar-custom-menu ul.navbar-nav li.dropdown img {
+  width: auto;
+  height: 70px;
+  
+  top: 0;
+  right: 0;
+  left: 0;
+  right: 0;
+}
+
+
+.box .fa-home,
+.live-tab h1, .live-tab h2, .live-tab h3,
+.live-tab .shiny-html-output.col-sm-.shiny-bound-output p{
+	color: #E54B21 ;
+}
+
+.box .fa-briefcase,
+.work-tab h1, .work-tab h2, .work-tab h3 {
+	color: #113535;
+}
+
+.box .fa-tree,
+.play-tab h1, .play-tab h2, .play-tab h3 {
+	color: #617030;
+}
+
+.box .fa-graduation-cap,
+.learn-tab h1, .learn-tab h2, .learn-tab h3 {
+	color: #CB942B;
+}
+
+.box .fa-handshake,
+.act-tab h1, .act-tab h2, .act-tab h3 {
+	color : #3A7993;
+}
+
+.sidebar-menu>.fa{
+	color: #ffffff
+}
+
+.bg-orange {
+background-color: #FCEDE8!important;
+}
+
+.leInfo {
+max-width: 90%;
+height: auto;
+width: 90%;
+display: block;
+margin-left: auto;
+margin-right: auto;
+margin-bottom: 20px;
+}
+
+
+.popAge {
+  
+  width: 100%;
+  max-width:  100%;
+  height: auto;
+}
+
+.bannerImg{
+  width: 100%;
+}
+
+.myFrame {
+  
+  padding:  100px 0;
+  width: 100%;
+  max-width:  100%;
+  height: auto;
+}
+
+.tourismInfo {
+  width:  100%;
+  max-width: 100%;
+  height: auto;
+}
+
+.nav {
+  padding-right: 10px;
+    padding-left: 30%;
+    margin-right: auto;
+    margin-left: auto;
+    font-size: 20px;
+  
+}
+    
+    
+.box .boxText {
+  text-align: left;
+  
+}
+  
+.logoImg{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+   width:  25%;
+   height: auto;
+  padding-bottom: 20px;
+}
+
+.live02{
+  width: 100%;
+  height: auto;
+  vertical-align: center;
+}
+
+.subtitle h1{
+  font-weight: 700;
+  letter-spacing: 3px;
+  font-size: 100px;
+}
+
+
+.work01{
+  width: 90%;
+  height: auto;
+  
+}
+
+.work02{
+  width: 90%;
+  height: auto;
+  
+}
+
+.learn01{
+   width: 100%;
+  height: auto;
+}
+
+.learn02{
+   width: 100%;
+  height: auto;
+}
+
+
+.act01{
+   width: 100%;
+  height: auto;
+}
+
+.strava{
+  width:100%;
+  height: auto;
+  
+}
+
+.play02{
+  width:100%;
+  height: auto;
+  
+}
