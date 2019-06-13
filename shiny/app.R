@@ -45,6 +45,10 @@ projects_txt <- file("./data/projects_act.txt")
 
 body <- mainPanel(
   fluidRow(
+    
+  ), 
+  
+  fluidRow(
     column(10, offset = 1, 
            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien.")
   ), 
@@ -143,12 +147,14 @@ body <- mainPanel(
                               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
                             )),
                           
-                          fluidRow(
+                          tags$div(class = "subtitle",
+                            fluidRow(
                             column(
                               12,
+                              align = "center",
                               h1("PEOPLE")
                             )
-                          ),
+                          )),
                          
                           fluidRow(
                             column(
@@ -167,7 +173,7 @@ body <- mainPanel(
                             ),
 
                             column(
-                              5,
+                              7,
 
                                   img(src = "./Images/live01.jpg", class = "live01")
 
@@ -182,7 +188,7 @@ body <- mainPanel(
                                   ullamcorper dignissim cras tincidunt lobortis feugiat."
                             ),
                             column(
-                              8,
+                              7,
 
                                 plotlyOutput("birth2")
 
@@ -299,8 +305,11 @@ body <- mainPanel(
 # Define the UI -----------------------------------------------------------
 
 ui <- fluidPage(theme = "sdashboard.css",
-                titlePanel(title = div(
-                    img(src = './Images/guilford-logo.png', class = "logoImg")
+                titlePanel(
+                  windowTitle = "Guilford CIP",
+                  title = div(
+                  img(src = './Images/line.png',class = "lineImg"),
+                  img(src = './Images/guilford-logo.png',class= "logoImg")
                 )),
                 body)
 
@@ -342,94 +351,94 @@ server <- function(input, output) {
         
     })
     
-}
+
 
 
 # LIVE Tab ----
 
 
-# output$deaths <- renderBillboarder({
-#   deaths_un <- deaths %>% filter(manner== "Accident"|manner == "Homicide"| manner == "Suicide"| manner == "Unknown")
-#   
-#   billboarder() %>%
-#     bb_barchart(data = deaths_un) %>%
-#     bb_y_axis(tick = list(format = suffix("%"))) %>%
-#     bb_color(palette = c("#ac492e", "#113535", "#88853b", "#3a7993"))
-#   
-#   
-# })
-# 
+output$deaths <- renderBillboarder({
+  deaths_un <- deaths %>% filter(manner== "Accident"|manner == "Homicide"| manner == "Suicide"| manner == "Unknown")
+
+  billboarder() %>%
+    bb_barchart(data = deaths_un) %>%
+    bb_y_axis(tick = list(format = suffix("%"))) %>%
+    bb_color(palette = c("#ac492e", "#113535", "#88853b", "#3a7993"))
 
 
-# output$birth2 <- renderPlotly({
-# 
-#   plot_ly(data = births, x =~yob, y = ~Females, type = 'scatter', mode = 'lines+markers',
-#           line= list(color= '#113535', width =2.5),
-#           marker = list(color= '#113535', width =3),
-#           name = 'Females') %>%
-#     add_trace(y=~Males, line = list(color='#CB942B'),
-#               marker = list(color= '#CB942B'),
-#               name = 'Males') %>%
-#     layout(yaxis = list(title = "", separatethousands = TRUE),
-#            xaxis = list(title = "", tickangle = 45, tickfont = list(size = 10)),
-#            legend = list(orientation = 'h', y = -0.2, x = 0.2))
-# })
+})
 
 
-# 
-# 
-# 
-# output$hh_race <- renderBillboarder({
-#   
-#   billboarder() %>%
-#     bb_donutchart(data = hh_race) %>%
-#     bb_color(palette = c("#E54B21", "#113535", "#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637"))
-#   
-#   
-# })
-# 
-# output$vacant_houses_map <- renderLeaflet({
-#   
-#   #pal <- colorQuantile(palette = "viridis", domain = vacant_housing$estimate,  probs = seq(0, 1, 0.1))
-#   vacant_housing <- vacant_housing %>%
-#     mutate(percent = estimate/Total) %>%
-#     mutate(percent = ifelse(is.nan(percent), 0, percent)) %>%
-#     st_transform(crs = "+init=epsg:4326")
-#   
-#   pal <- colorNumeric(palette = "viridis",   domain = vacant_housing$percent)
-#   
-#   
-#   leaflet(data = vacant_housing) %>%
-#     addTiles(options = tileOptions(minZoom = 5)) %>%
-#     setMaxBounds(-84, 35, -79, 37) %>%
-#     addPolygons(
-#       stroke = F,
-#       fillColor = ~pal(percent),
-#       fillOpacity = 0.7
-#     ) %>%
-#     addPolygons(data = geo_places,
-#                 stroke = T, weight = 1,
-#                 label = ~ NAME,
-#                 color = "white",
-#                 dashArray = "3"
-#     ) %>%
-#     addLegend("bottomright",
-#               pal = pal,
-#               values = ~ percent,
-#               labFormat = labelFormat(transform = function(x) 100*x, suffix = "%"),
-#               title = "Vacant Houses",
-#               opacity = 1)
-# })
-# 
-# output$food_stores_map <- renderLeaflet({
-#   leaflet(data = food_stores) %>%
-#     addTiles(options = tileOptions(minZoom = 5)) %>%
-#     setMaxBounds(-84, 35, -79, 37) %>%
-#     addCircleMarkers(lat = ~lat, lng = ~lon, popup = ~name,
-#                      stroke = TRUE, fillOpacity = 0.075)
-# })
+
+output$birth2 <- renderPlotly({
+
+  plot_ly(data = births, x =~yob, y = ~Females, type = 'scatter', mode = 'lines+markers',
+          line= list(color= '#113535', width =2.5),
+          marker = list(color= '#113535', width =3),
+          name = 'Females') %>%
+    add_trace(y=~Males, line = list(color='#CB942B'),
+              marker = list(color= '#CB942B'),
+              name = 'Males') %>%
+    layout(yaxis = list(title = "", separatethousands = TRUE),
+           xaxis = list(title = "", tickangle = 45, tickfont = list(size = 10)),
+           legend = list(orientation = 'h', y = -0.2, x = 0.2))
+})
 
 
+
+
+
+output$hh_race <- renderBillboarder({
+
+  billboarder() %>%
+    bb_donutchart(data = hh_race) %>%
+    bb_color(palette = c("#E54B21", "#113535", "#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637"))
+
+
+})
+
+output$vacant_houses_map <- renderLeaflet({
+
+  #pal <- colorQuantile(palette = "viridis", domain = vacant_housing$estimate,  probs = seq(0, 1, 0.1))
+  vacant_housing <- vacant_housing %>%
+    mutate(percent = estimate/Total) %>%
+    mutate(percent = ifelse(is.nan(percent), 0, percent)) %>%
+    st_transform(crs = "+init=epsg:4326")
+
+  pal <- colorNumeric(palette = "viridis",   domain = vacant_housing$percent)
+
+
+  leaflet(data = vacant_housing) %>%
+    addTiles(options = tileOptions(minZoom = 5)) %>%
+    setMaxBounds(-84, 35, -79, 37) %>%
+    addPolygons(
+      stroke = F,
+      fillColor = ~pal(percent),
+      fillOpacity = 0.7
+    ) %>%
+    addPolygons(data = geo_places,
+                stroke = T, weight = 1,
+                label = ~ NAME,
+                color = "white",
+                dashArray = "3"
+    ) %>%
+    addLegend("bottomright",
+              pal = pal,
+              values = ~ percent,
+              labFormat = labelFormat(transform = function(x) 100*x, suffix = "%"),
+              title = "Vacant Houses",
+              opacity = 1)
+})
+
+output$food_stores_map <- renderLeaflet({
+  leaflet(data = food_stores) %>%
+    addTiles(options = tileOptions(minZoom = 5)) %>%
+    setMaxBounds(-84, 35, -79, 37) %>%
+    addCircleMarkers(lat = ~lat, lng = ~lon, popup = ~name,
+                     stroke = TRUE, fillOpacity = 0.075)
+})
+
+}
 
 
 # Run the app -------------------------------------------------------------

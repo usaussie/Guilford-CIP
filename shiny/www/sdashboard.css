@@ -218,7 +218,7 @@ margin-bottom: 20px;
   display: block;
   margin-left: auto;
   margin-right: auto;
-   width:  25%;
+   width:  90%;
    height: auto;
   padding-bottom: 20px;
 }
@@ -273,5 +273,17 @@ margin-bottom: 20px;
 .play02{
   width:100%;
   height: auto;
+  
+}
+
+.subtitle {
+  font-size: 40px;
+}
+
+.h2, .lineImg{
+  
+  width = 20%
+  
+  
   
 }
