@@ -41,6 +41,21 @@ resources <- read_csv("./data/resources.txt")
 live_resources <- read_csv("./edit/live_resources.txt")
 live_projects <- read_csv("./edit/live_projects.txt")
 live_missing <- read_csv("./edit/live_missing.txt")
+work_resources <- read_csv("./edit/work_resources.txt")
+work_projects <- read_csv("./edit/work_projects.txt")
+work_missing <- read_csv("./edit/work_missing.txt")
+play_resources <- read_csv("./edit/play_resources.txt")
+play_projects <- read_csv("./edit/play_projects.txt")
+play_missing <- read_csv("./edit/play_missing.txt")
+learn_resources <- read_csv("./edit/learn_resources.txt")
+learn_projects <- read_csv("./edit/learn_projects.txt")
+learn_missing <- read_csv("./edit/learn_missing.txt")
+engage_resources <- read_csv("./edit/engage_resources.txt")
+engage_projects <- read_csv("./edit/engage_projects.txt")
+engage_missing <- read_csv("./edit/engage_missing.txt")
+civic_resources <- read_csv("./edit/civic_resources.txt")
+civic_projects <- read_csv("./edit/civic_projects.txt")
+civic_missing <- read_csv("./edit/civic_missing.txt")
 
 #load from drive
 
@@ -325,7 +340,7 @@ body <- mainPanel(width = 12,
                                    h3("Access to Food Stores", align = "center"),
 
                                        leafletOutput("food_stores_map"),
-                                   h6("Data Source: Google?", align = "center")
+                                   h6("Data Source: Google Maps API Pulls (2019)", align = "center")
 
 
                             )
@@ -362,12 +377,12 @@ body <- mainPanel(width = 12,
                          ),
                          
                          fluidRow(
-                           column(3,
+                           column(4,
                                   offset = 1,
                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. "),
                            column(
-                             7, 
-                             "Piedmont Image here"
+                             6, 
+                             a(img(src = "./Images/live03.png", class = "live03"), href = "http://www.piedmonthealthcounts.org/", target="_blank")
                            )
                          ),
                          br(),
@@ -488,23 +503,24 @@ body <- mainPanel(width = 12,
                             )
                           ),
                           br(),
-                          fluidRow(
-                            column(4,
-                                   align = "center",
-                                   wellPanel(
-                                     h3("Community Projects"))
-                            ),
-                            column(4,
-                                   align = "center",
-                                   wellPanel(
-                                     h3("Resources"))
-                            ),
-                            column(4,
-                                   align = "center",
-                                   wellPanel(
-                                     h3("What's Missing?"))
-                            )
+                          fluidRow(column(4,
+                                          align = "center",
+                                          wellPanel(
+                                            h3("Community Projects"),
+                                            htmlOutput("work_projects"))
                           ),
+                          column(4,
+                                 align = "center",
+                                 wellPanel(
+                                   h3("Resources"),
+                                   htmlOutput("work_resources"))
+                          ),
+                          column(4,
+                                 align = "center",
+                                 wellPanel(
+                                   h3("What's Missing?"), 
+                                   htmlOutput("work_missing"))
+                          )),
                           br()
                  )),
         # Play tab ----
@@ -528,7 +544,7 @@ body <- mainPanel(width = 12,
                                    offset = 1,
                                    h3("Parks Map", align = "center"),
                                    leafletOutput("parks_map"),
-                                   h6("Data Source: Google", align = "center")
+                                   h6("Data Source: Google Maps API Pulls (2019)", align = "center")
                             )
                             
                           ),
@@ -595,21 +611,26 @@ body <- mainPanel(width = 12,
                           ),
                           br(),
                           fluidRow(
+                            
                             column(4,
                                    align = "center",
                                    wellPanel(
-                                     h3("Community Projects"))
+                                     h3("Community Projects"),
+                                     htmlOutput("play_projects"))
                             ),
                             column(4,
                                    align = "center",
                                    wellPanel(
-                                     h3("Resources"))
+                                     h3("Resources"),
+                                     htmlOutput("play_resources"))
                             ),
                             column(4,
                                    align = "center",
                                    wellPanel(
-                                     h3("What's Missing?"))
+                                     h3("What's Missing?"), 
+                                     htmlOutput("play_missing"))
                             )
+                            
                           ),
                           br()
                  )),
@@ -635,7 +656,8 @@ body <- mainPanel(width = 12,
                             column(10,
                                    offset = 1,
                                    h3("Schools Map", align = "center"),
-                                     leafletOutput("schools_map")
+                                     leafletOutput("schools_map"), 
+                                   h6("Data Source: Google Maps API Pulls (2019)", align = "center")
                            )),
                           
                           br(),
@@ -659,12 +681,14 @@ body <- mainPanel(width = 12,
                           fluidRow(column(
                             6,
                             h3("Percent of College and University Students by Institution", align = "center"),
-                                billboarderOutput("students")
+                                billboarderOutput("students"), 
+                            h6(" Data Source: U.S. Department of Education, National Center for Education Statistics, Integrated Postsecondary Education Data System (IPEDS) [2017]", align = "center")
                           ),
                           column(
                             6,
                             h3("Completion Rates for Guilford County's Colleges and Universities", align = "center"),
-                                billboarderOutput("completion")
+                                billboarderOutput("completion"),
+                            h6(" Data Source: U.S. Department of Education, National Center for Education Statistics, Integrated Postsecondary Education Data System (IPEDS) [2017]", align = "center")
                           )),
                           br(),
                           br(),
@@ -688,7 +712,8 @@ body <- mainPanel(width = 12,
                             h3("Debt to Income Ratio for Guilford County's Colleges and Universities", align = "center"),
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum.",
                             fluidRow(br()),
-                             billboarderOutput("debt")
+                             billboarderOutput("debt"),
+                            h6(" Data Source: U.S. Department of Education, National Center for Education Statistics, Integrated Postsecondary Education Data System (IPEDS) [2017]", align = "center")
                             
                           ),
                           column(
@@ -696,25 +721,28 @@ body <- mainPanel(width = 12,
                             h3("Retention Rates for Guilford County's Colleges and Universities", align = "center"),
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum.",
                             fluidRow(br()),
-                            billboarderOutput("retention"))
+                            billboarderOutput("retention"),
+                            h6(" Data Source: U.S. Department of Education, National Center for Education Statistics, Integrated Postsecondary Education Data System (IPEDS) [2017]", align = "center"))
                           ),
                           br(),
-                          fluidRow(
-                            column(4,
-                                   align = "center",
-                                   wellPanel(
-                                     h3("Community Projects"))
-                            ),
-                            column(4,
-                                   align = "center",
-                                   wellPanel(
-                                     h3("Resources"))
-                            ),
-                            column(4,
-                                   align = "center",
-                                   wellPanel(
-                                     h3("What's Missing?"))
-                            )
+                          fluidRow(column(4,
+                                          align = "center",
+                                          wellPanel(
+                                            h3("Community Projects"),
+                                            htmlOutput("learn_projects"))
+                          ),
+                          column(4,
+                                 align = "center",
+                                 wellPanel(
+                                   h3("Resources"),
+                                   htmlOutput("learn_resources"))
+                          ),
+                          column(4,
+                                 align = "center",
+                                 wellPanel(
+                                   h3("What's Missing?"), 
+                                   htmlOutput("learn_missing"))
+                          )
                           ),
                           br()
                           
@@ -737,6 +765,7 @@ body <- mainPanel(width = 12,
                               12,
                               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
                               )),
+                          br(),
                           
                           fluidRow(
                             column(
@@ -754,34 +783,34 @@ body <- mainPanel(width = 12,
                           fluidRow(
                             column(6,
                                    h3("Race and Party Affliation of Registered Voters", align = "center"),
-                                     billboarderOutput("voters_rp") ),
+                                     billboarderOutput("voters_rp"),
+                                   h6("Data Source: Jason's Data", align = "center")),
                             column(6,
                                    h3("Gender and Party Affiliation of Registered Voters", align = "center"),
-                                     billboarderOutput("voters_gp")
+                                     billboarderOutput("voters_gp"),
+                                   h6("Data Source: Jason's Data", align = "center")
                                    )
                           ),
                           br(),
                           fluidRow(
-                            
                             column(4,
                                    align = "center",
                                    wellPanel(
                                      h3("Community Projects"),
-                                     htmlOutput("projects"))
+                                     htmlOutput("engage_projects"))
                             ),
                             column(4,
                                    align = "center",
                                    wellPanel(
                                      h3("Resources"),
-                                     htmlOutput("resources"))
+                                     htmlOutput("engage_resources"))
                             ),
                             column(4,
                                    align = "center",
                                    wellPanel(
-                                     h3("What's Missing?"))
-                            )
-                            
-                          ),
+                                     h3("What's Missing?"), 
+                                     htmlOutput("engage_missing"))
+                            )),
                           br()
                  )
                  
@@ -798,7 +827,28 @@ body <- mainPanel(width = 12,
             fluidRow(), 
             fluidRow(),
             fluidRow(), 
-            fluidRow()
+            fluidRow(
+              
+              column(4,
+                     align = "center",
+                     wellPanel(
+                       h3("Community Projects"),
+                       htmlOutput("civic_projects"))
+              ),
+              column(4,
+                     align = "center",
+                     wellPanel(
+                       h3("Resources"),
+                       htmlOutput("civic_resources"))
+              ),
+              column(4,
+                     align = "center",
+                     wellPanel(
+                       h3("What's Missing?"), 
+                       htmlOutput("civic_missing"))
+              )
+              
+            )
             
           )
         ),
@@ -1084,6 +1134,39 @@ output$transportation_ethnicity <- renderBillboarder({
   
 })
 
+output$work_projects <- renderUI({
+  vec <- vector()
+  
+  for(i in 1:nrow(work_projects)){
+    ln <- work_projects[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
+})
+
+output$work_resources <- renderUI({
+  vec <- vector()
+  
+  for(i in 1:nrow(work_resources)){
+    ln <- work_resources[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
+})
+
+output$work_missing <- renderUI({
+  vec <- vector()
+  
+  for(i in 1:nrow(work_missing)){
+    ln <- work_missing[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
+})
+
 
 # PLAY Tab ----
 
@@ -1125,6 +1208,39 @@ output$tourism_spending <- renderBillboarder({
     layout(yaxis = list(title = " Expenditure in Millions", separatethousands = TRUE, side = 'left'),
            xaxis = list(title = "", tickangle = 45, tickfont = list(size = 10)),
            legend = list(orientation = 'h', y = -0.2, x = 0.2))
+})
+
+output$play_projects <- renderUI({
+  vec <- vector()
+  
+  for(i in 1:nrow(play_projects)){
+    ln <- play_projects[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
+})
+
+output$play_resources <- renderUI({
+  vec <- vector()
+  
+  for(i in 1:nrow(play_resources)){
+    ln <- play_resources[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
+})
+
+output$play_missing <- renderUI({
+  vec <- vector()
+  
+  for(i in 1:nrow(play_missing)){
+    ln <- play_missing[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
 })
 
 
@@ -1207,6 +1323,39 @@ output$schools_map <- renderLeaflet({
                clusterOptions = markerClusterOptions())
 })
 
+output$learn_projects <- renderUI({
+  vec <- vector()
+  
+  for(i in 1:nrow(learn_projects)){
+    ln <- learn_projects[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
+})
+
+output$learn_resources <- renderUI({
+  vec <- vector()
+  
+  for(i in 1:nrow(learn_resources)){
+    ln <- learn_resources[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
+})
+
+output$learn_missing <- renderUI({
+  vec <- vector()
+  
+  for(i in 1:nrow(learn_missing)){
+    ln <- learn_missing[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
+})
+
 # ENGAGE Tab ----
 
 output$projects <- renderUI({
@@ -1277,6 +1426,44 @@ output$voters_rp <- renderBillboarder({
     bb_axis(x =list(height = 50))
   
 })
+
+output$engage_projects <- renderUI({
+  vec <- vector()
+  
+  for(i in 1:nrow(engage_projects)){
+    ln <- engage_projects[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
+})
+
+output$engage_resources <- renderUI({
+  vec <- vector()
+  
+  for(i in 1:nrow(engage_resources)){
+    ln <- engage_resources[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
+})
+
+output$engage_missing <- renderUI({
+  vec <- vector()
+  
+  for(i in 1:nrow(engage_missing)){
+    ln <- engage_missing[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
+})
+
+# CIVIC Tab ----
+
+
+# EXPLORE Tab ----
 
 
 
