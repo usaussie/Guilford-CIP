@@ -164,23 +164,23 @@ walk(explore_mapdata, function(layer) {
 exploremap <- exploremap %>%
   addTiles(options = tileOptions(minZoom = 5)) %>%
   addLayersControl(baseGroups = explore_tables$title,
-                   overlayGroups = c("schools", "parks", "food"),
+                   overlayGroups = c("Schools", "Parks", "Food Stores"),
                    position = "bottomright",
                    options = layersControlOptions(collapsed = F)) %>%
-  hideGroup(c("schools", "parks", "food"))
+  hideGroup(c("Schools", "Parks", "Food Stores"))
 
 exploremap <- exploremap %>%
   addCircleMarkers(data = food_stores,
                    lat = ~lat, lng = ~lon, popup = ~name,
                    stroke = TRUE, fillOpacity = 0.075,
-                   group = "food") %>%
+                   group = "Food Stores") %>%
   addMarkers(data = schools,
              lat = ~lat, lng = ~lon, popup = ~name,
              clusterOptions = markerClusterOptions(),
-             group = "schools") %>%
+             group = "Schools") %>%
   addMarkers(data = parks,
              lat = ~lat, lng = ~lon, popup = ~name,
              clusterOptions = markerClusterOptions(),
-             group = "parks")
+             group = "Parks")
 
 exploremap
