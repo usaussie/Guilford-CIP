@@ -1,0 +1,1 @@
+Enter resources for work tab here, each resource on a new line

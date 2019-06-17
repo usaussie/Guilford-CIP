@@ -10,30 +10,64 @@ library(sf)
 
 # Load data ---------------------------------------------------------------
 
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/voters.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/deaths.rda")
-load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/tourism.rda")
-projects <-read_csv("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/projects.csv")
-death <-read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_addresses_geocoded.rds")
-schools <-read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/schools.rds")
-food_stores <-read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/food_stores.rds")
-parks <-read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/parks.rds")
-projects_txt <- file("./data/projects_act.txt")
+
+#load from github
+
+load("./data/ages.rda")
+load("./data/race.rda")
+load("./data/ethnicity.rda")
+load("./data/sex.rda")
+load("./data/emp_race.rda")
+load("./data/age.rda")
+load("./data/med_income.rda")
+load("./data/vacant_housing.rda")
+load("./data/geo_places.rda")
+load("./data/hh_race.rda")
+load("./data/life_expectancy.rda")
+load("./data/births.rda")
+load("./data/weather.rda")
+load("./data/ipeds.rda")
+load("./data/transportation.rda")
+load("./data/voters.rda")
+load("./data/deaths.rda")
+load("./data/tourism.rda")
+schools <- read_rds("./data/schools.rds")
+load("./data/parks_1.rda")
+food_stores <- read_rds("./data/food_stores.rds")
+projects <- read_csv("./data/projects.txt")
+resources <- read_csv("./data/resources.txt")
+
+# Editable text files
+live_resources <- read_csv("./edit/live_resources.txt")
+live_projects <- read_csv("./edit/live_projects.txt")
+live_missing <- read_csv("./edit/live_missing.txt")
+
+#load from drive
+
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/race.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ethnicity.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/sex.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/med_income.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ipeds.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/births.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/transportation.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/voters.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/deaths.rda")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/tourism.rda")
+# projects <-read_csv("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/projects.csv")
+# death <-read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_addresses_geocoded.rds")
+# schools <-read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/schools.rds")
+# food_stores <-read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/food_stores.rds")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/parks_1.rda")
+# projects_txt <- file("./data/projects_act.txt")
 
 
 
@@ -43,116 +77,144 @@ projects_txt <- file("./data/projects_act.txt")
 
 # Define the body ----
 
-body <- mainPanel(
-  fluidRow(
-    
-  ), 
+body <- mainPanel(width = 12,
+  fluidRow(), 
   
   fluidRow(
     column(10, offset = 1, 
            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien.")
   ), 
   br(),
+
+  fluidRow(
+    img(src = './Images/line.png',class = "lineImg")
+  ),
   br(),
-    tabsetPanel(
+  tabsetPanel(
+      
         type = "tabs", 
         
-        # Overview Tabs ----
+        # Overview Tab ----
         
         tabPanel(
         
-            title = "Overview", icon = icon("binoculars"), 
+            title = "OVERVIEW", icon = icon("binoculars"), 
             tags$div(class = "overview-tab",
-                     br(),
                      
-                     fluidRow(column(
-                         12,
-                         img(src = "./Images/overview.png", class = "bannerImg")
-                         
-                     )),
                      br(),
                      
                      fluidRow(
-                         column(
-                             12,
-                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-          dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada
-          proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna.
-          Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non
-          curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum
-          tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas.
-          Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique.
-          Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar
-          sapien."
-                             
-                         )
-                     ))
+                       column(
+                         12, 
+                         img(src = "./Images/overview.png", class = "sec-bannerImg")
+                       )
+                     ),
+                     br(),
+                     
+                     fluidRow(
+                       column(
+                         12,
+                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                         
+                       )
+                     ),
+                     br(),
+                     fluidRow(
+                       
+                       column(
+                         2,
+                         img(src = "./Images/pop_age.png", class = "popAge"),
+                         h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Tables B01001 Sex by Age, B01002 Median Age by Sex")
+                       ),
+                       column(
+                         5, 
+                         h3("Age Distribution", align ="center"),
+                         billboarderOutput("age"),
+                         h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B01001 Sex by Age", align = "center")
+                         
+                       ),
+                       column(
+                         5, 
+                         h3("Males to Females in Guilford County", align = "center"),
+                         billboarderOutput("sex"), 
+                         h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B01001 Sex by Age", align = "center")
+                         
+                       )
+                       
+                     ),
+                     br(),
+                     fluidRow(
+                       column(
+                         12,
+                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                         
+                       )
+                     ), 
+                     fluidRow(
+                       column(
+                         6,
+                         h3("Race", align = "center"),
+                         billboarderOutput("race"), 
+                         h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B01001: Sex by Age. Tables B01001A, B01001B, B01001C, B01001D, B01001E, B01001F, B01001G: Sex by Age (Racial Iterations). ", align = "center")
+                       ), 
+                       column(
+                         6, 
+                         h3("Ethnicity", align = "center"),
+                         billboarderOutput("ethnicity"), 
+                         h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B03003: Hispanic or Latino Origin.", align = "center")
+                       )
+                       
+                       
+                     )
+                     )
         ),
         
-        # Civic Tab ----
-        tabPanel(
-            title = "Civic",icon = icon("chart-bar"),
-            tags$div(
-                class = "civic-tab",
-                fluidRow(
-                    column(
-                        12, 
-                        img(src = "./Images/civic.png", class = "bannerImg")
-                    )
-                ), 
-                br(),
-                fluidRow(
-                    column(
-                        12,
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
-                        
-                    )
-                ), 
-                fluidRow(
-                    column(
-                        2,
-                        img(src = "./Images/pop_age.png", class = "popAge")
-                    ),
-                    column(
-                        5, 
-                        billboarderOutput("age")
-                    ),
-                    column(
-                        5, 
-                        billboarderOutput("sex")
-                    )
-                ), 
-                fluidRow(
-                    column(
-                        6,
-                        billboarderOutput("race")
-                    ), 
-                    column(
-                        6, 
-                        billboarderOutput("ethnicity")
-                    )
-                )
-                
-            )
-        ),
+       
         
         # Live Tab -----
-        tabPanel(title = "Live", icon = icon("home"),
+        tabPanel(title = "LIVE", icon = icon("home"),
                  tags$div(class = "live-tab",
+                          br(),
                           fluidRow(column(12,
-                                          img(src = "./Images/live.png", class = "bannerImg"))),
+                                          img(src = "./Images/live.png", class = "sec-bannerImg"))),
+                          br(),
                           
                           fluidRow(
                             column(12,
                               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
                             )),
+                          br(),
+                          fluidRow(
+                            column(
+                              2,
+                              offset = 3,
+                              wellPanel(
+                                align = "center",
+                                HTML("<a href='#people'><h4> Jump to People </h4> </a>")
+                              )
+                            ),
+                            column(
+                              2,
+                              wellPanel(
+                                align = "center",
+                                HTML("<a href='#places'><h4> Jump to Places </h4> </a>")
+                              )
+                            ),
+                            column(
+                              2,
+                              wellPanel(
+                                align = "center",
+                                HTML("<a href='#health'><h4> Jump to Health </h4> </a>")
+                              )
+                            )
+                          ),
                           
                           tags$div(class = "subtitle",
                             fluidRow(
                             column(
                               12,
                               align = "center",
-                              h1("PEOPLE")
+                              div(h1("PEOPLE"), id = "people")
                             )
                           )),
                          
@@ -162,48 +224,44 @@ body <- mainPanel(
 
                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
                               )),
+                          br(),
                      
                           fluidRow(
                             column(
                               4,
                               offset  = 1,
 
-                                img(src = "./Images/life_expectancy.png", class = "leInfo")
+                                img(src = "./Images/life_expectancy.png", class = "leInfo"), 
+                              h6("Data Source: North Carolina Center for Health Statistics (2017)", align = "center")
 
                             ),
 
                             column(
                               7,
-
-                                  img(src = "./Images/live01.jpg", class = "live01")
+                              align = "center",
+                              img(src = "./Images/live01.jpg", class = "live01")
 
                             )
                           ), 
+                          br(),
                          
                           fluidRow(
                             column(
                               4,
-
-                                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc. Bibendum enim facilisis gravida neque convallis. Ac felis donec et odio pellentesque diam volutpat commodo sed. Rhoncus est pellentesque elit
-                                  ullamcorper dignissim cras tincidunt lobortis feugiat."
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc. Bibendum enim facilisis gravida neque convallis. Ac felis donec et odio pellentesque diam volutpat commodo sed. Rhoncus est pellentesque eliullamcorper dignissim cras tincidunt lobortis feugiat."
                             ),
                             column(
-                              7,
+                              8,
+                              align= "center",
+                              h3("Births Over Time", align = "center"),
 
-                                plotlyOutput("birth2")
+                                plotlyOutput("birth2"), 
+                              h6("Data Source: Jason's Data", align = "center")
 
                             )
                           ), 
                           
-                          fluidRow(
-                            column(
-                              width = 8,
-                              offset = 2,
-                              h1("Life Expectancy in Guilford County Compared to the State of North Carolina")
-                            )
-                          ),
-                          
-                          fluidRow(
+                         fluidRow(
                             column(12,
 
                                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget arcu dictum varius duis at consectetur lorem donec massa. Ut consequat semper viverra nam libero justo laoreet sit amet. Egestas congue quisque egestas diam in arcu. Suspendisse potenti nullam ac tortor vitae purus. At ultrices mi tempus imperdiet nulla malesuada pellentesque."
@@ -221,28 +279,34 @@ body <- mainPanel(
                           fluidRow(
                             column(
                               7,
+                              h3("Unnatural Deaths by Race and Sex", align = "center"),
 
-                                billboarderOutput("deaths")
+                                billboarderOutput("deaths"),
+                              h6("Data Source: Jason's Data", align = "center")
 
 
                             ),
                             column(
                               5,
-
-                                billboarderOutput("hh_race")
+                              h3("Race of Householder", align = "center"),
+                              billboarderOutput("hh_race"),
+                              h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B25006 Race of Householder", align  = "center")
+                                
 
                             )
 
                           ),
 
-                          fluidRow(
+                          tags$div(fluidRow(
+                            class = "subtitle",
                             column(
                               12,
+                              align = "center",
 
-                                h1("PLACES")
+                                div(h1("PLACES"),id = "places")
 
                             )
-                          ),
+                          )),
 
                           fluidRow(
                             column(12,
@@ -254,51 +318,513 @@ body <- mainPanel(
                           fluidRow(
                             column(
                               5,
-
-                                  img(src = "./Images/live02.jpg", class = "live02")
-
-
-                            ),
+                              img(src = "./Images/live02.jpg", class = "live02")
+                              ),
 
                             column(7,
+                                   h3("Access to Food Stores", align = "center"),
 
-                                       leafletOutput("food_stores_map")
+                                       leafletOutput("food_stores_map"),
+                                   h6("Data Source: Google?", align = "center")
 
 
                             )
                           ),
+                         br(),
 
                           fluidRow(
 
                             column(
                               8,
                               offset = 2,
+                              h3("Percentage of Vacant Houses", align = "center"),
 
                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien.",
-                                  leafletOutput("vacant_houses_map")
+                              fluidRow(br()),    
+                              leafletOutput("vacant_houses_map"),
+                              h6("Data Source: U.S. Census Bureau (2017).American Community Survey 1-year estimates. Table B25002 Occupancy Status", align = "center")
 
 
                             )
 
 
                           ),
-
-
+                         
+                         div(
+                           
+                           fluidRow(class= "subtitle", 
+                             column(
+                               12, 
+                               align = "center", 
+                               div(h1("HEALTH"), id = "health")
+                             )
+                           )
+                         ),
+                         
+                         fluidRow(
+                           column(3,
+                                  offset = 1,
+                                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. "),
+                           column(
+                             7, 
+                             "Piedmont Image here"
+                           )
+                         ),
+                         br(),
+                         fluidRow(
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                   h3("Community Projects"),
+                                   htmlOutput("live_projects"))
+                                   ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                   h3("Resources"),
+                                   htmlOutput("live_resources"))
+                                   ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                   h3("What's Missing?"), 
+                                   htmlOutput("live_missing"))
+                            )
+                          ),
+                         br()
+                 )),
+        # Work Tab ----
+        tabPanel(title = "WORK", icon = icon("briefcase"),
+                 
+                 tags$div(class = "work-tab",
+                          br(),
+                          fluidRow(column(
+                            12,
+                            img(src = "./Images/work.png", class = "sec-bannerImg")
+                            
+                          )),
+                          br(),
+                          
+                          fluidRow(
+                            column(
+                              12,
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                              )
+                          ),
+                          
+                          fluidRow(
+                            column(10,
+                                   offset = 1,
+                                   align = "center",
+                                   h3("Employment  Percentage (Civilian Labor Force) by Race and Sex", align = "center"),
+                                   billboarderOutput("emp_race"),
+                                   h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B23002: Sex by Age by Employment Status. Tables B23002A, B23002B, B23002C, B23002D, B23002E, B23002F, B23002G: Sex by Age by Employment Status (Racial Iterations).", align = "center")
+                            )
+                          ),
+                          
+                          fluidRow(
+                            column(
+                              12,
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                              )
+                          ),
+                          br(),
+                          
+                          fluidRow(
+                            column(
+                              10, offset = 1,
+                              img(src = "./Images/work01.jpg", class ="work01")
+                            )
+                          ),
+                          br(),
+                          
                           fluidRow(
                             column(6,
-                                   "Community Projects"
+                                   align  ="center",
+                                   h3("Median Household Income by Race", align = "center"),
+                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. ",
+                                  fluidRow(br()),
+                                   billboarderOutput("med_inc_race"), 
+                                   h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B19013: Median Household Income. Tables B19013A, B19013B, B19013C, B19013D, B19013E, B19013F, B19013G: Median Household Income (Racial Iterations).", align = "center")
+                                   ),
+                            column(5,
+                                   h3("Median Household Income by Ethnicity", align = "center"),
+                                       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id.    ",
+                                   fluidRow(br()),  
+                                    billboarderOutput("med_inc_ethn"),
+                                   h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B19013: Median Household Income. Tables B19013H, B19013BI: Median Household Income (Ethnic Iterations).", align = "center")
+                                   )
+                          ),
+                          
+                          br(),
+                          br(),
+                          
+                          fluidRow(
+                            column(10, offset = 1,
+                                   img(src = "./Images/work02.jpg", class = "work02")
+                                   )
+                          ),
+                          
+                          br(),
+                          
+                          fluidRow(
+                            column(12,
+                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                                       
+                                   )
+                          ),
+                          fluidRow(
+                            column(6,
+                                   h3("Means of Transportation by Race", align = "center"),
+                                       billboarderOutput("transportation_race"),
+                                   h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B08105: Means of Transportation to Work. Tables B08105A, B08105B, B08105C, B08105D, B08105E, B08105F, B08105G: Means of Transportation to Work (Racial Iterations).", align = "center")
                                    ),
                             column(6,
-                                   "Resources"
-                                   )
-                          )
+                                   h3("Means of Transportation by Ethnicity", align = "center"),
+                                     billboarderOutput("transportation_ethnicity"), 
+                                   h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B08105: Means of Transportation to Work. Tables B08105H, B08105I: Means of Transportation to Work (Ethnic Iterations).", align = "center")
+                                   
+                                   
+                            )
+                          ),
+                          br(),
+                          fluidRow(
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("Community Projects"))
+                            ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("Resources"))
+                            ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("What's Missing?"))
+                            )
+                          ),
+                          br()
                  )),
-        tabPanel(title = "Work", icon = icon("briefcase")),
-        tabPanel(title = "Play", icon = icon("tree")),
-        tabPanel(title = "Learn", icon = icon("graduation-cap")),
-        tabPanel(title = "Act", icon = icon("handshake"))
-    )
-)
+        # Play tab ----
+        tabPanel(title = "PLAY", icon = icon("child"),
+                 tags$div(class = "play-tab",
+                          br(),
+                          fluidRow(column(12,
+                                          align = "center",
+                                          img(src = "./Images/play.png", class = "sec-bannerImg")
+                                          )),
+                          br(),
+                          fluidRow(
+                            column(
+                              12, 
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                            )
+                          ),
+                          fluidRow(
+                            
+                            column(10,
+                                   offset = 1,
+                                   h3("Parks Map", align = "center"),
+                                   leafletOutput("parks_map"),
+                                   h6("Data Source: Google", align = "center")
+                            )
+                            
+                          ),
+                          br(),
+                          
+                          
+                          fluidRow(
+                            column(10,
+                                   offset=1,
+                                   h3("Average Weather Over the Last 48 Months", align = "center"),
+                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien.",
+                                  plotlyOutput("weather"), 
+                                  h6("Data Source: State Climate Office of North Carolina, NC CRONOS Database", align = "center")
+                                   )
+                          ),
+                          fluidRow(
+                            column(
+                              8,
+                              align = "center",
+                              HTML('<iframe width="1100" height="260" src="https://www.youtube.com/embed/ScMzIvxBSi4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
+                              
+                            ),
+                            
+                            column(
+                              4,
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                             )
+                          ),
+                          
+                          fluidRow(),
+                          
+                          fluidRow(
+                            column(2,
+                                   img(src = "./Images/tourism.png", class = "tourismInfo")
+                                   ),
+                            column(4,
+                                   br(),
+                                   br(),
+                                   br(),
+                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+                                   ),
+                            column(6,
+                                   h3("Visitor Spending Over Time", align = "center"),
+                                     plotlyOutput("tourism_spending"), 
+                                   h6("Data Source: The Economic Impact of Travel on North Carolina Counties” study prepared for Visit North Carolina by the U.S. Travel Association", align = "center")
+                                   )
+                          ),
+                          br(),
+                          fluidRow(
+                            column(12,
+                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+                                   )),
+                          fluidRow(
+                            column(6,
+                                   fluidRow(br(),
+                                            br()),
+                                   img(src = "./Images/play02.png", class = "play02")
+                                   ),
+                            column(
+                              6,
+                               h3("Strava HeatMap  of Bike/Running Lanes", align = "center"),
+                               img(src = "./Images/strava.png", class ="strava")
+                              )
+                          ),
+                          br(),
+                          fluidRow(
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("Community Projects"))
+                            ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("Resources"))
+                            ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("What's Missing?"))
+                            )
+                          ),
+                          br()
+                 )),
+        # Learn Tab ----
+        tabPanel(title = "LEARN", icon = icon("graduation-cap"),
+                 tags$div(class = "learn-tab",
+                          br(),
+                          fluidRow(column(12,
+                                          align = "center",
+                                          img(src = "./Images/learn.png", class = "sec-bannerImg")
+                                            
+                                          )),
+                          br(),
+                          
+                          fluidRow(
+                            column(12,
+                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+                                   )),
+                          br(),
+                          br(),
+                          br(),
+                          fluidRow(
+                            column(10,
+                                   offset = 1,
+                                   h3("Schools Map", align = "center"),
+                                     leafletOutput("schools_map")
+                           )),
+                          
+                          br(),
+                          br(),
+                          br(),
+                          fluidRow(
+                            column(6,
+                                   img(src = "./Images/learn01.jpg", class = "learn01")
+                                   ),
+                            column(6,
+                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+                                   )
+                          ),
+                          br(),
+                          br(),
+                          fluidRow(
+                            column(12,
+                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+                                   )),
+                          br(),
+                          fluidRow(column(
+                            6,
+                            h3("Percent of College and University Students by Institution", align = "center"),
+                                billboarderOutput("students")
+                          ),
+                          column(
+                            6,
+                            h3("Completion Rates for Guilford County's Colleges and Universities", align = "center"),
+                                billboarderOutput("completion")
+                          )),
+                          br(),
+                          br(),
+                          br(),
+                          fluidRow(
+                            column(12,
+                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+                                   )),
+                          br(),
+                          
+                          fluidRow(
+                            column(6,
+                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
+                                 ),
+                            column(6,
+                                   img(src = "./Images/learn02.jpg", class= "learn02")
+                            )
+                          ),
+                          fluidRow(column(
+                            6,
+                            h3("Debt to Income Ratio for Guilford County's Colleges and Universities", align = "center"),
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum.",
+                            fluidRow(br()),
+                             billboarderOutput("debt")
+                            
+                          ),
+                          column(
+                            6,
+                            h3("Retention Rates for Guilford County's Colleges and Universities", align = "center"),
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum.",
+                            fluidRow(br()),
+                            billboarderOutput("retention"))
+                          ),
+                          br(),
+                          fluidRow(
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("Community Projects"))
+                            ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("Resources"))
+                            ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("What's Missing?"))
+                            )
+                          ),
+                          br()
+                          
+                 )),
+        
+     
+        
+        #Engage tab ----
+        
+        tabPanel(title = "ENGAGE", icon = icon("handshake"),
+                 tags$div(class = "engage-tab",
+                          br(),
+                          fluidRow(column(12,
+                                          align = "center",
+                                          img(src = "./Images/engage.png", class = "sec-bannerImg")
+                                          )),
+                          br(),
+                          fluidRow(
+                            column(
+                              12,
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                              )),
+                          
+                          fluidRow(
+                            column(
+                              8,
+                              offset = 2,
+                              img(src = "./Images/act01.jpg", class ="act01")
+                            )
+                          ),
+                          br(),
+                          
+                          fluidRow(
+                            column(12,
+                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                                   )),
+                          fluidRow(
+                            column(6,
+                                   h3("Race and Party Affliation of Registered Voters", align = "center"),
+                                     billboarderOutput("voters_rp") ),
+                            column(6,
+                                   h3("Gender and Party Affiliation of Registered Voters", align = "center"),
+                                     billboarderOutput("voters_gp")
+                                   )
+                          ),
+                          br(),
+                          fluidRow(
+                            
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("Community Projects"),
+                                     htmlOutput("projects"))
+                            ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("Resources"),
+                                     htmlOutput("resources"))
+                            ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("What's Missing?"))
+                            )
+                            
+                          ),
+                          br()
+                 )
+                 
+        ),
+        
+        # Civic Tab ----
+        tabPanel(
+          title = "CIVIC",icon = icon("university"),
+          tags$div(
+            class = "civic-tab",
+            fluidRow(), 
+            br(),
+            fluidRow(), 
+            fluidRow(), 
+            fluidRow(),
+            fluidRow(), 
+            fluidRow()
+            
+          )
+        ),
+        
+        
+        # Explore tab ----
+        
+        tabPanel(title = "EXPLORE", icon = icon("map-marked-alt"),
+                 tags$div(class = "explore-tab")),
+        
+        #About us tab ----
+        
+        tabPanel(title = "ABOUT US", icon = icon("comment-dots"),
+                 tags$div(class = "about-us-tab",
+                 fluidRow(
+                   column(
+                     12,
+                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                   )
+                 ),
+                 
+                 fluidRow()
+                 ))
+        
+    ))
+
 
 
 
@@ -309,15 +835,18 @@ ui <- fluidPage(theme = "sdashboard.css",
                   windowTitle = "Guilford CIP",
                   title = div(
                   img(src = './Images/line.png',class = "lineImg"),
-                  img(src = './Images/guilford-logo.png',class= "logoImg")
-                )),
-                body)
+                  img(src = './Images/guilford-logo.png',class= "logoImg"), 
+                  img(src = "./Images/guilford.png", class = "bannerImg")
+                  
+                )
+                ),
+                div(body, class= "fullpage"))
 
 
 # Define the server -------------------------------------------------------
 server <- function(input, output) {
 
-  # CIVIC Tab ----
+  # OVERVIEW Tab ----
     
     
     
@@ -437,6 +966,320 @@ output$food_stores_map <- renderLeaflet({
     addCircleMarkers(lat = ~lat, lng = ~lon, popup = ~name,
                      stroke = TRUE, fillOpacity = 0.075)
 })
+
+output$live_projects <- renderUI({
+  vec <- vector()
+  
+  for(i in 1:nrow(live_projects)){
+    ln <- live_projects[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
+})
+
+output$live_resources <- renderUI({
+  vec <- vector()
+  
+  for(i in 1:nrow(live_resources)){
+    ln <- live_resources[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
+})
+
+output$live_missing <- renderUI({
+  vec <- vector()
+  
+  for(i in 1:nrow(live_missing)){
+    ln <- live_missing[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
+})
+
+# WORK Tab ----
+
+output$emp_race <- renderBillboarder({
+  billboarder() %>%
+    bb_barchart(data = emp_race) %>%
+    bb_bar(padding = 2) %>%
+    bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535")) %>%
+    bb_y_axis(tick = list(format = suffix("%")))
+  
+})
+
+output$med_inc_race <- renderBillboarder({
+  med_income_race <- med_income %>%
+    filter(race!="White Alone, Not Hispanic or Latino") %>%
+    filter(race!="Hispanic or Latino") %>%
+    filter(!is.na(estimate)) %>%
+    select(race, estimate) %>%
+    arrange(desc(estimate))
+  
+  billboarder() %>%
+    bb_lollipop(data = med_income_race, point_color = "#CB942B", line_color = "#CB942B") %>%
+    bb_axis(x =list(height = 40))%>%
+    bb_y_axis(tick = list(format = htmlwidgets::JS("d3.format(',')")
+    ))
+  
+  #bb_barchart(data = med_income_race)
+})
+
+output$med_inc_ethn <- renderBillboarder({
+  
+  med_income_ethn <- med_income %>%
+    filter(race=="White Alone, Not Hispanic or Latino"| race =="Hispanic or Latino" ) %>%
+    select(race, estimate)
+  
+  billboarder() %>%
+    bb_lollipop(data = med_income_ethn, point_color = "#026637", line_color = "#026637") %>%
+    bb_axis(x =list(height = 20)) %>%
+    bb_y_axis(tick = list(format = htmlwidgets::JS("d3.format(',')")
+    ))
+  #bb_barchart(data = med_income_ethn)
+})
+
+
+output$transportation_race <- renderBillboarder({
+  
+  transp_race <- transp %>%
+    filter(level!=1) %>%
+    filter(race == "White alone"|race == "Black or African American Alone"|race == "Two or More Races") %>%
+    mutate(label = str_remove(label, "Estimate!!Total!!")) %>%
+    mutate(perc = round(estimate/Total*100,0)) %>%
+    select(race, label, perc) %>%
+    spread(race, perc)
+  
+  billboarder() %>%
+    bb_barchart(data = transp_race, rotated = T) %>%
+    bb_bar(padding = 2) %>%
+    bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535"))%>%
+    bb_y_axis(tick = list(format = suffix("%"))) %>%
+    bb_x_axis(tick = list(width = 250))
+  
+})
+
+
+output$transportation_ethnicity <- renderBillboarder({
+  
+  transp_ethn <- transp %>%
+    filter(level!=1) %>%
+    filter(race == "White Alone, Not Hispanic or Latino"|race == "Hispanic or Latino") %>%
+    mutate(label = str_remove(label, "Estimate!!Total!!")) %>%
+    mutate(perc = round(estimate/Total*100,0)) %>%
+    select(race, label, perc) %>%
+    filter(perc!=0) %>%
+    spread(race, perc)
+  
+  billboarder() %>%
+    bb_barchart(data = transp_ethn, rotated = T) %>%
+    bb_bar(padding = 2) %>%
+    bb_color(palette = c("#AC492E", "#113535", "#CB942B")) %>%
+    bb_x_axis(tick = list(width = 250)) %>%
+    bb_y_axis(tick = list(format = suffix("%")))
+  
+  
+})
+
+
+# PLAY Tab ----
+
+output$weather <- renderPlotly({
+  
+  plot_ly(data = weather) %>%
+    add_trace(x =~month,y=~precipitation, type = 'bar',
+              marker = list(color= 'rgb(223,226,213)'),
+              name = 'PPtn') %>%
+    add_trace(x =~month, y = ~daily_avg, type = 'scatter', mode = 'lines',
+              line= list(color= 'rgb(97,112,48)', width =2.5),
+              name = 'Average Temperature',
+              yaxis = "y2") %>%
+    layout(xaxis = list(title = ""),
+           yaxis = list(side = 'right', title = "Precipitation (in inches)", showgrid = F),
+           yaxis2 = list(side = 'left', overlaying = "y", title = "Temp (in F)", showgrid = F),
+           legend = list(orientation = 'h', y = -0.2, x = 0.2))
+})
+
+
+output$parks_map <- renderLeaflet({
+  leaflet(data = filter_parks) %>%
+    addTiles(options = tileOptions(minZoom = 5)) %>%
+    setMaxBounds(-84, 35, -79, 37) %>%
+    addMarkers(lat = ~lat, lng = ~lon, popup = ~name,
+               clusterOptions = markerClusterOptions())
+})
+
+
+output$tourism_spending <- renderBillboarder({
+  plot <- tourism %>%
+    select(year, expenditures, tax_savings)
+  
+  plot_ly(data = plot) %>%
+    add_trace(x =~year, y = ~expenditures, type = 'scatter', mode = 'lines+markers',
+              line= list(color= '#113535', width =2.5),
+              marker = list(color= '#113535', width =3),
+              name = 'Expenditures') %>%
+    layout(yaxis = list(title = " Expenditure in Millions", separatethousands = TRUE, side = 'left'),
+           xaxis = list(title = "", tickangle = 45, tickfont = list(size = 10)),
+           legend = list(orientation = 'h', y = -0.2, x = 0.2))
+})
+
+
+# LEARN tab ----
+
+output$students <- renderBillboarder({
+  
+  plot <- guilford %>%
+    select(Institution_Name, total_students_entering_2016)
+  
+  
+  billboarder() %>%
+    bb_donutchart(data = plot) %>%
+    bb_color(palette = c("#E54B21", "#113535", "#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637"))
+  
+  
+})
+
+output$completion <- renderBillboarder({
+  
+  plot <- guilford %>%
+    select(Institution_Name, total_complete_avg) %>%
+    mutate(total_complete_avg = total_complete_avg*100) %>%
+    arrange(desc(total_complete_avg))
+  
+  billboarder() %>%
+    bb_barchart(data = plot, rotated = TRUE) %>%
+    #bb_axis(x = list(tick = list(fit = T)), y = list(tick = list(fit = T))) %>%
+    #bb_add_style(text = "font-size: 75%"  ) %>%
+    bb_legend(show = FALSE) %>%
+    bb_y_axis(tick = list(format = suffix("%"))) %>%
+    bb_color(palette = c("#88853B")) %>%
+    bb_x_axis(tick = list(width = 250))
+  
+  
+  
+})
+
+output$retention <- renderBillboarder({
+  
+  plot <- guilford %>%
+    select(Institution_Name, full_time_retention_rate_mean) %>%
+    mutate(full_time_retention_rate_mean = full_time_retention_rate_mean*100) %>%
+    arrange(desc(full_time_retention_rate_mean))
+  
+  billboarder() %>%
+    bb_lollipop(data = plot, x = "full_time_retention_rate_mean", y = "Institution_Name", rotated = F) %>%
+    #bb_axis(x = list(tick = list(fit = T)), y = list(tick = list(fit = T))) %>%
+    #bb_add_style(text = "font-size: 75%"     ) %>%
+    bb_legend(show = FALSE) %>%
+    bb_y_axis(tick = list(format = suffix("%"))) %>%
+    bb_color(palette = c("#113535")) %>%
+    bb_axis(x =list(height = 75))
+  
+  
+})
+
+output$debt <- renderBillboarder({
+  
+  plot <- guilford %>%
+    select(Institution_Name, debt_to_earnings_ratio_best) %>%
+    arrange(desc(debt_to_earnings_ratio_best))
+  
+  billboarder() %>%
+    bb_barchart(data = plot, x = "debt_to_earnings_ratio_best", y = "Institution_Name", rotated = T) %>%
+    #bb_axis(x = list(tick = list(fit = T)), y = list(tick = list(fit = T))) %>%
+    #bb_add_style(text = "font-size: 75%") %>%
+    bb_legend(show = FALSE) %>%
+    bb_y_axis(tick = list(format = suffix("%"))) %>%
+    bb_color(palette = c("#89ada7"))   %>%
+    bb_x_axis(tick = list(width = 250))
+  
+})
+
+output$schools_map <- renderLeaflet({
+  leaflet(data = schools) %>%
+    addTiles(options = tileOptions(minZoom = 5)) %>%
+    setMaxBounds(-84, 35, -79, 37) %>%
+    addMarkers(lat = ~lat, lng = ~lon, popup = ~name,
+               clusterOptions = markerClusterOptions())
+})
+
+# ENGAGE Tab ----
+
+output$projects <- renderUI({
+  
+  vec <- vector()
+  
+  for(i in 1:nrow(projects)){
+    ln <- projects[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
+  
+})
+
+
+output$resources <- renderUI({
+  
+  vec <- vector()
+  
+  for(i in 1:nrow(resources)){
+    ln <- resources[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
+  
+})
+output$voters_gp <- renderBillboarder({
+  voters_gp <- active_voters %>%
+    group_by(gender_code, party_cd) %>%
+    summarise(count = n()) %>%
+    mutate(denom = sum(count)) %>%
+    mutate(perc = round(count/denom*100, 0) ) %>%
+    select(gender_code, party_cd, perc) %>%
+    filter(perc!=0) %>%
+    filter(!is.na(perc), !is.na(gender_code)) %>%
+    spread(party_cd, perc)
+  
+  billboarder() %>%
+    bb_barchart(data = voters_gp) %>%
+    bb_bar(padding = 2) %>%
+    bb_color(palette = c("#071a1e", "#026637", "#88853b", "#3a7993")) %>%
+    bb_y_axis(tick = list(format = suffix("%")))
+  
+  
+})
+
+
+
+output$voters_rp <- renderBillboarder({
+  voters_rp <- active_voters %>%
+    group_by(party_cd, race_code) %>%
+    summarise(count = n()) %>%
+    mutate(denom = sum(count)) %>%
+    mutate(perc = round(count/denom*100, 0) ) %>%
+    select(party_cd, race_code, perc) %>%
+    filter(perc!=0) %>%
+    filter(!is.na(perc)) %>%
+    spread(race_code, perc)
+  
+  
+  billboarder() %>%
+    bb_barchart(data = voters_rp, rotated = F) %>%
+    bb_bar(padding = 2) %>%
+    bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535"))%>%
+    bb_y_axis(tick = list(format = suffix("%")))  %>%
+    bb_axis(x =list(height = 50))
+  
+})
+
+
+
 
 }
 
