@@ -34,7 +34,7 @@ load("./data/tourism.rda")
 schools <- read_rds("./data/schools.rds")
 load("./data/parks_1.rda")
 food_stores <- read_rds("./data/food_stores.rds")
-explore_mapdata <- read_rds("./data/explore_mapdata.rds")
+exploremap <- read_rds("./data/exploremap.rds")
 
 
 
@@ -83,7 +83,7 @@ civic_missing <- read_csv("./edit/civic_missing.txt")
 # schools <-read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/schools.rds")
 # food_stores <-read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/food_stores.rds")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/parks_1.rda")
-# explore_mapdata <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/explore_mapdata.rds")
+# exploremap <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/exploremap.rds")
 
 
 
@@ -877,8 +877,19 @@ body <- mainPanel(width = 12,
                  ), 
                  br(),
                  fluidRow(
-                   leafletOutput("explore_map")
-                 )),
+                   column(
+                     12,
+                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac."
+                   )
+                 ),
+                 br(),
+                 fluidRow(
+                   column(
+                     12, 
+                   leafletOutput("explore_map"))
+                 ),
+                 br()
+                 ),
         
         #About us tab ----
         
@@ -1488,74 +1499,10 @@ output$engage_missing <- renderUI({
 
 # EXPLORE Tab ----
 
-output$explore_mapr <- renderLeaflet({
-  exploremap <- leaflet()
-  
-  walk(explore_mapdata, function(layer) {
-    
-    #Build palette
-    palette <- colorNumeric(
-      palette = "viridis",
-      domain = layer$estimate
-    )
-    
-    group <- explore_tables %>% filter(table == unique(layer$table)) %>% pull(title)
-    
-    popup <- layer %>%
-      transmute(popup = glue("<B>Zip Code: {geoid}</B><BR>
-                           <B>{concept}</B><BR><BR>
-                           {format(estimate, big.mark = ',')}")) %>%
-      pull(popup)
-    
-    #str_replace_all(str_wrap(concept, width = 20, exdent = 3), '\n', '<BR>')
-    
-    
-    exploremap <<- exploremap %>%
-      #addTiles(options = tileOptions(minZoom = 5), group = group) %>%
-      setMaxBounds(-84, 35, -79, 37) %>%
-      addPolygons(data = layer,
-                  group = group,
-                  stroke = F,
-                  fillColor = ~palette(estimate),
-                  fillOpacity = 0.7,
-                  popup = popup
-      ) %>%
-      addLegend(pal = palette,
-                values = layer$estimate,
-                group = group,
-                position = "bottomleft",
-                title = group
-      )
-    
-    
-    
-  })
-  
-  exploremap <- exploremap %>%
-    addTiles(options = tileOptions(minZoom = 5)) %>%
-    addLayersControl(baseGroups = explore_tables$title,
-                     overlayGroups = c("Schools", "Parks", "Food Stores"),
-                     position = "bottomright",
-                     options = layersControlOptions(collapsed = F)) %>%
-    hideGroup(c("Schools", "Parks", "Food Stores"))
-  
-  exploremap <- exploremap %>%
-    addCircleMarkers(data = food_stores,
-                     lat = ~lat, lng = ~lon, popup = ~name,
-                     stroke = TRUE, fillOpacity = 0.075,
-                     group = "Food Stores") %>%
-    addMarkers(data = schools,
-               lat = ~lat, lng = ~lon, popup = ~name,
-               clusterOptions = markerClusterOptions(),
-               group = "Schools") %>%
-    addMarkers(data = parks,
-               lat = ~lat, lng = ~lon, popup = ~name,
-               clusterOptions = markerClusterOptions(),
-               group = "Parks")
-  
+output$explore_map <- renderLeaflet({
   exploremap
-  
 })
+
 
 
 }
