@@ -495,7 +495,7 @@ body <- mainPanel(width = 12,
                           br()
                  )),
         # Play tab ----
-        tabPanel(title = "PLAY", icon = icon("tree"),
+        tabPanel(title = "PLAY", icon = icon("child"),
                  tags$div(class = "play-tab",
                           br(),
                           fluidRow(column(12,
@@ -504,15 +504,31 @@ body <- mainPanel(width = 12,
                                           )),
                           br(),
                           fluidRow(
-                            column(12,
-                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
-                                    )
+                            column(
+                              12, 
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                            )
                           ),
+                          fluidRow(
+                            
+                            column(10,
+                                   offset = 1,
+                                   h3("Parks Map", align = "center"),
+                                   leafletOutput("parks_map"),
+                                   h6("Data Source: Google", align = "center")
+                            )
+                            
+                          ),
+                          br(),
+                          
+                          
                           fluidRow(
                             column(10,
                                    offset=1,
-                                   h6("Average weather over the last 48 months", align = "center"),
-                                   plotlyOutput("weather")
+                                   h3("Average Weather Over the Last 48 Months", align = "center"),
+                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien.",
+                                  plotlyOutput("weather"), 
+                                  h6("Data Source: State Climate Office of North Carolina, NC CRONOS Database", align = "center")
                                    )
                           ),
                           fluidRow(
@@ -543,25 +559,19 @@ body <- mainPanel(width = 12,
                                    ),
                             column(6,
                                    h3("Visitor Spending Over Time", align = "center"),
-                                     plotlyOutput("tourism_spending")
+                                     plotlyOutput("tourism_spending"), 
+                                   h6("Data Source: The Economic Impact of Travel on North Carolina Counties” study prepared for Visit North Carolina by the U.S. Travel Association", align = "center")
                                    )
                           ),
-                          
-                          fluidRow(),
-                          
-                          fluidRow(
-                            column(10,
-                                   offset = 1,
-                                   h3("Parks Map", align = "center"),
-                                     leafletOutput("parks_map")
-                                   )
-                          ),
+                          br(),
                           fluidRow(
                             column(12,
                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
                                    )),
                           fluidRow(
                             column(6,
+                                   fluidRow(br(),
+                                            br()),
                                    img(src = "./Images/play02.png", class = "play02")
                                    ),
                             column(
@@ -570,6 +580,7 @@ body <- mainPanel(width = 12,
                                img(src = "./Images/strava.png", class ="strava")
                               )
                           ),
+                          br(),
                           fluidRow(
                             column(4,
                                    align = "center",
@@ -586,7 +597,8 @@ body <- mainPanel(width = 12,
                                    wellPanel(
                                      h3("What's Missing?"))
                             )
-                          )
+                          ),
+                          br()
                  )),
         # Learn Tab ----
         tabPanel(title = "LEARN", icon = icon("graduation-cap"),
