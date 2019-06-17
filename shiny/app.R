@@ -32,7 +32,7 @@ load("./data/voters.rda")
 load("./data/deaths.rda")
 load("./data/tourism.rda")
 schools <- read_rds("./data/schools.rds")
-parks <- read_rds("./data/parks.rds")
+load("./data/parks_1.rda")
 food_stores <- read_rds("./data/food_stores.rds")
 projects <- read_csv("./data/projects.txt")
 resources <- read_csv("./data/resources.txt")
@@ -61,7 +61,7 @@ resources <- read_csv("./data/resources.txt")
 # death <-read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_addresses_geocoded.rds")
 # schools <-read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/schools.rds")
 # food_stores <-read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/food_stores.rds")
-# parks <-read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/parks.rds")
+# load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/parks_1.rda")
 # projects_txt <- file("./data/projects_act.txt")
 
 
@@ -113,6 +113,7 @@ body <- mainPanel(width = 12,
                          
                        )
                      ),
+                     br(),
                      fluidRow(
                        
                        column(
@@ -122,12 +123,14 @@ body <- mainPanel(width = 12,
                        ),
                        column(
                          5, 
+                         h3("Age Distribution", align ="center"),
                          billboarderOutput("age"),
                          h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B01001 Sex by Age", align = "center")
                          
                        ),
                        column(
                          5, 
+                         h3("Males to Females in Guilford County", align = "center"),
                          billboarderOutput("sex"), 
                          h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B01001 Sex by Age", align = "center")
                          
@@ -145,11 +148,13 @@ body <- mainPanel(width = 12,
                      fluidRow(
                        column(
                          6,
+                         h3("Race", align = "center"),
                          billboarderOutput("race"), 
                          h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B01001: Sex by Age. Tables B01001A, B01001B, B01001C, B01001D, B01001E, B01001F, B01001G: Sex by Age (Racial Iterations). ", align = "center")
                        ), 
                        column(
                          6, 
+                         h3("Ethnicity", align = "center"),
                          billboarderOutput("ethnicity"), 
                          h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B03003: Hispanic or Latino Origin.", align = "center")
                        )
@@ -180,21 +185,21 @@ body <- mainPanel(width = 12,
                               offset = 3,
                               wellPanel(
                                 align = "center",
-                                HTML("<a href='#people'><h1> People </h1> </a>")
+                                HTML("<a href='#people'><h4> Jump to People </h4> </a>")
                               )
                             ),
                             column(
                               2,
                               wellPanel(
                                 align = "center",
-                                HTML("<a href='#places'><h1> Places </h1> </a>")
+                                HTML("<a href='#places'><h4> Jump to Places </h4> </a>")
                               )
                             ),
                             column(
                               2,
                               wellPanel(
                                 align = "center",
-                                HTML("<a href='#health'><h1> Health </h1> </a>")
+                                HTML("<a href='#health'><h4> Jump to Health </h4> </a>")
                               )
                             )
                           ),
@@ -214,6 +219,7 @@ body <- mainPanel(width = 12,
 
                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
                               )),
+                          br(),
                      
                           fluidRow(
                             column(
@@ -232,6 +238,7 @@ body <- mainPanel(width = 12,
 
                             )
                           ), 
+                          br(),
                          
                           fluidRow(
                             column(
@@ -306,11 +313,8 @@ body <- mainPanel(width = 12,
                           fluidRow(
                             column(
                               5,
-
-                                  img(src = "./Images/live02.jpg", class = "live02")
-
-
-                            ),
+                              img(src = "./Images/live02.jpg", class = "live02")
+                              ),
 
                             column(7,
                                    h3("Access to Food Stores", align = "center"),
@@ -331,7 +335,8 @@ body <- mainPanel(width = 12,
                               h3("Percentage of Vacant Houses", align = "center"),
 
                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien.",
-                                  leafletOutput("vacant_houses_map"),
+                              fluidRow(br()),    
+                              leafletOutput("vacant_houses_map"),
                               h6("Data Source: U.S. Census Bureau (2017).American Community Survey 1-year estimates. Table B25002 Occupancy Status", align = "center")
 
 
@@ -1059,7 +1064,7 @@ output$weather <- renderPlotly({
 
 
 output$parks_map <- renderLeaflet({
-  leaflet(data = parks) %>%
+  leaflet(data = filter_parks) %>%
     addTiles(options = tileOptions(minZoom = 5)) %>%
     setMaxBounds(-84, 35, -79, 37) %>%
     addMarkers(lat = ~lat, lng = ~lon, popup = ~name,

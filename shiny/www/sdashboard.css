@@ -168,7 +168,7 @@ header.main-header .navbar .navbar-custom-menu ul.navbar-nav li.dropdown img {
 
 
 
-.live-tab h1, .live-tab h2, .live-tab h3,
+.live-tab h1, .live-tab h2, .live-tab h3, .live-tab h4,
 .live-tab .shiny-html-output.col-sm-.shiny-bound-output p{
 	color: #E54B21 ;
 }
@@ -260,11 +260,17 @@ margin-bottom: 20px;
 }
 
 .live02{
-  width: 100%;
+  width: 90%;
   height: auto;
   vertical-align: center;
 }
 
+
+.live01{
+  width: 65%;
+  height: auto;
+  vertical-align: center;
+}
 .subtitle h1{
   font-weight: 700;
   letter-spacing: 3px;
