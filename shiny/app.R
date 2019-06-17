@@ -856,7 +856,8 @@ body <- mainPanel(width = 12,
                        htmlOutput("civic_missing"))
               )
               
-            )
+            ),
+            br()
             
           )
         ),

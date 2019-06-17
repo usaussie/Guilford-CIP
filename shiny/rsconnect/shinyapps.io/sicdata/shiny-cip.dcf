@@ -5,8 +5,8 @@ account: sicdata
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 983793
-bundleId: 2160102
+bundleId: 2160127
 url: https://sicdata.shinyapps.io/shiny-cip/
-when: 1560812446.4785
+when: 1560812918.63189
 asMultiple: FALSE
 asStatic: FALSE
