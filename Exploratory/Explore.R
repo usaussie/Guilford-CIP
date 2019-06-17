@@ -93,23 +93,27 @@ si_acs <- function(table,
 
 guilfordzips <- c(27263, 27214, 27233, 27235, 27249, 27401, 27403, 27405, 27406, 27407, 27408, 27409, 27410, 27455, 27265, 27282, 27260, 27262, 27283, 27301, 27310, 27313, 27357, 27358, 27377)
 
-explore_tables <- tribble(~title, ~table,
-        "Total Population", "B01003",
-        "Median Household Income", "B19013",
-        "White Pop.", "B02008",
-        "Black Pop.", "B02009",
-        "Am. Indian & Alaska Native Pop.", "B02011",
-        "Asian Pop.", "B02010",
-        "Native Hawaiian and Pacific Isl. Pop.", "B02012",
-        "Other Pop.", "B02013")
+# explore_tables <- tribble(~title, ~table,
+#         "Total Population", "B01003",
+#         "Median Household Income", "B19013",
+#         "White Pop.", "B02008",
+#         "Black Pop.", "B02009",
+#         "Am. Indian & Alaska Native Pop.", "B02011",
+#         "Asian Pop.", "B02010",
+#         "Native Hawaiian and Pacific Isl. Pop.", "B02012",
+#         "Other Pop.", "B02013")
+#
+# #explore_years <- 2010:most_recent_acs_year
+#
+# explore_mapdata <- map(explore_tables$table, function(table) {
+#   si_acs(table, geography = "zcta", year = 2017, geometry = T) %>%
+#     filter(geoid %in% guilfordzips) %>%
+#     st_transform(crs = "+init=epsg:4326")
+# })
+#
+# write_rds(explore_mapdata, "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/explore_mapdata.rds")
 
-#explore_years <- 2010:most_recent_acs_year
-
-explore_mapdata <- map(explore_tables$table, function(table) {
-  si_acs(table, geography = "zcta", year = 2017, geometry = T) %>%
-    filter(geoid %in% guilfordzips) %>%
-    st_transform(crs = "+init=epsg:4326")
-})
+explore_mapdata <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/explore_mapdata.rds")
 
 
 
