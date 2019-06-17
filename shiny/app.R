@@ -34,8 +34,9 @@ load("./data/tourism.rda")
 schools <- read_rds("./data/schools.rds")
 load("./data/parks_1.rda")
 food_stores <- read_rds("./data/food_stores.rds")
-projects <- read_csv("./data/projects.txt")
-resources <- read_csv("./data/resources.txt")
+explore_mapdata <- read_rds("./data/explore_mapdata.rds")
+
+
 
 # Editable text files
 live_resources <- read_csv("./edit/live_resources.txt")
@@ -82,7 +83,7 @@ civic_missing <- read_csv("./edit/civic_missing.txt")
 # schools <-read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/schools.rds")
 # food_stores <-read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/food_stores.rds")
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/parks_1.rda")
-# projects_txt <- file("./data/projects_act.txt")
+# explore_mapdata <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/explore_mapdata.rds")
 
 
 
@@ -823,7 +824,14 @@ body <- mainPanel(width = 12,
             class = "civic-tab",
             fluidRow(), 
             br(),
-            fluidRow(), 
+            fluidRow(
+              column(12,
+                     align = "center",
+                     img(src = "./Images/civic.png", class = "sec-bannerImg")
+              )
+              
+            ), 
+            br(),
             fluidRow(), 
             fluidRow(),
             fluidRow(), 
@@ -857,7 +865,19 @@ body <- mainPanel(width = 12,
         # Explore tab ----
         
         tabPanel(title = "EXPLORE", icon = icon("map-marked-alt"),
-                 tags$div(class = "explore-tab")),
+                 tags$div(class = "explore-tab"),
+                 br(),
+                 fluidRow(
+                   column(12,
+                          align = "center",
+                          img(src = "./Images/explore.png", class = "sec-bannerImg")
+                   )
+                   
+                 ), 
+                 br(),
+                 fluidRow(
+                   leafletOutput("explore_map")
+                 )),
         
         #About us tab ----
         
@@ -1358,6 +1378,8 @@ output$learn_missing <- renderUI({
 
 # ENGAGE Tab ----
 
+
+
 output$projects <- renderUI({
   
   vec <- vector()
@@ -1465,7 +1487,74 @@ output$engage_missing <- renderUI({
 
 # EXPLORE Tab ----
 
-
+output$explore_mapr <- renderLeaflet({
+  exploremap <- leaflet()
+  
+  walk(explore_mapdata, function(layer) {
+    
+    #Build palette
+    palette <- colorNumeric(
+      palette = "viridis",
+      domain = layer$estimate
+    )
+    
+    group <- explore_tables %>% filter(table == unique(layer$table)) %>% pull(title)
+    
+    popup <- layer %>%
+      transmute(popup = glue("<B>Zip Code: {geoid}</B><BR>
+                           <B>{concept}</B><BR><BR>
+                           {format(estimate, big.mark = ',')}")) %>%
+      pull(popup)
+    
+    #str_replace_all(str_wrap(concept, width = 20, exdent = 3), '\n', '<BR>')
+    
+    
+    exploremap <<- exploremap %>%
+      #addTiles(options = tileOptions(minZoom = 5), group = group) %>%
+      setMaxBounds(-84, 35, -79, 37) %>%
+      addPolygons(data = layer,
+                  group = group,
+                  stroke = F,
+                  fillColor = ~palette(estimate),
+                  fillOpacity = 0.7,
+                  popup = popup
+      ) %>%
+      addLegend(pal = palette,
+                values = layer$estimate,
+                group = group,
+                position = "bottomleft",
+                title = group
+      )
+    
+    
+    
+  })
+  
+  exploremap <- exploremap %>%
+    addTiles(options = tileOptions(minZoom = 5)) %>%
+    addLayersControl(baseGroups = explore_tables$title,
+                     overlayGroups = c("Schools", "Parks", "Food Stores"),
+                     position = "bottomright",
+                     options = layersControlOptions(collapsed = F)) %>%
+    hideGroup(c("Schools", "Parks", "Food Stores"))
+  
+  exploremap <- exploremap %>%
+    addCircleMarkers(data = food_stores,
+                     lat = ~lat, lng = ~lon, popup = ~name,
+                     stroke = TRUE, fillOpacity = 0.075,
+                     group = "Food Stores") %>%
+    addMarkers(data = schools,
+               lat = ~lat, lng = ~lon, popup = ~name,
+               clusterOptions = markerClusterOptions(),
+               group = "Schools") %>%
+    addMarkers(data = parks,
+               lat = ~lat, lng = ~lon, popup = ~name,
+               clusterOptions = markerClusterOptions(),
+               group = "Parks")
+  
+  exploremap
+  
+})
 
 
 }
