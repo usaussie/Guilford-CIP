@@ -93,27 +93,30 @@ si_acs <- function(table,
 
 guilfordzips <- c(27263, 27214, 27233, 27235, 27249, 27401, 27403, 27405, 27406, 27407, 27408, 27409, 27410, 27455, 27265, 27282, 27260, 27262, 27283, 27301, 27310, 27313, 27357, 27358, 27377)
 
-# explore_tables <- tribble(~title, ~table,
-#         "Total Population", "B01003",
-#         "Median Household Income", "B19013",
-#         "White Pop.", "B02008",
-#         "Black Pop.", "B02009",
-#         "Am. Indian & Alaska Native Pop.", "B02011",
-#         "Asian Pop.", "B02010",
-#         "Native Hawaiian and Pacific Isl. Pop.", "B02012",
-#         "Other Pop.", "B02013")
-#
-# #explore_years <- 2010:most_recent_acs_year
-#
-# explore_mapdata <- map(explore_tables$table, function(table) {
-#   si_acs(table, geography = "zcta", year = 2017, geometry = T) %>%
-#     filter(geoid %in% guilfordzips) %>%
-#     st_transform(crs = "+init=epsg:4326")
-# })
-#
-# write_rds(explore_mapdata, "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/explore_mapdata.rds")
+explore_tables <- tribble(~short_title, ~table,
+        "Total Population", "B01003",
+        "Median Household Income", "B19013",
+        "White Pop.", "B02008",
+        "Black Pop.", "B02009",
+        "Am. Indian & Alaska Native Pop.", "B02011",
+        "Asian Pop.", "B02010",
+        "Native Hawaiian and Pacific Isl. Pop.", "B02012",
+        "Other Pop.", "B02013")
 
-explore_mapdata <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/explore_mapdata.rds")
+#explore_years <- 2010:most_recent_acs_year
+
+explore_acsdata <- explore_tables %>%
+  split(.$table) %>%
+  map(function(table) {
+    si_acs(table$table, geography = "zcta", year = 2017, geometry = T) %>%
+      filter(geoid %in% guilfordzips) %>%
+      st_transform(crs = "+init=epsg:4326") %>%
+      add_column(short_title = table$short_title)
+  })
+
+write_rds(explore_acsdata, "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/explore_acsdata.rds")
+
+explore_acsdata <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/explore_acsdata.rds")
 
 
 
@@ -121,7 +124,7 @@ explore_mapdata <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County 
 
 exploremap <- leaflet()
 
-walk(explore_mapdata, function(layer) {
+walk(explore_acsdata, function(layer) {
 
   #Build palette
   palette <- colorNumeric(
@@ -129,7 +132,7 @@ walk(explore_mapdata, function(layer) {
       domain = layer$estimate
   )
 
-  group <- explore_tables %>% filter(table == unique(layer$table)) %>% pull(title)
+  group <- layer %>% slice(1) %>% pull(short_title)
 
   popup <- layer %>%
     transmute(popup = glue("<B>Zip Code: {geoid}</B><BR>
@@ -149,13 +152,13 @@ walk(explore_mapdata, function(layer) {
                 fillColor = ~palette(estimate),
                 fillOpacity = 0.7,
                 popup = popup
-    ) %>%
-    addLegend(pal = palette,
-              values = layer$estimate,
-              group = group,
-              position = "bottomleft",
-              title = group
-              )
+    ) #%>%
+    # addLegend(pal = palette,
+    #           values = layer$estimate,
+    #           group = group,
+    #           position = "bottomleft",
+    #           title = group
+    #           )
 
 
 
@@ -163,11 +166,16 @@ walk(explore_mapdata, function(layer) {
 
 exploremap <- exploremap %>%
   addTiles(options = tileOptions(minZoom = 5)) %>%
-  addLayersControl(baseGroups = explore_tables$title,
+  addLayersControl(baseGroups = explore_acsdata %>% map_chr(~.x %>% slice(1) %>% pluck("short_title")) %>% unname(),
                    overlayGroups = c("Schools", "Parks", "Food Stores"),
                    position = "bottomright",
                    options = layersControlOptions(collapsed = F)) %>%
-  hideGroup(c("Schools", "Parks", "Food Stores"))
+  hideGroup(c("Schools", "Parks", "Food Stores")) %>%
+  addLegend(pal = colorNumeric(palette = "viridis", domain = c(0,1)),
+            values = c(0, 1),
+            position = "bottomleft",
+            title = "Scale"
+            )
 
 exploremap <- exploremap %>%
   addCircleMarkers(data = food_stores,
@@ -184,3 +192,17 @@ exploremap <- exploremap %>%
              group = "Parks")
 
 exploremap
+
+exploremap %>% htmlwidgets::onRender("
+                      function(el, x) {
+                      this.on('baselayerchange', function(e) {
+                      e.layer.bringToBack();
+                      })
+                      }
+                      ")
+
+exploremap %>%
+  htmlwidgets::onRender("
+                        function(el, x) {
+                          this.on('baselayerchange', function(e) {
+                            e.")
