@@ -119,7 +119,7 @@ explore_mapdata <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County 
 
 # Map -------------------------------------------------------------------------------------------------------------
 
-emap <- leaflet()
+exploremap <- leaflet()
 
 walk(explore_mapdata, function(layer) {
 
@@ -140,7 +140,7 @@ walk(explore_mapdata, function(layer) {
   #str_replace_all(str_wrap(concept, width = 20, exdent = 3), '\n', '<BR>')
 
 
-  emap <<- emap %>%
+  exploremap <<- exploremap %>%
     #addTiles(options = tileOptions(minZoom = 5), group = group) %>%
     setMaxBounds(-84, 35, -79, 37) %>%
     addPolygons(data = layer,
@@ -161,7 +161,7 @@ walk(explore_mapdata, function(layer) {
 
 })
 
-emap <- emap %>%
+exploremap <- exploremap %>%
   addTiles(options = tileOptions(minZoom = 5)) %>%
   addLayersControl(baseGroups = explore_tables$title,
                    overlayGroups = c("schools", "parks", "food"),
@@ -169,7 +169,7 @@ emap <- emap %>%
                    options = layersControlOptions(collapsed = F)) %>%
   hideGroup(c("schools", "parks", "food"))
 
-emap <- emap %>%
+exploremap <- exploremap %>%
   addCircleMarkers(data = food_stores,
                    lat = ~lat, lng = ~lon, popup = ~name,
                    stroke = TRUE, fillOpacity = 0.075,
@@ -183,4 +183,4 @@ emap <- emap %>%
              clusterOptions = markerClusterOptions(),
              group = "parks")
 
-emap
+exploremap
