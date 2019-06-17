@@ -37,6 +37,11 @@ food_stores <- read_rds("./data/food_stores.rds")
 projects <- read_csv("./data/projects.txt")
 resources <- read_csv("./data/resources.txt")
 
+# Editable text files
+live_resources <- read_csv("./edit/live_resources.txt")
+live_projects <- read_csv("./edit/live_projects.txt")
+live_missing <- read_csv("./edit/live_missing.txt")
+
 #load from drive
 
 # load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/ages.rda")
@@ -370,17 +375,20 @@ body <- mainPanel(width = 12,
                             column(4,
                                    align = "center",
                                    wellPanel(
-                                   h3("Community Projects"))
+                                   h3("Community Projects"),
+                                   htmlOutput("live_projects"))
                                    ),
                             column(4,
                                    align = "center",
                                    wellPanel(
-                                   h3("Resources"))
+                                   h3("Resources"),
+                                   htmlOutput("live_resources"))
                                    ),
                             column(4,
                                    align = "center",
                                    wellPanel(
-                                   h3("What's Missing?"))
+                                   h3("What's Missing?"), 
+                                   htmlOutput("live_missing"))
                             )
                           ),
                          br()
@@ -957,6 +965,39 @@ output$food_stores_map <- renderLeaflet({
     setMaxBounds(-84, 35, -79, 37) %>%
     addCircleMarkers(lat = ~lat, lng = ~lon, popup = ~name,
                      stroke = TRUE, fillOpacity = 0.075)
+})
+
+output$live_projects <- renderUI({
+  vec <- vector()
+  
+  for(i in 1:nrow(live_projects)){
+    ln <- live_projects[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
+})
+
+output$live_resources <- renderUI({
+  vec <- vector()
+  
+  for(i in 1:nrow(live_resources)){
+    ln <- live_resources[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
+})
+
+output$live_missing <- renderUI({
+  vec <- vector()
+  
+  for(i in 1:nrow(live_missing)){
+    ln <- live_missing[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
 })
 
 # WORK Tab ----
