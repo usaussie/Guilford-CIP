@@ -34,8 +34,8 @@ load("./data/tourism.rda")
 schools <- read_rds("./data/schools.rds")
 parks <- read_rds("./data/parks.rds")
 food_stores <- read_rds("./data/food_stores.rds")
-projects_csv <- read_csv("./data/projects.csv")
-projects_txt <- read_lines("./data/projects_act.txt")
+projects <- read_csv("./data/projects.txt")
+resources <- read_csv("./data/resources.txt")
 
 #load from drive
 
@@ -118,18 +118,18 @@ body <- mainPanel(width = 12,
                        column(
                          2,
                          img(src = "./Images/pop_age.png", class = "popAge"),
-                         h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Tables B01001, B01002.")
+                         h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Tables B01001 Sex by Age, B01002 Median Age by Sex")
                        ),
                        column(
                          5, 
                          billboarderOutput("age"),
-                         h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B01001", align = "center")
+                         h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B01001 Sex by Age", align = "center")
                          
                        ),
                        column(
                          5, 
                          billboarderOutput("sex"), 
-                         h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B01001", align = "center")
+                         h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B01001 Sex by Age", align = "center")
                          
                        )
                        
@@ -278,7 +278,7 @@ body <- mainPanel(width = 12,
                               5,
                               h3("Race of Householder", align = "center"),
                               billboarderOutput("hh_race"),
-                              h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B25006", align  = "center")
+                              h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B25006 Race of Householder", align  = "center")
                                 
 
                             )
@@ -332,7 +332,7 @@ body <- mainPanel(width = 12,
 
                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien.",
                                   leafletOutput("vacant_houses_map"),
-                              h6("Data Source: U.S. Census Bureau (2017).American Community Survey 1-year estimates. Table B25002", align = "center")
+                              h6("Data Source: U.S. Census Bureau (2017).American Community Survey 1-year estimates. Table B25002 Occupancy Status", align = "center")
 
 
                             )
@@ -360,18 +360,25 @@ body <- mainPanel(width = 12,
                              "Piedmont Image here"
                            )
                          ),
-
-
-                          fluidRow(
-                            column(6,
+                         br(),
+                         fluidRow(
+                            column(4,
                                    align = "center",
-                                   h3("Community Projects")
+                                   wellPanel(
+                                   h3("Community Projects"))
                                    ),
-                            column(6,
+                            column(4,
                                    align = "center",
-                                   h2("Resources")
-                                   )
-                          )
+                                   wellPanel(
+                                   h3("Resources"))
+                                   ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                   h3("What's Missing?"))
+                            )
+                          ),
+                         br()
                  )),
         # Work Tab ----
         tabPanel(title = "WORK", icon = icon("briefcase"),
@@ -408,6 +415,7 @@ body <- mainPanel(width = 12,
                               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
                               )
                           ),
+                          br(),
                           
                           fluidRow(
                             column(
@@ -422,15 +430,15 @@ body <- mainPanel(width = 12,
                                    align  ="center",
                                    h3("Median Household Income by Race", align = "center"),
                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. ",
-                                       "",
-                                       "",
-                                       billboarderOutput("med_inc_race"), 
+                                  fluidRow(br()),
+                                   billboarderOutput("med_inc_race"), 
                                    h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B19013: Median Household Income. Tables B19013A, B19013B, B19013C, B19013D, B19013E, B19013F, B19013G: Median Household Income (Racial Iterations).", align = "center")
                                    ),
                             column(5,
                                    h3("Median Household Income by Ethnicity", align = "center"),
                                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id.    ",
-                                       billboarderOutput("med_inc_ethn"),
+                                   fluidRow(br()),  
+                                    billboarderOutput("med_inc_ethn"),
                                    h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B19013: Median Household Income. Tables B19013H, B19013BI: Median Household Income (Ethnic Iterations).", align = "center")
                                    )
                           ),
@@ -444,6 +452,7 @@ body <- mainPanel(width = 12,
                                    )
                           ),
                           
+                          br(),
                           
                           fluidRow(
                             column(12,
@@ -465,14 +474,25 @@ body <- mainPanel(width = 12,
                                    
                             )
                           ),
+                          br(),
                           fluidRow(
-                            column(6,
-                                   h3("Community Projects", align = "center")
-                                   ),
-                            column(6,
-                                   h3 ("Resources", align = "center")
-                                   )
-                          )
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("Community Projects"))
+                            ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("Resources"))
+                            ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("What's Missing?"))
+                            )
+                          ),
+                          br()
                  )),
         # Play tab ----
         tabPanel(title = "PLAY", icon = icon("tree"),
@@ -551,12 +571,21 @@ body <- mainPanel(width = 12,
                               )
                           ),
                           fluidRow(
-                            column(6,
-                                   h3("Community Projects", align = "center")
-                                   ),
-                            column(6,
-                                   h3("Resources", align = "center")
-                                   )
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("Community Projects"))
+                            ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("Resources"))
+                            ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("What's Missing?"))
+                            )
                           )
                  )),
         # Learn Tab ----
@@ -632,22 +661,37 @@ body <- mainPanel(width = 12,
                           fluidRow(column(
                             6,
                             h3("Debt to Income Ratio for Guilford County's Colleges and Universities", align = "center"),
-                                billboarderOutput("debt")
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum.",
+                            fluidRow(br()),
+                             billboarderOutput("debt")
                             
                           ),
                           column(
                             6,
                             h3("Retention Rates for Guilford County's Colleges and Universities", align = "center"),
-                                billboarderOutput("retention"))
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum.",
+                            fluidRow(br()),
+                            billboarderOutput("retention"))
                           ),
+                          br(),
                           fluidRow(
-                            column(6,
-                                   h3("Community Projects", align = "center")
-                                   ),
-                            column(6,
-                                   h3("Resources", align = "center")
-                                   )
-                          )
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("Community Projects"))
+                            ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("Resources"))
+                            ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("What's Missing?"))
+                            )
+                          ),
+                          br()
                           
                  )),
         
@@ -660,7 +704,7 @@ body <- mainPanel(width = 12,
                           br(),
                           fluidRow(column(12,
                                           align = "center",
-                                          img(src = "./Images/act.png", class = "sec-bannerImg")
+                                          img(src = "./Images/engage.png", class = "sec-bannerImg")
                                           )),
                           br(),
                           fluidRow(
@@ -676,11 +720,12 @@ body <- mainPanel(width = 12,
                               img(src = "./Images/act01.jpg", class ="act01")
                             )
                           ),
+                          br(),
                           
                           fluidRow(
                             column(12,
-                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
-                                  )),
+                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                                   )),
                           fluidRow(
                             column(6,
                                    h3("Race and Party Affliation of Registered Voters", align = "center"),
@@ -690,18 +735,29 @@ body <- mainPanel(width = 12,
                                      billboarderOutput("voters_gp")
                                    )
                           ),
+                          br(),
                           fluidRow(
-                            column(4,
-                                   offset = 1,
-                                   h3("Community Projects", align = "center"),
-                                   textOutput("txt_act_projects")
-                                   ),
-                            column(6,
-                                   h3("Resources", align = "center"),
-                                       htmlOutput("act_projects")
-                                   )
                             
-                          )
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("Community Projects"),
+                                     htmlOutput("projects"))
+                            ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("Resources"),
+                                     htmlOutput("resources"))
+                            ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("What's Missing?"))
+                            )
+                            
+                          ),
+                          br()
                  )
                  
         ),
@@ -765,7 +821,7 @@ ui <- fluidPage(theme = "sdashboard.css",
 # Define the server -------------------------------------------------------
 server <- function(input, output) {
 
-  # CIVIC Tab ----
+  # OVERVIEW Tab ----
     
     
     
@@ -1093,27 +1149,34 @@ output$schools_map <- renderLeaflet({
                clusterOptions = markerClusterOptions())
 })
 
-# ACT Tab ----
+# ENGAGE Tab ----
 
-output$txt_act_projects <- renderText({
+output$projects <- renderUI({
   
-  print(projects_txt)
+  vec <- vector()
   
-  #print(cat(projects_txt, sep = "\n"))
-  
-  
+  for(i in 1:nrow(projects)){
+    ln <- projects[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
   
 })
 
-output$act_projects <- renderUI({
+
+output$resources <- renderUI({
   
-  value <- projects_csv %>%
-    select(act)
+  vec <- vector()
   
-  HTML(paste(value$act, sep = '</br>'))
+  for(i in 1:nrow(resources)){
+    ln <- resources[i,1]
+    ln1 <- paste(i, ": ", ln)
+    vec <- append(vec, ln1)
+  }
+  HTML(paste(vec, collapse = "<br>"))
   
 })
-
 output$voters_gp <- renderBillboarder({
   voters_gp <- active_voters %>%
     group_by(gender_code, party_cd) %>%
