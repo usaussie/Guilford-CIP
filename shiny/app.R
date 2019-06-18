@@ -1500,6 +1500,75 @@ output$engage_missing <- renderUI({
 # EXPLORE Tab ----
 
 output$explore_map <- renderLeaflet({
+  exploremap <- leaflet()
+  
+  walk(explore_acsdata, function(layer) {
+    
+    #Build palette
+    palette <- colorNumeric(
+      palette = "viridis",
+      domain = layer$estimate
+    )
+    
+    group <- layer %>% slice(1) %>% pull(short_title)
+    
+    popup <- layer %>%
+      transmute(popup = glue("<B>Zip Code: {geoid}</B><BR>
+                           <B>{concept}</B><BR><BR>
+                           {format(estimate, big.mark = ',')}")) %>%
+      pull(popup)
+    
+    #str_replace_all(str_wrap(concept, width = 20, exdent = 3), '\n', '<BR>')
+    
+    
+    exploremap <<- exploremap %>%
+      #addTiles(options = tileOptions(minZoom = 5), group = group) %>%
+      setMaxBounds(-80, 35, -78, 37) %>%
+      addPolygons(data = layer,
+                  group = group,
+                  stroke = F,
+                  fillColor = ~palette(estimate),
+                  fillOpacity = 0.7,
+                  popup = popup
+      ) #%>%
+    # addLegend(pal = palette,
+    #           values = layer$estimate,
+    #           group = group,
+    #           position = "bottomleft",
+    #           title = group
+    #           )
+    
+    
+    
+  })
+  
+  exploremap <- exploremap %>%
+    addTiles(options = tileOptions(minZoom = 5)) %>%
+    addLayersControl(baseGroups = explore_acsdata %>% map_chr(~.x %>% slice(1) %>% pluck("short_title")) %>% unname(),
+                     overlayGroups = c("Schools", "Parks", "Food Stores"),
+                     position = "bottomright",
+                     options = layersControlOptions(collapsed = F)) %>%
+    hideGroup(c("Schools", "Parks", "Food Stores")) %>%
+    addLegend(pal = colorNumeric(palette = "viridis", domain = c(0,1)),
+              values = c(0, 1),
+              position = "bottomleft",
+              title = "Scale"
+    )
+  
+  exploremap <- exploremap %>%
+    addCircleMarkers(data = food_stores,
+                     lat = ~lat, lng = ~lon, popup = ~name,
+                     stroke = TRUE, fillOpacity = 0.075,
+                     group = "Food Stores") %>%
+    addMarkers(data = schools,
+               lat = ~lat, lng = ~lon, popup = ~name,
+               clusterOptions = markerClusterOptions(),
+               group = "Schools") %>%
+    addMarkers(data = filter_parks,
+               lat = ~lat, lng = ~lon, popup = ~name,
+               clusterOptions = markerClusterOptions(),
+               group = "Parks")
+  
   exploremap
 })
 
