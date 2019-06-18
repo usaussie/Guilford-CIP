@@ -5,6 +5,7 @@ library(tidyverse)
 library(leaflet)
 library(plotly)
 library(sf)
+library(siverse)
 
 
 
@@ -35,7 +36,7 @@ schools <- read_rds("./data/schools.rds")
 load("./data/parks_1.rda")
 food_stores <- read_rds("./data/food_stores.rds")
 exploremap <- read_rds("./data/exploremap.rds")
-
+explore_acsdata <- read_rds("./data/explore_acsdata.rds")
 
 
 # Editable text files
