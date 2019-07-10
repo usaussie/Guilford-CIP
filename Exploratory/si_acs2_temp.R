@@ -13,9 +13,9 @@ census_api_key("0cdac4dbbd32b4e4874b79ce6e8fee07d12a7b3a")
 #   mutate(concept = str_to_title(concept)) %>%
 #   rename(variable = name)
 
-acsvars2 <- bind_rows(acs1 = load_variables(2017, "acs1", cache = T),
-                      acs5 = load_variables(2017, "acs5", cache = T),
-                      .id = "dataset") %>%
+acsvars <- bind_rows(acs1 = load_variables(2017, "acs1", cache = T),
+                     acs5 = load_variables(2017, "acs5", cache = T),
+                     .id = "dataset") %>%
   add_column(year = 2017) %>% #to do: don't hardcode year
   mutate(level = str_count(label, pattern = "!!")) %>%
   rowwise() %>%
@@ -31,29 +31,25 @@ acsvars2 <- bind_rows(acs1 = load_variables(2017, "acs1", cache = T),
   select(-label_lead)
 
 
+options(tigris_use_cache = TRUE)
 
+si_acs <- function(table,
+                   geography = "county",
+                   county = NULL,
+                   state = NULL,
+                   summary_var = "universe total",
+                   survey = "acs5",
+                   year = 2017,
+                   discard_summary_rows = TRUE,
+                   geometry = FALSE,
+                   keep_geo_vars = FALSE,
+                   shift_geo = TRUE) {
 
-test <- bind_rows(acs1 = load_variables(2017, "acs1", cache = T),
-          acs5 = load_variables(2017, "acs5", cache = T),
-          .id = "dataset") %>%
-  add_column(year = 2017) %>% #to do: don't hardcode year
-  mutate(level = str_count(label, pattern = "!!")) %>%
-  rowwise() %>%
-  mutate(levlab = str_split(label, pattern = "!!") %>% unlist() %>% .[level + 1]) %>% 
-  ungroup() %>%
-  mutate(concept = str_to_title(concept)) %>%
-  rename(variable = name) %>%
-  separate(col = variable, into = c("table", "row"), sep = "_", remove = F) %>%
-  group_by(year, dataset, table) %>%
-  mutate(label_lead = lead(label)) %>%
-  mutate(is_summary = str_detect(label_lead, label )& !is.na(label_lead)) %>%
-  ungroup() %>%
-  select(-label_lead)
+  acsvars <- acsvars %>% filter(dataset == survey, year == year)
 
-
-si_acs2 <- function(table, geography = "county", county = NULL, state = NULL, summary_var = "universe total", survey = "acs5", year = 2017, discard_summary_rows = TRUE) {
-
-  acsvars <- acsvars2 %>% filter(dataset == survey, year == year)
+  #shift_geo settings
+  if(geography != "county" | geography != "state") shift_geo <- F #shift_geo is only available for states and counties
+  if(!geometry) shift_geo <- F #get_acs() will throw and error if we ask for shift without asking for geo
 
   if(summary_var == "universe total") summary_var = paste0(table, "_001")
   summary_label = acsvars %>% filter(variable == summary_var) %>% pull(levlab)
@@ -63,23 +59,26 @@ si_acs2 <- function(table, geography = "county", county = NULL, state = NULL, su
                 county = county,
                 state = state,
                 output = "tidy",
-                year = 2017,
+                year = year,
                 cache_table = T,
                 summary_var = summary_var,
-                survey = survey) %>%
+                survey = survey,
+                geometry = geometry,
+                keep_geo_vars = keep_geo_vars,
+                shift_geo = shift_geo) %>%
     clean_names() %>%
     left_join(acsvars) %>%
-  select(-summary_moe) %>%
-  select(geoid, geo_name = name, level, levlab, estimate, everything()) %>%
-  rename(!!summary_label := summary_est)
+    select(-summary_moe) %>%
+    select(geoid, geo_name = name, level, levlab, estimate, everything()) %>%
+    rename(!!summary_label := summary_est)
 
-if(discard_summary_rows) {
-  df <- df %>%
-    filter(!is_summary)
-  message("Dropping summary rows.  To keep, run this function with `discard_summary_rows = FALSE`")
-}
+  if(discard_summary_rows) {
+    df <- df %>%
+      filter(!is_summary)
+    message("Dropping summary rows.  To keep, run this function with `discard_summary_rows = FALSE`")
+  }
 
-return(df)
+  return(df)
 }
 
 
