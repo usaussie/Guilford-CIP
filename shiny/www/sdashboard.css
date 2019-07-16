@@ -43,7 +43,7 @@ body {
 
 
 
-a[data-value="OVERVIEW"] {
+a[data-value="DEMOGRAPHICS"] {
   color:#752a07;
 }
 
@@ -125,7 +125,7 @@ body {
 
 
 
-.overview-tab .row {
+.demographics-tab .row {
   padding-left: 10px;
   
 }

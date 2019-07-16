@@ -115,8 +115,8 @@ body <- mainPanel(width = 12,
         
         tabPanel(
         
-            title = "OVERVIEW", icon = icon("binoculars"), 
-            tags$div(class = "overview-tab",
+            title = "DEMOGRAPHICS", icon = icon("binoculars"), 
+            tags$div(class = "demographics-tab",
                      
                      br(),
                      
@@ -770,6 +770,36 @@ body <- mainPanel(width = 12,
                           br(),
                           
                           fluidRow(
+                            
+                            column(
+                              2,
+                              offset = 3,
+                              wellPanel(
+                                align = "center",
+                                HTML("<a href='#vote'><h4> Jump to Vote </h4> </a>")
+                              )
+                            ),
+                            column(
+                              2,
+                              wellPanel(
+                                align = "center",
+                                HTML("<a href='#serve'><h4> Jump to Serve </h4> </a>")
+                              )
+                            ),
+                            column(
+                              2,
+                              wellPanel(
+                                align = "center",
+                                HTML("<a href='#give'><h4> Jump to Give </h4> </a>")
+                              )
+                            )
+                            
+                          ),
+                          
+                          br(),
+                          br(),
+                          
+                          fluidRow(
                             column(
                               8,
                               offset = 2,
@@ -777,6 +807,17 @@ body <- mainPanel(width = 12,
                             )
                           ),
                           br(),
+                          
+                          tags$div(fluidRow(
+                            class = "subtitle",
+                            column(
+                              12,
+                              align = "center",
+                              
+                              div(h1("VOTE"),id = "vote")
+                              
+                            )
+                          )),
                           
                           fluidRow(
                             column(12,
@@ -794,6 +835,42 @@ body <- mainPanel(width = 12,
                                    )
                           ),
                           br(),
+                          tags$div(fluidRow(
+                            class = "subtitle",
+                            column(
+                              12,
+                              align = "center",
+                              
+                              div(h1("SERVE"),id = "serve")
+                              
+                            )
+                          )),
+                          br(),
+                          fluidRow(
+                            column(
+                              12,
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                            )),
+                          br(),
+                          
+                          tags$div(fluidRow(
+                            class = "subtitle",
+                            column(
+                              12,
+                              align = "center",
+                              
+                              div(h1("GIVE"),id = "give")
+                              
+                            )
+                          )),
+                          br(),
+                          fluidRow(
+                            column(
+                              12,
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                            )),
+                          br(),
+                          
                           fluidRow(
                             column(4,
                                    align = "center",
@@ -816,51 +893,6 @@ body <- mainPanel(width = 12,
                           br()
                  )
                  
-        ),
-        
-        # Civic Tab ----
-        tabPanel(
-          title = "CIVIC",icon = icon("university"),
-          tags$div(
-            class = "civic-tab",
-            fluidRow(), 
-            br(),
-            fluidRow(
-              column(12,
-                     align = "center",
-                     img(src = "./Images/civic.png", class = "sec-bannerImg")
-              )
-              
-            ), 
-            br(),
-            fluidRow(), 
-            fluidRow(),
-            fluidRow(), 
-            fluidRow(
-              
-              column(4,
-                     align = "center",
-                     wellPanel(
-                       h3("Community Projects"),
-                       htmlOutput("civic_projects"))
-              ),
-              column(4,
-                     align = "center",
-                     wellPanel(
-                       h3("Resources"),
-                       htmlOutput("civic_resources"))
-              ),
-              column(4,
-                     align = "center",
-                     wellPanel(
-                       h3("What's Missing?"), 
-                       htmlOutput("civic_missing"))
-              )
-              
-            ),
-            br()
-            
-          )
         ),
         
         
@@ -890,22 +922,7 @@ body <- mainPanel(width = 12,
                    leafletOutput("explore_map"))
                  ),
                  br()
-                 ),
-        
-        #About us tab ----
-        
-        tabPanel(title = "ABOUT US", icon = icon("comment-dots"),
-                 tags$div(class = "about-us-tab",
-                 fluidRow(
-                   column(
-                     12,
-                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
-                   )
-                 ),
-                 
-                 fluidRow()
-                 ))
-        
+                 )
     ))
 
 
