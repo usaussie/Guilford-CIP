@@ -193,6 +193,8 @@ exploremap <- exploremap %>%
 
 exploremap
 
+write_rds(exploremap, "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/exploremap.rds")
+
 exploremap %>% htmlwidgets::onRender("
                       function(el, x) {
                       this.on('baselayerchange', function(e) {

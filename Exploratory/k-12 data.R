@@ -55,7 +55,6 @@ spg <- spg %>%
          state_board_region = str_replace(state_board_region, "-", " ")) %>%
   mutate(spg_score = as.numeric(spg_score))
 
-write_rds(spg, "~/Google Drive/SI/DataScience/Data/Guilford County CIP/K-12 Data/spg.rds")
 
 spg <- spg %>%
   filter(district_name == "Guilford County Schools")
