@@ -111,7 +111,7 @@ body <- mainPanel(width = 12,
       
         type = "tabs", 
         
-        # Overview Tab ----
+        # Demographics Tab ----
         
         tabPanel(
         
@@ -182,7 +182,80 @@ body <- mainPanel(width = 12,
                        )
                        
                        
+                     ),
+                     fluidRow(
+                       column(
+                         12,
+                         
+                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                       )),
+                     br(),
+                     
+                     fluidRow(
+                       column(
+                         4,
+                         offset  = 1,
+                         
+                         img(src = "./Images/life_expectancy.png", class = "leInfo"), 
+                         h6("Data Source: North Carolina Center for Health Statistics (2017)", align = "center")
+                         
+                       ),
+                       
+                       column(
+                         7,
+                         align = "center",
+                         img(src = "./Images/live01.jpg", class = "live01")
+                         
+                       )
+                     ), 
+                     br(),
+                     
+                     fluidRow(
+                       column(
+                         4,
+                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc. Bibendum enim facilisis gravida neque convallis. Ac felis donec et odio pellentesque diam volutpat commodo sed. Rhoncus est pellentesque eliullamcorper dignissim cras tincidunt lobortis feugiat."
+                       ),
+                       column(
+                         8,
+                         align= "center",
+                         h3("Births Over Time", align = "center"),
+                         
+                         plotlyOutput("birth2"), 
+                         h6("Data Source: Jason's Data", align = "center")
+                         
+                       )
+                     ), 
+                     
+                     fluidRow(
+                       column(12,
+                              
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget arcu dictum varius duis at consectetur lorem donec massa. Ut consequat semper viverra nam libero justo laoreet sit amet. Egestas congue quisque egestas diam in arcu. Suspendisse potenti nullam ac tortor vitae purus. At ultrices mi tempus imperdiet nulla malesuada pellentesque."
+                       )
+                     ),
+                     
+                     fluidRow(
+                       column(12,
+                              
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus id interdum. Ligula ullamcorper malesuada proin libero nunc consequat interdum varius sit."
+                              
+                       )
+                     ), 
+                     
+                     fluidRow(
+                       column(
+                         8,
+                         offset = 2,
+                         h3("Unnatural Deaths by Race and Sex", align = "center"),
+                         
+                         billboarderOutput("deaths"),
+                         h6("Data Source: Jason's Data", align = "center")
+                         
+                         
+                       )
+                       
+                       
                      )
+                     
                      )
         ),
         
@@ -204,17 +277,10 @@ body <- mainPanel(width = 12,
                           fluidRow(
                             column(
                               2,
-                              offset = 3,
+                              offset = 4,
                               wellPanel(
                                 align = "center",
-                                HTML("<a href='#people'><h4> Jump to People </h4> </a>")
-                              )
-                            ),
-                            column(
-                              2,
-                              wellPanel(
-                                align = "center",
-                                HTML("<a href='#places'><h4> Jump to Places </h4> </a>")
+                                HTML("<a href='#housing'><h4> Jump to Housing </h4> </a>")
                               )
                             ),
                             column(
@@ -226,93 +292,9 @@ body <- mainPanel(width = 12,
                             )
                           ),
                           
-                          tags$div(class = "subtitle",
-                            fluidRow(
-                            column(
-                              12,
-                              align = "center",
-                              div(h1("PEOPLE"), id = "people")
-                            )
-                          )),
-                         
-                          fluidRow(
-                            column(
-                              12,
-
-                                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
-                              )),
-                          br(),
-                     
-                          fluidRow(
-                            column(
-                              4,
-                              offset  = 1,
-
-                                img(src = "./Images/life_expectancy.png", class = "leInfo"), 
-                              h6("Data Source: North Carolina Center for Health Statistics (2017)", align = "center")
-
-                            ),
-
-                            column(
-                              7,
-                              align = "center",
-                              img(src = "./Images/live01.jpg", class = "live01")
-
-                            )
-                          ), 
-                          br(),
-                         
-                          fluidRow(
-                            column(
-                              4,
-                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc. Bibendum enim facilisis gravida neque convallis. Ac felis donec et odio pellentesque diam volutpat commodo sed. Rhoncus est pellentesque eliullamcorper dignissim cras tincidunt lobortis feugiat."
-                            ),
-                            column(
-                              8,
-                              align= "center",
-                              h3("Births Over Time", align = "center"),
-
-                                plotlyOutput("birth2"), 
-                              h6("Data Source: Jason's Data", align = "center")
-
-                            )
-                          ), 
                           
-                         fluidRow(
-                            column(12,
-
-                                       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget arcu dictum varius duis at consectetur lorem donec massa. Ut consequat semper viverra nam libero justo laoreet sit amet. Egestas congue quisque egestas diam in arcu. Suspendisse potenti nullam ac tortor vitae purus. At ultrices mi tempus imperdiet nulla malesuada pellentesque."
-                                   )
-                          ),
                          
-                          fluidRow(
-                            column(12,
-
-                                       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus id interdum. Ligula ullamcorper malesuada proin libero nunc consequat interdum varius sit."
-
-                                   )
-                          ), 
                           
-                          fluidRow(
-                            column(
-                              7,
-                              h3("Unnatural Deaths by Race and Sex", align = "center"),
-
-                                billboarderOutput("deaths"),
-                              h6("Data Source: Jason's Data", align = "center")
-
-
-                            ),
-                            column(
-                              5,
-                              h3("Race of Householder", align = "center"),
-                              billboarderOutput("hh_race"),
-                              h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B25006 Race of Householder", align  = "center")
-                                
-
-                            )
-
-                          ),
 
                           tags$div(fluidRow(
                             class = "subtitle",
@@ -320,7 +302,7 @@ body <- mainPanel(width = 12,
                               12,
                               align = "center",
 
-                                div(h1("PLACES"),id = "places")
+                                div(h1("HOUSING"),id = "housing")
 
                             )
                           )),
@@ -348,6 +330,19 @@ body <- mainPanel(width = 12,
                             )
                           ),
                          br(),
+                         
+                         fluidRow(
+                           column(
+                             6,
+                             offset = 3,
+                             h3("Race of Householder", align = "center"),
+                             billboarderOutput("hh_race"),
+                             h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B25006 Race of Householder", align  = "center")
+                             
+                             
+                           )
+                         ),
+                         
 
                           fluidRow(
 
