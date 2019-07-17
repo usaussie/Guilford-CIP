@@ -34,7 +34,7 @@ acsvars <- load_variables(2017, "acs5", cache = T) %>%
   rename(variable = name)
 
 
-si_acs <- function(table, county = NULL, state = NULL, summary_var = "universe total", geography = NULL, survey = "acs5", geometry = FALSE, cb = TRUE) {
+si_acs <- function(table, county = NULL, state = NULL, summary_var = "universe total", geography = NULL, survey = "acs5", geometry = FALSE) {
   cat(yellow(bold("Reminder: You must stay within the same level for any summary to be valid!\n")))
   
   if(summary_var == "universe total") summary_var = paste0(table, "_001")
@@ -49,7 +49,7 @@ si_acs <- function(table, county = NULL, state = NULL, summary_var = "universe t
           cache_table = T,
           summary_var = summary_var, 
           geometry = geometry, 
-          cb = cb, 
+          cb = T, 
           survey = survey) %>%
     clean_names() %>%
     left_join(acsvars) %>%
@@ -57,6 +57,7 @@ si_acs <- function(table, county = NULL, state = NULL, summary_var = "universe t
     select(geoid, county = name, level, levlab, estimate, everything()) %>%
     rename(!!summary_label := summary_est)
 }
+
 
 
 ```
@@ -188,6 +189,110 @@ vacant_housing %>%
 
 #save(vacant_housing, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/vacant_housing.rda")
 #save(geo_places, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/geo_places.rda")
+
+```
+
+
+Renting vs homeowners
+
+```{r}
+
+
+# A White alone 
+# B Black or African American Alone
+# C American Indian and Alaska Native Alone
+# D Asian Alone
+# E Native Hawaiian and Other Pacific Islander Alone
+# F Some Other Race Alone
+# G Two or More Races
+# H White Alone, Not Hispanic or Latino 
+# I Hispanic or Latino 
+
+
+tenure_df <- lst()
+  
+for(letter in c("A", "B", "C", "D", "E", "F", "G", "H", "I")) {
+    tablenum <- paste0("B25003", letter)
+    
+    df_temp <- si_acs(tablenum, geography = "county", state = "NC", county  = "Guilford County", survey = "acs1") %>% 
+      select(county, estimate, label, level, Total) %>% 
+      mutate(race = letter) 
+    
+    tenure_df[[letter]] <- df_temp
+}
+
+
+tenure_gc <- bind_rows(tenure_df)
+
+
+
+tenure_gc <- tenure_gc %>% 
+  filter(level!=1) %>% 
+  mutate(race = case_when(race == "A" ~ "White alone",
+                          race == "B"~ "Black or African American Alone",
+                          race == "C" ~ "American Indian and Alaska Native Alone",
+                          race == "D" ~ "Asian Alone",
+                          race == "E" ~ "Native Hawaiian and Other Pacific Islander Alone",
+                          race == "F" ~ "Some Other Race Alone",
+                          race == "G" ~ "Two or More Races",
+                          race == "H" ~ "White Alone, Not Hispanic or Latino", 
+                          race == "I" ~ "Hispanic or Latino")) %>% 
+  rename(location = county)
+
+
+tenure_df <- lst()
+  
+for(letter in c("A", "B", "C", "D", "E", "F", "G", "H", "I")) {
+    tablenum <- paste0("B25003", letter)
+    
+    df_temp <- si_acs(tablenum, geography = "place", state = "NC",  survey = "acs1") %>% 
+      select(county, estimate, label, level, Total) %>% 
+      mutate(race = letter) 
+    
+    tenure_df[[letter]] <- df_temp
+}
+
+
+tenure_places <- bind_rows(tenure_df)
+
+
+
+tenure_places <- tenure_places %>% 
+  filter(level!=1) %>% 
+  mutate(race = case_when(race == "A" ~ "White alone",
+                          race == "B"~ "Black or African American Alone",
+                          race == "C" ~ "American Indian and Alaska Native Alone",
+                          race == "D" ~ "Asian Alone",
+                          race == "E" ~ "Native Hawaiian and Other Pacific Islander Alone",
+                          race == "F" ~ "Some Other Race Alone",
+                          race == "G" ~ "Two or More Races",
+                          race == "H" ~ "White Alone, Not Hispanic or Latino", 
+                          race == "I" ~ "Hispanic or Latino")) %>% 
+  rename(location = county) %>% 
+  filter(str_detect(location, "Greensboro")| str_detect(location, "High"))
+  
+  
+tenure <- bind_rows(tenure_gc, tenure_places)
+
+
+tenure_race <- tenure %>% 
+  filter(!str_detect(race, "Hispanic")) %>% 
+  filter(!is.na(Total)) %>% 
+  mutate(perc = estimate/Total) %>% 
+  mutate(tenure = case_when(str_detect(label, "Owner") ~ "Owner",
+                            str_detect(label, "Renter")~"Renter"))  
+ 
+
+
+tenure_bb <- tenure_race %>% 
+   filter(location == lc) %>% 
+  select(race, perc, tenure)
+
+lc <- "Greensboro city, North Carolina"
+
+billboarder() %>% 
+  bb_barchart(data = tenure_bb)
+  
 
 ```
 
