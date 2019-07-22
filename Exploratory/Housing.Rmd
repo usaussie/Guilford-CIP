@@ -68,19 +68,37 @@ si_acs <- function(table, county = NULL, state = NULL, summary_var = "universe t
 
 #B25006 : Race of Householder
 
-hh_race_acs <- si_acs("B25006", state = "NC", geography = "county", county = "Guilford County", survey = "acs1")
+hh_race_gc <- si_acs("B25006", state = "NC", geography = "county", county = "Guilford County", survey = "acs1")
+hh_race_city <- si_acs("B25006", geography = "place", state = "NC",  survey = "acs1")
 
-hh_race <- hh_race_acs %>% 
+hh_race1 <- hh_race_acs %>% 
   select(-moe) %>% 
   filter(level!=3) %>% 
   filter(level!=1) %>% 
   mutate(levlab =  str_remove(levlab, "Householder who is ")) %>% 
-  select(levlab, estimate)
+  select(location = county,levlab, estimate)
 
-billboarder() %>% 
-  bb_donutchart(data = hh_race)
 
-#save(hh_race, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
+hh_race2 <- hh_race_city %>% 
+  filter(str_detect(county, "Greensboro")| str_detect(county, "High")) %>% 
+  select(-moe) %>% 
+  filter(level!=3) %>% 
+  filter(level!=1) %>% 
+  mutate(levlab =  str_remove(levlab, "Householder who is ")) %>% 
+  select(location = county,levlab, estimate)
+
+
+hh_race <- bind_rows(hh_race1,hh_race2 ) %>% 
+  mutate(location = str_remove(location, ", North Carolina"))
+
+# billboarder() %>% 
+#   bb_donutchart(data = hh_race)
+
+#save(hh_race, file = "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
+
+
+
+
 
 
 ```
@@ -280,9 +298,10 @@ tenure_race <- tenure %>%
   filter(!is.na(Total)) %>% 
   mutate(perc = estimate/Total) %>% 
   mutate(tenure = case_when(str_detect(label, "Owner") ~ "Owner",
-                            str_detect(label, "Renter")~"Renter"))  
+                            str_detect(label, "Renter")~"Renter")) %>% 
+  mutate(location = str_remove(location, ", North Carolina"))
  
-
+#save(tenure_race, file= "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/tenure_race.rda")
 
 tenure_bb <- tenure_race %>% 
    filter(location == lc) %>% 
@@ -291,7 +310,8 @@ tenure_bb <- tenure_race %>%
 lc <- "Greensboro city, North Carolina"
 
 billboarder() %>% 
-  bb_barchart(data = tenure_bb)
+  bb_barchart(data = tenure_bb, 
+              mapping = bbaes(race, perc, group= tenure))
   
 
 ```
