@@ -13,6 +13,7 @@ library(siverse)
 library(plotly)
 library(billboarder)
 library(RSocrata)
+library(zoo)
 
 
 
@@ -336,6 +337,33 @@ billboarder() %>%
 
 
 #save(life_expectancy, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/life_expectancy.rda")
+
+```
+
+
+```{r imr piedmont}
+
+imr <- read_csv(("~/Google Drive/SI/DataScience/data/Guilford County CIP/Web Sources/imr_piedmont.csv")) %>% clean_names()
+
+imr <- imr %>% 
+  filter(location == "Guilford", period_of_measure=="2013-2017") %>% 
+  select(indicator_value, breakout_subcategory, breakout_value) %>% 
+  add_row(breakout_subcategory = "All") %>% 
+  mutate(breakout_value = case_when(breakout_subcategory == "All"~na.locf(indicator_value),
+                                    TRUE~breakout_value)) %>% 
+  select(category = breakout_subcategory, value = breakout_value) %>% 
+  mutate(category = str_remove(category, ", non-Hispanic")) %>% 
+  rowid_to_column() %>% 
+  arrange(desc(rowid)) %>% 
+  select(-rowid)
+  
+
+#save(imr, file = "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/imr.rda")
+
+billboarder() %>% 
+  bb_barchart(data = imr) %>% 
+  bb_legend(show =F) 
+
 
 ```
 

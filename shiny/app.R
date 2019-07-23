@@ -33,6 +33,7 @@ load("./data/voters.rda")
 load("./data/deaths.rda")
 load("./data/tourism.rda")
 load("./data/tenure_race.rda")
+load("./data/imr.rda")
 schools <- read_rds("./data/schools.rds")
 load("./data/parks_1.rda")
 food_stores <- read_rds("./data/food_stores.rds")
@@ -378,6 +379,28 @@ body <- mainPanel(width = 12,
                              )
                            )
                          ),
+                         
+                         br(),
+                         
+                         fluidRow(
+                           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. "
+                         
+                         ),
+                 fluidRow(
+                   column(
+                     4,
+                     "Infographic"
+                   ),
+                   column(4,
+                          h3("Infant Mortality Rate", align = "center"),
+                          billboarderOutput("imr"),
+                          h6("Source: Piedmont Health Counts", align = "center")
+                          ),
+                   column(
+                     4,
+                     h3("Diabetes", align = "center")
+                   )
+                 ),
                          
                          fluidRow(
                            column(4,
@@ -1039,13 +1062,16 @@ output$hh_race <- renderBillboarder({
 output$tenure_race <- renderBillboarder({
   tenure_bb <- tenure_race %>% 
     filter(location == location_reactive()) %>% 
+    mutate(perc = round(perc*100,2)) %>% 
     select(race, perc, tenure)
   
   billboarder() %>% 
     bb_barchart(data = tenure_bb, 
                 mapping = bbaes(race, perc, group= tenure)) %>% 
     bb_bar(padding = 2) %>%
-    bb_color(palette = c("#E54B21", "#113535", "#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637"))
+    bb_color(palette = c("#E54B21", "#113535", "#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637")) %>% 
+    bb_y_axis(tick = list(format = suffix("%"))) %>% 
+    bb_axis(x =list(height = 80))
 })
 
 output$vacant_houses_map <- renderLeaflet({
@@ -1088,6 +1114,13 @@ output$food_stores_map <- renderLeaflet({
     addCircleMarkers(lat = ~lat, lng = ~lon, popup = ~name,
                      stroke = TRUE, fillOpacity = 0.075)
 })
+
+output$imr <- renderBillboarder({
+  billboarder() %>% 
+    bb_barchart(data = imr) %>% 
+    bb_legend(show =F)
+})
+
 
 output$live_projects <- renderUI({
   vec <- vector()
