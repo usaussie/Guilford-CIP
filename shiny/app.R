@@ -1,4 +1,5 @@
 library(shiny)
+library(shinydashboard)
 library(shinythemes)
 library(billboarder)
 library(tidyverse)
@@ -32,6 +33,9 @@ load("./data/transportation.rda")
 load("./data/voters.rda")
 load("./data/deaths.rda")
 load("./data/tourism.rda")
+load("./data/tenure_race.rda")
+load("./data/imr.rda")
+load("./data/diabetes.rda")
 schools <- read_rds("./data/schools.rds")
 load("./data/parks_1.rda")
 food_stores <- read_rds("./data/food_stores.rds")
@@ -111,12 +115,12 @@ body <- mainPanel(width = 12,
       
         type = "tabs", 
         
-        # Overview Tab ----
+        # Demographics Tab ----
         
         tabPanel(
         
-            title = "OVERVIEW", icon = icon("binoculars"), 
-            tags$div(class = "overview-tab",
+            title = "DEMOGRAPHICS", icon = icon("binoculars"), 
+            tags$div(class = "demographics-tab",
                      
                      br(),
                      
@@ -182,7 +186,80 @@ body <- mainPanel(width = 12,
                        )
                        
                        
+                     ),
+                     fluidRow(
+                       column(
+                         12,
+                         
+                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                       )),
+                     br(),
+                     
+                     fluidRow(
+                       column(
+                         4,
+                         offset  = 1,
+                         
+                         img(src = "./Images/life_expectancy.png", class = "leInfo"), 
+                         h6("Data Source: North Carolina Center for Health Statistics (2017)", align = "center")
+                         
+                       ),
+                       
+                       column(
+                         7,
+                         align = "center",
+                         img(src = "./Images/live01.jpg", class = "live01")
+                         
+                       )
+                     ), 
+                     br(),
+                     
+                     fluidRow(
+                       column(
+                         4,
+                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc. Bibendum enim facilisis gravida neque convallis. Ac felis donec et odio pellentesque diam volutpat commodo sed. Rhoncus est pellentesque eliullamcorper dignissim cras tincidunt lobortis feugiat."
+                       ),
+                       column(
+                         8,
+                         align= "center",
+                         h3("Births Over Time", align = "center"),
+                         
+                         plotlyOutput("birth2"), 
+                         h6("Data Source: Jason's Data", align = "center")
+                         
+                       )
+                     ), 
+                     
+                     fluidRow(
+                       column(12,
+                              
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget arcu dictum varius duis at consectetur lorem donec massa. Ut consequat semper viverra nam libero justo laoreet sit amet. Egestas congue quisque egestas diam in arcu. Suspendisse potenti nullam ac tortor vitae purus. At ultrices mi tempus imperdiet nulla malesuada pellentesque."
+                       )
+                     ),
+                     
+                     fluidRow(
+                       column(12,
+                              
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus id interdum. Ligula ullamcorper malesuada proin libero nunc consequat interdum varius sit."
+                              
+                       )
+                     ), 
+                     
+                     fluidRow(
+                       column(
+                         8,
+                         offset = 2,
+                         h3("Unnatural Deaths by Race and Sex", align = "center"),
+                         
+                         billboarderOutput("deaths"),
+                         h6("Data Source: Jason's Data", align = "center")
+                         
+                         
+                       )
+                       
+                       
                      )
+                     
                      )
         ),
         
@@ -204,17 +281,10 @@ body <- mainPanel(width = 12,
                           fluidRow(
                             column(
                               2,
-                              offset = 3,
+                              offset = 4,
                               wellPanel(
                                 align = "center",
-                                HTML("<a href='#people'><h4> Jump to People </h4> </a>")
-                              )
-                            ),
-                            column(
-                              2,
-                              wellPanel(
-                                align = "center",
-                                HTML("<a href='#places'><h4> Jump to Places </h4> </a>")
+                                HTML("<a href='#housing'><h4> Jump to Housing </h4> </a>")
                               )
                             ),
                             column(
@@ -226,93 +296,9 @@ body <- mainPanel(width = 12,
                             )
                           ),
                           
-                          tags$div(class = "subtitle",
-                            fluidRow(
-                            column(
-                              12,
-                              align = "center",
-                              div(h1("PEOPLE"), id = "people")
-                            )
-                          )),
-                         
-                          fluidRow(
-                            column(
-                              12,
-
-                                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
-                              )),
-                          br(),
-                     
-                          fluidRow(
-                            column(
-                              4,
-                              offset  = 1,
-
-                                img(src = "./Images/life_expectancy.png", class = "leInfo"), 
-                              h6("Data Source: North Carolina Center for Health Statistics (2017)", align = "center")
-
-                            ),
-
-                            column(
-                              7,
-                              align = "center",
-                              img(src = "./Images/live01.jpg", class = "live01")
-
-                            )
-                          ), 
-                          br(),
-                         
-                          fluidRow(
-                            column(
-                              4,
-                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc. Bibendum enim facilisis gravida neque convallis. Ac felis donec et odio pellentesque diam volutpat commodo sed. Rhoncus est pellentesque eliullamcorper dignissim cras tincidunt lobortis feugiat."
-                            ),
-                            column(
-                              8,
-                              align= "center",
-                              h3("Births Over Time", align = "center"),
-
-                                plotlyOutput("birth2"), 
-                              h6("Data Source: Jason's Data", align = "center")
-
-                            )
-                          ), 
                           
-                         fluidRow(
-                            column(12,
-
-                                       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget arcu dictum varius duis at consectetur lorem donec massa. Ut consequat semper viverra nam libero justo laoreet sit amet. Egestas congue quisque egestas diam in arcu. Suspendisse potenti nullam ac tortor vitae purus. At ultrices mi tempus imperdiet nulla malesuada pellentesque."
-                                   )
-                          ),
                          
-                          fluidRow(
-                            column(12,
-
-                                       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus id interdum. Ligula ullamcorper malesuada proin libero nunc consequat interdum varius sit."
-
-                                   )
-                          ), 
                           
-                          fluidRow(
-                            column(
-                              7,
-                              h3("Unnatural Deaths by Race and Sex", align = "center"),
-
-                                billboarderOutput("deaths"),
-                              h6("Data Source: Jason's Data", align = "center")
-
-
-                            ),
-                            column(
-                              5,
-                              h3("Race of Householder", align = "center"),
-                              billboarderOutput("hh_race"),
-                              h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B25006 Race of Householder", align  = "center")
-                                
-
-                            )
-
-                          ),
 
                           tags$div(fluidRow(
                             class = "subtitle",
@@ -320,7 +306,7 @@ body <- mainPanel(width = 12,
                               12,
                               align = "center",
 
-                                div(h1("PLACES"),id = "places")
+                                div(h1("HOUSING"),id = "housing")
 
                             )
                           )),
@@ -348,6 +334,24 @@ body <- mainPanel(width = 12,
                             )
                           ),
                          br(),
+                         
+                         fluidRow(
+                           column(1,
+                                  radioButtons("location_rb", label = h3("Select Location"),choices = c("Guilford County", "Greensboro city", "High Point city"))),
+                           column(
+                             5,
+                             h3("Race of Householder", align = "center"),
+                             billboarderOutput("hh_race"),
+                             h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B25006 Race of Householder", align  = "center")
+                           ), 
+                           column(
+                             6, 
+                             h3("Owned vs Rented Homes", align = "center"),
+                             billboarderOutput("tenure_race"),
+                             h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B25003 Tenure. Tables B25003A, B25003B, B25003C, B25003D, B25003E, B25003F, B25003G Tenure (Racial Iterations).", align  = "center")
+                           )
+                         ),
+                         
 
                           fluidRow(
 
@@ -377,6 +381,31 @@ body <- mainPanel(width = 12,
                              )
                            )
                          ),
+                         
+                         br(),
+                         
+                         fluidRow(
+                           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. "
+                         
+                         ),
+                 fluidRow(
+                   column(
+                     5
+                     
+                   ),
+                   column(
+                     4,
+                          h3("Infant Mortality Rate", align = "center"),
+                          billboarderOutput("imr"),
+                          h6("Source: Piedmont Health Counts", align = "center")
+                          ),
+                   column(
+                     3,
+                     h3("Diabetes", align = "center"),
+                     h1(htmlOutput("diabetes")),
+                     h6("Source: Piedmont Health Counts", align = "center")
+                   )
+                 ),
                          
                          fluidRow(
                            column(4,
@@ -770,6 +799,36 @@ body <- mainPanel(width = 12,
                           br(),
                           
                           fluidRow(
+                            
+                            column(
+                              2,
+                              offset = 3,
+                              wellPanel(
+                                align = "center",
+                                HTML("<a href='#vote'><h4> Jump to Vote </h4> </a>")
+                              )
+                            ),
+                            column(
+                              2,
+                              wellPanel(
+                                align = "center",
+                                HTML("<a href='#serve'><h4> Jump to Serve </h4> </a>")
+                              )
+                            ),
+                            column(
+                              2,
+                              wellPanel(
+                                align = "center",
+                                HTML("<a href='#give'><h4> Jump to Give </h4> </a>")
+                              )
+                            )
+                            
+                          ),
+                          
+                          br(),
+                          br(),
+                          
+                          fluidRow(
                             column(
                               8,
                               offset = 2,
@@ -777,6 +836,17 @@ body <- mainPanel(width = 12,
                             )
                           ),
                           br(),
+                          
+                          tags$div(fluidRow(
+                            class = "subtitle",
+                            column(
+                              12,
+                              align = "center",
+                              
+                              div(h1("VOTE"),id = "vote")
+                              
+                            )
+                          )),
                           
                           fluidRow(
                             column(12,
@@ -794,6 +864,42 @@ body <- mainPanel(width = 12,
                                    )
                           ),
                           br(),
+                          tags$div(fluidRow(
+                            class = "subtitle",
+                            column(
+                              12,
+                              align = "center",
+                              
+                              div(h1("SERVE"),id = "serve")
+                              
+                            )
+                          )),
+                          br(),
+                          fluidRow(
+                            column(
+                              12,
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                            )),
+                          br(),
+                          
+                          tags$div(fluidRow(
+                            class = "subtitle",
+                            column(
+                              12,
+                              align = "center",
+                              
+                              div(h1("GIVE"),id = "give")
+                              
+                            )
+                          )),
+                          br(),
+                          fluidRow(
+                            column(
+                              12,
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                            )),
+                          br(),
+                          
                           fluidRow(
                             column(4,
                                    align = "center",
@@ -816,51 +922,6 @@ body <- mainPanel(width = 12,
                           br()
                  )
                  
-        ),
-        
-        # Civic Tab ----
-        tabPanel(
-          title = "CIVIC",icon = icon("university"),
-          tags$div(
-            class = "civic-tab",
-            fluidRow(), 
-            br(),
-            fluidRow(
-              column(12,
-                     align = "center",
-                     img(src = "./Images/civic.png", class = "sec-bannerImg")
-              )
-              
-            ), 
-            br(),
-            fluidRow(), 
-            fluidRow(),
-            fluidRow(), 
-            fluidRow(
-              
-              column(4,
-                     align = "center",
-                     wellPanel(
-                       h3("Community Projects"),
-                       htmlOutput("civic_projects"))
-              ),
-              column(4,
-                     align = "center",
-                     wellPanel(
-                       h3("Resources"),
-                       htmlOutput("civic_resources"))
-              ),
-              column(4,
-                     align = "center",
-                     wellPanel(
-                       h3("What's Missing?"), 
-                       htmlOutput("civic_missing"))
-              )
-              
-            ),
-            br()
-            
-          )
         ),
         
         
@@ -890,22 +951,7 @@ body <- mainPanel(width = 12,
                    leafletOutput("explore_map"))
                  ),
                  br()
-                 ),
-        
-        #About us tab ----
-        
-        tabPanel(title = "ABOUT US", icon = icon("comment-dots"),
-                 tags$div(class = "about-us-tab",
-                 fluidRow(
-                   column(
-                     12,
-                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
-                   )
-                 ),
-                 
-                 fluidRow()
-                 ))
-        
+                 )
     ))
 
 
@@ -974,6 +1020,7 @@ output$deaths <- renderBillboarder({
 
   billboarder() %>%
     bb_barchart(data = deaths_un) %>%
+    bb_bar(padding =2) %>% 
     bb_y_axis(tick = list(format = suffix("%"))) %>%
     bb_color(palette = c("#ac492e", "#113535", "#88853b", "#3a7993"))
 
@@ -997,16 +1044,39 @@ output$birth2 <- renderPlotly({
 })
 
 
-
+location_reactive <- reactive({
+  input$location_rb
+})
 
 
 output$hh_race <- renderBillboarder({
+  
+  hh_race_bb <- hh_race %>% 
+    filter(location ==location_reactive()) %>% 
+    select(levlab, estimate)
 
   billboarder() %>%
-    bb_donutchart(data = hh_race) %>%
+    bb_donutchart(data = hh_race_bb) %>%
     bb_color(palette = c("#E54B21", "#113535", "#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637"))
 
 
+})
+
+
+
+output$tenure_race <- renderBillboarder({
+  tenure_bb <- tenure_race %>% 
+    filter(location == location_reactive()) %>% 
+    mutate(perc = round(perc*100,2)) %>% 
+    select(race, perc, tenure)
+  
+  billboarder() %>% 
+    bb_barchart(data = tenure_bb, 
+                mapping = bbaes(race, perc, group= tenure)) %>% 
+    bb_bar(padding = 2) %>%
+    bb_color(palette = c("#E54B21", "#113535", "#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637")) %>% 
+    bb_y_axis(tick = list(format = suffix("%"))) %>% 
+    bb_axis(x =list(height = 80))
 })
 
 output$vacant_houses_map <- renderLeaflet({
@@ -1048,6 +1118,23 @@ output$food_stores_map <- renderLeaflet({
     setMaxBounds(-84, 35, -79, 37) %>%
     addCircleMarkers(lat = ~lat, lng = ~lon, popup = ~name,
                      stroke = TRUE, fillOpacity = 0.075)
+})
+
+
+
+output$imr <- renderBillboarder({
+  billboarder() %>% 
+    bb_barchart(data = imr) %>% 
+    bb_legend(show =F)
+})
+
+
+output$diabetes <- renderUI({
+  val <- diabetes %>% 
+    pull(indicator_value)
+  
+  paste(val, "%")
+  
 })
 
 output$live_projects <- renderUI({
