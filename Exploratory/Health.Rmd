@@ -367,3 +367,17 @@ billboarder() %>%
 
 ```
 
+
+
+```{r diabetes piedmont}
+
+diabetes  <- read_csv("~/Google Drive/SI/DataScience/data/Guilford County CIP/Web Sources/diabetes_piedmont.csv") %>% clean_names()
+
+diabetes <- diabetes %>% 
+  filter(location == "Guilford", period_of_measure == "2015") %>% 
+  select(indicator_value)
+
+#save(diabetes, file = "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/diabetes.rda" )
+
+```
+

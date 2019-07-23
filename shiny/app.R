@@ -1,4 +1,5 @@
 library(shiny)
+library(shinydashboard)
 library(shinythemes)
 library(billboarder)
 library(tidyverse)
@@ -34,6 +35,7 @@ load("./data/deaths.rda")
 load("./data/tourism.rda")
 load("./data/tenure_race.rda")
 load("./data/imr.rda")
+load("./data/diabetes.rda")
 schools <- read_rds("./data/schools.rds")
 load("./data/parks_1.rda")
 food_stores <- read_rds("./data/food_stores.rds")
@@ -388,17 +390,20 @@ body <- mainPanel(width = 12,
                          ),
                  fluidRow(
                    column(
-                     4,
-                     "Infographic"
+                     5
+                     
                    ),
-                   column(4,
+                   column(
+                     4,
                           h3("Infant Mortality Rate", align = "center"),
                           billboarderOutput("imr"),
                           h6("Source: Piedmont Health Counts", align = "center")
                           ),
                    column(
-                     4,
-                     h3("Diabetes", align = "center")
+                     3,
+                     h3("Diabetes", align = "center"),
+                     h1(htmlOutput("diabetes")),
+                     h6("Source: Piedmont Health Counts", align = "center")
                    )
                  ),
                          
@@ -1115,12 +1120,22 @@ output$food_stores_map <- renderLeaflet({
                      stroke = TRUE, fillOpacity = 0.075)
 })
 
+
+
 output$imr <- renderBillboarder({
   billboarder() %>% 
     bb_barchart(data = imr) %>% 
     bb_legend(show =F)
 })
 
+
+output$diabetes <- renderUI({
+  val <- diabetes %>% 
+    pull(indicator_value)
+  
+  paste(val, "%")
+  
+})
 
 output$live_projects <- renderUI({
   vec <- vector()
