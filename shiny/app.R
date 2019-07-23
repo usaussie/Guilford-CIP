@@ -15,10 +15,10 @@ library(siverse)
 
 #load from github
 
-load("./data/ages.rda")
-load("./data/race.rda")
-load("./data/ethnicity.rda")
-load("./data/sex.rda")
+load("./data/ages1.rda")
+load("./data/race_all.rda")
+load("./data/ethnicity_all.rda")
+load("./data/sex_all.rda")
 load("./data/emp_race.rda")
 load("./data/age.rda")
 load("./data/med_income.rda")
@@ -36,6 +36,9 @@ load("./data/tourism.rda")
 load("./data/tenure_race.rda")
 load("./data/imr.rda")
 load("./data/diabetes.rda")
+load("./data/food_insecurity.rda")
+load("./data/snap.rda")
+
 schools <- read_rds("./data/schools.rds")
 load("./data/parks_1.rda")
 food_stores <- read_rds("./data/food_stores.rds")
@@ -148,14 +151,18 @@ body <- mainPanel(width = 12,
                          h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Tables B01001 Sex by Age, B01002 Median Age by Sex")
                        ),
                        column(
-                         5, 
+                         2,
+                         radioButtons("location_rb_d", label = h3("Select Location"),choices = c("Guilford County", "Greensboro city", "High Point city"))
+                       ),
+                       column(
+                         4, 
                          h3("Age Distribution", align ="center"),
                          billboarderOutput("age"),
                          h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B01001 Sex by Age", align = "center")
                          
                        ),
                        column(
-                         5, 
+                         4, 
                          h3("Males to Females in Guilford County", align = "center"),
                          billboarderOutput("sex"), 
                          h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B01001 Sex by Age", align = "center")
@@ -172,14 +179,17 @@ body <- mainPanel(width = 12,
                        )
                      ), 
                      fluidRow(
+                       column(2,
+                              radioButtons("location_rb_d1", label = h3("Select Location"),choices = c("Guilford County", "Greensboro city", "High Point city"))
+                       ),
                        column(
-                         6,
+                         5,
                          h3("Race", align = "center"),
                          billboarderOutput("race"), 
                          h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B01001: Sex by Age. Tables B01001A, B01001B, B01001C, B01001D, B01001E, B01001F, B01001G: Sex by Age (Racial Iterations). ", align = "center")
                        ), 
                        column(
-                         6, 
+                         5, 
                          h3("Ethnicity", align = "center"),
                          billboarderOutput("ethnicity"), 
                          h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B03003: Hispanic or Latino Origin.", align = "center")
@@ -320,11 +330,25 @@ body <- mainPanel(width = 12,
 
                           fluidRow(
                             column(
-                              5,
+                              6,
                               img(src = "./Images/live02.jpg", class = "live02")
                               ),
+                            column(
+                              
+                              6, 
+                              h3("Food Insecurity", align ="center"),
+                              plotlyOutput("food_insecurity"),
+                              h6("Source: Piedmont Health Counts", align = "center")
+                              
+                              
+                              
+                            )),
+                          br(),
+                          fluidRow(
+                            
 
-                            column(7,
+                            column(8,
+                                   offset =2,
                                    h3("Access to Food Stores", align = "center"),
 
                                        leafletOutput("food_stores_map"),
@@ -334,9 +358,15 @@ body <- mainPanel(width = 12,
                             )
                           ),
                          br(),
+                         br(),
+                         fluidRow(
+                           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. "
+                           
+                         ),
+                         br(),
                          
                          fluidRow(
-                           column(1,
+                           column(2,
                                   radioButtons("location_rb", label = h3("Select Location"),choices = c("Guilford County", "Greensboro city", "High Point city"))),
                            column(
                              5,
@@ -345,12 +375,13 @@ body <- mainPanel(width = 12,
                              h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B25006 Race of Householder", align  = "center")
                            ), 
                            column(
-                             6, 
+                             5, 
                              h3("Owned vs Rented Homes", align = "center"),
                              billboarderOutput("tenure_race"),
                              h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B25003 Tenure. Tables B25003A, B25003B, B25003C, B25003D, B25003E, B25003F, B25003G Tenure (Racial Iterations).", align  = "center")
                            )
                          ),
+                         
                          
 
                           fluidRow(
@@ -389,10 +420,18 @@ body <- mainPanel(width = 12,
                          
                          ),
                  fluidRow(
-                   column(
-                     5
-                     
-                   ),
+                   
+                    column(2,
+                           radioButtons("location_rb3", label = h3("Select Location"),
+                                        choices = c("Guilford County", "Greensboro city", "High Point city"))),
+                    column(
+                      4,
+                      h3("Receipt of Food Stamps/SNAP ", align = "center"),
+                      h1(htmlOutput("snap")),
+                      h6("Data Source: U.S. Census Bureau (2017).American Community Survey 1-year estimates. Table B22003 Receipt of Food Stamps/SNAP", align = "center")
+                    ),
+                    
+            
                    column(
                      4,
                           h3("Infant Mortality Rate", align = "center"),
@@ -400,7 +439,7 @@ body <- mainPanel(width = 12,
                           h6("Source: Piedmont Health Counts", align = "center")
                           ),
                    column(
-                     3,
+                     2,
                      h3("Diabetes", align = "center"),
                      h1(htmlOutput("diabetes")),
                      h6("Source: Piedmont Health Counts", align = "center")
@@ -569,6 +608,51 @@ body <- mainPanel(width = 12,
                               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
                             )
                           ),
+                          br(),
+                          fluidRow(
+                            
+                            column(
+                              2,
+                              offset = 3,
+                              wellPanel(
+                                align = "center",
+                                HTML("<a href='#parks'><h4> Jump to Parks </h4> </a>")
+                              )
+                            ),
+                            column(
+                              2,
+                              wellPanel(
+                                align = "center",
+                                HTML("<a href='#arts'><h4> Jump to Arts </h4> </a>")
+                              )
+                            ),
+                            column(
+                              2,
+                              wellPanel(
+                                align = "center",
+                                HTML("<a href='#sports'><h4> Jump to Sports </h4> </a>")
+                              )
+                            )
+                            
+                          ),
+                          
+                          tags$div(fluidRow(
+                            class = "subtitle",
+                            column(
+                              12,
+                              align = "center",
+                              
+                              div(h1("PARKS"),id = "parks")
+                              
+                            )
+                          )),
+                          br(),
+                          fluidRow(
+                            column(
+                              12,
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                            )),
+                          br(),
                           fluidRow(
                             
                             column(10,
@@ -591,6 +675,24 @@ body <- mainPanel(width = 12,
                                   h6("Data Source: State Climate Office of North Carolina, NC CRONOS Database", align = "center")
                                    )
                           ),
+                          
+                          tags$div(fluidRow(
+                            class = "subtitle",
+                            column(
+                              12,
+                              align = "center",
+                              
+                              div(h1("ARTS"),id = "arts")
+                              
+                            )
+                          )),
+                          br(),
+                          fluidRow(
+                            column(
+                              12,
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                            )),
+                          br(),
                           fluidRow(
                             column(
                               8,
@@ -628,6 +730,24 @@ body <- mainPanel(width = 12,
                             column(12,
                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
                                    )),
+                          tags$div(fluidRow(
+                            class = "subtitle",
+                            column(
+                              12,
+                              align = "center",
+                              
+                              div(h1("SPORTS"),id = "sports")
+                              
+                            )
+                          )),
+                          br(),
+                          fluidRow(
+                            column(
+                              12,
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                            )),
+                          br(),
+                          
                           fluidRow(
                             column(6,
                                    fluidRow(br(),
@@ -641,6 +761,7 @@ body <- mainPanel(width = 12,
                               )
                           ),
                           br(),
+                          
                           fluidRow(
                             
                             column(4,
@@ -975,36 +1096,54 @@ ui <- fluidPage(theme = "sdashboard.css",
 # Define the server -------------------------------------------------------
 server <- function(input, output) {
 
-  # OVERVIEW Tab ----
+  # DEMOGRAPHICS Tab ----
     
+  location_reactive_d <- reactive({
+    input$location_rb_d
+  })  
     
-    
+  location_reactive_d1 <- reactive({
+    input$location_rb_d1
+  }) 
+  
     output$age <- renderBillboarder({
+      
+      ages <- ages %>% filter(location ==location_reactive_d()) 
+      
+      
         billboarder() %>%
-            bb_lollipop(data = gc_ages, point_size = 5, point_color = "#617030", line_color = "#617030") %>%
+            bb_lollipop(data = ages, point_size = 5, point_color = "#617030", line_color = "#617030") %>%
             bb_axis(x =list(height = 80))
         #bb_barchart(data = gc_ages, stacked = T)
     })
     
     output$sex <- renderBillboarder({
+      
+      sex <- sex %>% filter(location ==location_reactive_d())
+      
         billboarder() %>%
-            bb_donutchart(data = gc_sex) %>%
+            bb_donutchart(data = sex) %>%
             bb_color(palette = c("#113535", "#CB942B", "#89ada7"))
         
         
     })
     
     output$race <- renderBillboarder({
+      
+      race <- race %>% filter(location ==location_reactive_d1())
+      
         billboarder() %>%
-            bb_donutchart(data = race_county) %>%
+            bb_donutchart(data = race) %>%
             bb_donut() %>%
             bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535"))
         
     })
     
     output$ethnicity <- renderBillboarder({
+      ethnicity <- ethnicity %>% filter(location ==location_reactive_d1())
+      
         billboarder() %>%
-            bb_donutchart(data = acs_ethn_county) %>%
+            bb_donutchart(data = ethnicity) %>%
             bb_color(palette = c("#AC492E", "#113535", "#CB942B"))
         
     })
@@ -1013,6 +1152,8 @@ server <- function(input, output) {
 
 
 # LIVE Tab ----
+
+    
 
 
 output$deaths <- renderBillboarder({
@@ -1125,7 +1266,8 @@ output$food_stores_map <- renderLeaflet({
 output$imr <- renderBillboarder({
   billboarder() %>% 
     bb_barchart(data = imr) %>% 
-    bb_legend(show =F)
+    bb_legend(show =F) %>% 
+    bb_color (palette = c("#CB942B", "#89ada7")) 
 })
 
 
@@ -1136,6 +1278,34 @@ output$diabetes <- renderUI({
   paste(val, "%")
   
 })
+
+location_reactive_3 <- reactive({
+  input$location_rb3
+})
+
+output$snap <- renderUI({
+  snap <- snap %>% 
+    filter(location == location_reactive_3())
+  
+  val <- snap %>% 
+    pull(perc)
+  
+  paste(round(val*100,2), "%")
+  
+})
+
+output$food_insecurity <- renderPlotly({
+  
+  plot_ly(
+    data = food_insecurity, x = ~period_of_measure, y = ~indicator_value/100, type= 'scatter', mode = 'lines+markers',
+    line= list(color= '#E54B21', width =2.5),
+    marker = list(color= '#E54B21', width =3)
+  )  %>% 
+    layout(yaxis = list(rangemode = "tozero", title = "Percentage of population <br> that experienced food insecurity", tickformat = "%"),
+           xaxis = list(title = ""))
+  
+})
+  
 
 output$live_projects <- renderUI({
   vec <- vector()
