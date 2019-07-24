@@ -361,19 +361,59 @@ long_explore_acsdata %>%
 
 
 
+# Comparison to county level data ---------------------------------------------------------------------------------
+
+county_explore_acsdata <- explore_tables %>%
+  group_split(table) %>%
+  future_map(function(table) {
+    #First get the most recent year with the geometry attached
+    geo_table <- si_acs(table$table, geography = "county", year = most_recent_acs_year, county = "Guilford County", state = "NC", geometry = T) %>%
+      st_transform(crs = "+init=epsg:4326") %>%
+      add_column(short_title = table$short_title) %>%
+      rename(!!paste0("est", most_recent_acs_year) := estimate) %>%
+      select(-moe, -year, -matches("Total")) #some tables may not have a Total, so this "matches" avoids an error
+
+
+    #Now get the rest without geometry and attach to the table with geometry
+    data_tables <- map(explore_years, function(explore_years) {
+      si_acs(table$table, geography = "county", year = explore_years, county = "Guilford County", state = "NC", geometry = F) %>%
+        rename(!!paste0("est", explore_years) := estimate) %>%
+        select(-moe, -year, -matches("Total")) #some tables may not have a Total, so this "matches" avoids an error
+    }) %>%
+      reduce(left_join)
+
+    combined_table <- left_join(geo_table, data_tables)
+
+    return(combined_table)
+  }, .progress = T) %>%
+  map(function(table) {
+    table %>%
+      as_tibble() %>%
+      select(-geometry) %>%
+      gather(key = year, value = estimate, matches("est\\d{4}")) %>%
+      mutate(year = parse_number(year))
+  }) %>% bind_rows()
+
+long_explore_acsdata %>%
+  left_join(county_explore_acsdata %>% select(variable, year, estimate))
 
 
 
 
+geom_errorbar(aes(y = bars1, ymin = bars1, ymax = bars1), color="Orange",lty=2)
 
 
-
-
-
-
-
-
-
+long_explore_acsdata %>%
+  filter(short_title == shiny_selected_table,
+         geoid == shiny_selected_geoid) %>%
+  ggplot(aes(x = year, y = estimate)) +
+  geom_col() +
+  geom_errorbar(data = county_explore_acsdata %>%
+            filter(short_title == shiny_selected_table),
+         aes(ymin = estimate, ymax = estimate), color = "blue", lty = 2) +
+  scale_y_continuous(labels = scale_si_unit()) +
+  labs(x = "Year", y = "Estimate") +
+  ggtitle(shiny_selected_table)
 
 
 
