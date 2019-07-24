@@ -14,7 +14,8 @@ most_recent_acs_year <- 2017
 
 # Data ------------------------------------------------------------------------------------------------------------
 
-schools <- read_rds("~/Github/Guilford-CIP/dashboard/data/schools.rds")
+schools <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/gcs.rds") %>%
+  distinct(school, lat, lng)
 parks <- read_rds("~/Github/Guilford-CIP/dashboard/data/parks.rds")
 food_stores <- read_rds("~/Github/Guilford-CIP/dashboard/data/food_stores.rds")
 
@@ -97,6 +98,7 @@ si_acs <- function(table,
 
 # Pull tables -----------------------------------------------------------------------------------------------------
 
+### WARNING WARNING WARNING: DIFFERENT YEARS MAY NOT MATCH VARIABLE NAMES!!!
 
 explore_tables <- tribble(~short_title, ~table,
          "Total Population", "B01003",
@@ -151,11 +153,12 @@ explore_acsdata <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County 
 
 exploremap <- leaflet()
 
-selected_year <- 2013
+shiny_selected_year1 <- 2013
+shiny_selected_year2 <- 2017
 
 walk(explore_acsdata, function(layer) {
 
-  estcolumn <- paste0("est", selected_year)
+  estcolumn <- paste0("est", shiny_selected_year1)
 
   layer <- layer %>%
     rename(estimate = estcolumn)
@@ -169,7 +172,7 @@ walk(explore_acsdata, function(layer) {
   group <- layer %>% slice(1) %>% pull(short_title)
 
   popup <- layer %>%
-    transmute(popup = glue("<B>{concept}</B><BR>
+    transmute(popup = glue("<B>{concept}</B><BR><BR>
                            {format(estimate, big.mark = ',')}")) %>%
     pull(popup)
 
@@ -216,7 +219,7 @@ exploremap <- exploremap %>%
                    stroke = TRUE, fillOpacity = 0.075,
                    group = "Food Stores") %>%
   addMarkers(data = schools,
-             lat = ~lat, lng = ~lon, popup = ~name,
+             lat = ~lat, lng = ~lng, popup = ~school,
              clusterOptions = markerClusterOptions(),
              group = "Schools") %>%
   addMarkers(data = parks,
@@ -241,3 +244,136 @@ exploremap %>%
                         function(el, x) {
                           this.on('baselayerchange', function(e) {
                             e.")
+
+
+# Change Map ------------------------------------------------------------------------------------------------------
+comparemap <- leaflet()
+
+walk(explore_acsdata, function(layer) {
+
+  est_column_year1 <- sym(paste0("est", shiny_selected_year1))
+  est_column_year2 <- sym(paste0("est", shiny_selected_year2))
+
+  layer <- layer %>%
+    mutate(estimate = !!est_column_year2 - !!est_column_year1)
+
+  #Build palette
+  palette <- colorNumeric(
+    palette = "RdYlGn",
+    domain = layer$estimate
+  )
+
+  group <- layer %>% slice(1) %>% pull(short_title)
+
+  popup <- layer %>%
+    transmute(popup = glue("<B>{concept}</B><BR><BR>
+                           Change from {shiny_selected_year1} to {shiny_selected_year2}: {format(estimate, big.mark = ',')}")) %>%
+    pull(popup)
+
+  #str_replace_all(str_wrap(concept, width = 20, exdent = 3), '\n', '<BR>')
+
+
+  comparemap <<- comparemap %>%
+    #addTiles(options = tileOptions(minZoom = 5), group = group) %>%
+    setMaxBounds(-84, 35, -79, 37) %>%
+    addPolygons(data = layer,
+                group = group,
+                stroke = F,
+                fillColor = ~palette(estimate),
+                fillOpacity = 0.7,
+                popup = popup
+    ) #%>%
+  # addLegend(pal = palette,
+  #           values = layer$estimate,
+  #           group = group,
+  #           position = "bottomleft",
+  #           title = group
+  #           )
+
+
+
+})
+
+comparemap <- comparemap %>%
+  addTiles(options = tileOptions(minZoom = 5)) %>%
+  addLayersControl(baseGroups = explore_acsdata %>% map_chr(~.x %>% slice(1) %>% pluck("short_title")) %>% unname(),
+                   overlayGroups = c("Schools", "Parks", "Food Stores"),
+                   position = "bottomright",
+                   options = layersControlOptions(collapsed = F)) %>%
+  hideGroup(c("Schools", "Parks", "Food Stores")) %>%
+  addLegend(pal = colorNumeric(palette = "RdYlGn", domain = c(-1,1)),
+            values = c(-1, 1),
+            position = "bottomleft",
+            title = "Scale"
+  )
+
+comparemap <- comparemap %>%
+  addCircleMarkers(data = food_stores,
+                   lat = ~lat, lng = ~lon, popup = ~name,
+                   stroke = TRUE, fillOpacity = 0.075,
+                   group = "Food Stores") %>%
+  addMarkers(data = schools,
+             lat = ~lat, lng = ~lng, popup = ~school,
+             clusterOptions = markerClusterOptions(),
+             group = "Schools") %>%
+  addMarkers(data = parks,
+             lat = ~lat, lng = ~lon, popup = ~name,
+             clusterOptions = markerClusterOptions(),
+             group = "Parks")
+
+comparemap
+
+
+
+# Timelines -------------------------------------------------------------------------------------------------------
+
+#Drop geo data and go long!
+long_explore_acsdata <- explore_acsdata %>%
+  map(function(table) {
+    table %>%
+      as_tibble() %>%
+      select(-geometry) %>%
+      gather(key = year, value = estimate, matches("est\\d{4}")) %>%
+      mutate(year = parse_number(year))
+  }) %>% bind_rows()
+
+shiny_selected_table <- "Median Household Income"
+shiny_selected_geoid <- "370810101001"
+
+#Chart for the specific geoid
+long_explore_acsdata %>%
+  filter(short_title == shiny_selected_table,
+         geoid == shiny_selected_geoid) %>%
+  ggplot(aes(x = year, y = estimate)) +
+  geom_col() +
+  scale_y_continuous(labels = scale_si_unit()) +
+  labs(x = "Year", y = "Estimate") +
+  ggtitle(shiny_selected_table)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
