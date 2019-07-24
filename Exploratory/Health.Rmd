@@ -381,3 +381,26 @@ diabetes <- diabetes %>%
 
 ```
 
+```{r food insecurity}
+
+food_insecurity <- read_csv("~/Google Drive/SI/DataScience/data/Guilford County CIP/Web Sources/foodinsecurity_piedmont.csv") %>% clean_names()
+
+food_insecurity <- food_insecurity %>% 
+  filter(location == "Guilford") %>%
+  select(indicator_value, period_of_measure)
+
+#save(food_insecurity, file = "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/food_insecurity.rda")
+
+plot_ly(
+  data = food_insecurity, x = ~period_of_measure, y = ~indicator_value/100, type= 'scatter', mode = 'lines+markers',
+  line= list(color= '#E54B21', width =2.5),
+          marker = list(color= '#E54B21', width =3)
+)  %>% 
+  layout(yaxis = list(rangemode = "tozero", title = "Percentage", tickformat = "%"),
+         xaxis = list(title = ""))
+  
+
+
+```
+
+

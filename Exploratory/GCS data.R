@@ -99,9 +99,9 @@ gcs <- lst(post_hs_enrolled, act, hsgrad, kdib, grd3_read) %>%
 #
 # write_rds(gcs, "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/gcs.rds")
 
-# gcs <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/gcs.rds") %>%
-#   select(school, lat, lng) %>% distinct() %>%
-#   left_join(gcs)
+gcs <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/gcs.rds") %>%
+  select(school, lat, lng) %>% distinct() %>%
+  left_join(gcs)
 
 # Map -------------------------------------------------------------------------------------------------------------
 gcs <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/gcs.rds")
@@ -146,8 +146,14 @@ gcs %>%
   ggplot(aes(x = year, y = value, color = label_metric, alpha = I(alpha), group = interaction(metric, measure))) +
     geom_col(position = "dodge")
 
+test <- gcs %>%
+  filter(school == pickschool) %>%
+  select(label_metric, value, label_school_year)
 
 
+billboarder() %>% 
+  bb_barchart(data = test, 
+              mapping = bbaes(label_school_year, value, group= label_metric))
 
 
 
@@ -194,4 +200,8 @@ gcs %>%
   addSearchOSM(options = searchOptions(filterData = "Guilford"))
 
 write_rds(spg_map, "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/leaflet - spg_map.rds")
+
+
+
+---------
 
