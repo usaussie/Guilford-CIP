@@ -44,6 +44,7 @@ load("./data/parks_1.rda")
 food_stores <- read_rds("./data/food_stores.rds")
 exploremap <- read_rds("./data/exploremap.rds")
 explore_acsdata <- read_rds("./data/explore_acsdata.rds")
+gcs <- read_rds("./data/gcs.rds")
 
 
 # Editable text files
@@ -809,10 +810,22 @@ body <- mainPanel(width = 12,
                                    offset = 1,
                                    h3("Schools Map", align = "center"),
                                      leafletOutput("schools_map"), 
-                                   h6("Data Source: Google Maps API Pulls (2019)", align = "center")
+                                   h6("Data Source: GCS (placeholder) ", align = "center")
                            )),
                           
                           br(),
+                          fluidRow(
+                            column(
+                              8, 
+                              offset = 2,
+                              h3("School Performance Metrics", align = "center"),
+                              div(billboarderOutput("schools_details"), align = "center"),
+                              h6("Data Source: GCS (placeholder) ", align = "center")
+                              
+                      
+                            )
+                          ),
+                          
                           br(),
                           br(),
                           fluidRow(
@@ -1606,11 +1619,62 @@ output$debt <- renderBillboarder({
 })
 
 output$schools_map <- renderLeaflet({
-  leaflet(data = schools) %>%
-    addTiles(options = tileOptions(minZoom = 5)) %>%
-    setMaxBounds(-84, 35, -79, 37) %>%
-    addMarkers(lat = ~lat, lng = ~lon, popup = ~name,
+  
+  gcs %>%
+    group_by(school) %>%
+    filter(!is.na(value)) %>%
+    filter(year == max(year)) %>%
+    ungroup() %>%
+    mutate(popup = paste0(label_metric, ": ", scales::percent(value), " (", label_school_year, ")")) %>%
+    select(school, lat, lng, metric, popup) %>%
+    spread(key = metric, value = popup) %>%
+    unite(col = popup, kdib, grd3_read, act, hsgrad, post_hs_enrolled, sep = "<BR>", na.rm = T) %>%
+    mutate(popup = paste0("<B>", school, "</B><BR><BR>", popup)) %>%
+    leaflet() %>%
+    addTiles() %>%
+    addMarkers(lat = ~lat,
+               lng = ~lng,
+               popup = ~popup,
+               label = ~school,
+               layerId = ~school,
                clusterOptions = markerClusterOptions())
+  
+  # leaflet(data = schools) %>%
+  #   addTiles(options = tileOptions(minZoom = 5)) %>%
+  #   setMaxBounds(-84, 35, -79, 37) %>%
+  #   addMarkers(lat = ~lat, lng = ~lon, popup = ~name,
+  #              clusterOptions = markerClusterOptions())
+  
+  
+})
+
+filtered_school <- reactive({
+  
+  val <- input$schools_map_marker_click$id
+  gcs %>% 
+    filter(school == val) 
+  
+  })
+
+
+
+output$schools_details <- renderBillboarder({
+  validate(
+    need(input$schools_map_marker_click$id!= "", "Please click on a school to view performance metrics"),
+    errorClass = "errorText"
+  )
+  
+  bb_data <- filtered_school() %>% 
+    arrange(year) %>% 
+  dplyr::select(label_metric, value, label_school_year)
+  
+  billboarder() %>% 
+    bb_barchart(data = bb_data, 
+                mapping = bbaes(label_school_year, value, group= label_metric)) %>% 
+    bb_bar(padding = 2) %>% 
+    bb_color(palette = c("#E54B21", "#113535", "#617030"))
+  
+  
 })
 
 output$learn_projects <- renderUI({
