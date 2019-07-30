@@ -11,6 +11,8 @@ require(furrr)
 
 most_recent_acs_year <- 2017
 
+census_api_key("your key here")
+
 
 # Data ------------------------------------------------------------------------------------------------------------
 
@@ -53,7 +55,8 @@ si_acs <- function(table,
                     discard_summary_rows = TRUE,
                     geometry = FALSE,
                     keep_geo_vars = FALSE,
-                    shift_geo = TRUE) {
+                    shift_geo = TRUE,
+                    key = NULL) {
 
   acsvars <- acsvars %>% filter(dataset == survey, year == year)
 
@@ -79,7 +82,8 @@ si_acs <- function(table,
                 survey = survey,
                 geometry = geometry,
                 keep_geo_vars = keep_geo_vars,
-                shift_geo = shift_geo) %>%
+                shift_geo = shift_geo,
+                key = key) %>%
     clean_names() %>%
     left_join(acsvars) %>%
     select(-matches("summary_moe")) %>% #may not have this for a 1 row table, matches avoids an error
@@ -100,15 +104,16 @@ si_acs <- function(table,
 
 ### WARNING WARNING WARNING: DIFFERENT YEARS MAY NOT MATCH VARIABLE NAMES!!!
 
-explore_tables <- tribble(~short_title, ~table,
-         "Total Population", "B01003",
-         "Median Household Income", "B19013",
-         "White Pop.", "B02008",
-         "Black Pop.", "B02009",
-         "Am. Indian & Alaska Native Pop.", "B02011",
-         "Asian Pop.", "B02010",
-         "Native Hawaiian and Pacific Isl. Pop.", "B02012",
-         "Other Pop.", "B02013")
+explore_tables <- tribble(~short_title, ~table, ~geography,
+         "Total Population", "B01003", "block group",
+         "Median Household Income", "B19013", "block group",
+         "White Population", "B02008", "block group",
+         "Black Population", "B02009", "block group",
+         "Am. Indian & Alaska Native Pop.", "B02011", "block group",
+         "Asian Population", "B02010", "block group",
+         "Native Hawaiian and Pacific Isl. Population", "B02012", "block group",
+         "Other Population", "B02013", "block group",
+         "Receipt of Food Stamps / SNAP", "B22003", "tract")
 
 explore_years <- 2013:(most_recent_acs_year - 1)
 
@@ -117,31 +122,32 @@ plan(multisession)
 #plan(list(tweak(remote, workers = "u0982704@daniels-imac-pro.local"), multiprocess)) #This does remote and multiprocess on the remote
 
 
-
+#temp_census_api_key <- "your key here" #only needed for remote future evaluation
+temp_census_api_key <-  NULL #need this if no key provided, but depends on key being installed and set locally using census_api_key().
 
 explore_acsdata <- explore_tables %>%
   group_split(table) %>%
   future_map(function(table) {
     #First get the most recent year with the geometry attached
-    geo_table <- si_acs(table$table, geography = "block group", year = most_recent_acs_year, county = "Guilford County", state = "NC", geometry = T) %>%
+    geo_table <- si_acs(table$table, geography = table$geography, year = most_recent_acs_year, county = "Guilford County", state = "NC", geometry = T, key = temp_census_api_key) %>%
       st_transform(crs = "+init=epsg:4326") %>%
       add_column(short_title = table$short_title) %>%
       rename(!!paste0("est", most_recent_acs_year) := estimate) %>%
-      select(-moe, -year, -matches("Total")) #some tables may not have a Total, so this "matches" avoids an error
+      select(-moe, -year, -matches("Total"), -matches ("summary_est")) #some tables may not have these, so this "matches" avoids an error
 
 
     #Now get the rest without geometry and attach to the table with geometry
     data_tables <- map(explore_years, function(explore_years) {
-      si_acs(table$table, geography = "block group", year = explore_years, county = "Guilford County", state = "NC", geometry = F) %>%
+      si_acs(table$table, geography = table$geography, year = explore_years, county = "Guilford County", state = "NC", geometry = F, key = temp_census_api_key) %>%
         rename(!!paste0("est", explore_years) := estimate) %>%
-        select(-moe, -year, -matches("Total")) #some tables may not have a Total, so this "matches" avoids an error
+        select(-moe, -year, -matches("Total"), -matches("summary_est")) #some tables may not these, so this "matches" avoids an error
     }) %>%
       reduce(left_join)
 
     combined_table <- left_join(geo_table, data_tables)
 
     return(combined_table)
-  }, .progress = T)
+  })
 
 write_rds(explore_acsdata, "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/explore_acsdata.rds")
 
