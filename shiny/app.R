@@ -131,7 +131,7 @@ body <- mainPanel(width = 12,
                      fluidRow(
                        column(
                          12, 
-                         img(src = "./Images/overview.png", class = "sec-bannerImg")
+                         img(src = "./Images/demographics.png", class = "sec-bannerImg")
                        )
                      ),
                      br(),
