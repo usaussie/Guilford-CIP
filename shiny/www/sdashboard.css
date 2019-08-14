@@ -72,6 +72,43 @@ a[data-value="EXPLORE"] {
   color:#00544E;
 }
 
+
+.demographics-tab h1, .demographics-tab h2, .demographics-tab h3, .demographics-tab h4 {
+	color: #B42025 ;
+}
+
+
+.live-tab h1, .live-tab h2, .live-tab h3, .live-tab h4 {
+	color: #50D1D8 ;
+}
+
+
+.work-tab h1, .work-tab h2, .work-tab h3, .work-tab h4  {
+	color: #026BC1;
+}
+
+
+.play-tab h1, .play-tab h2, .play-tab h3, .play-tab h4 {
+	color: #FFC91D ;
+}
+
+
+.learn-tab h1, .learn-tab h2, .learn-tab h3, .learn-tab h4  {
+	color: #61AA43;
+}
+
+.engage-tab h1, .engage-tab h2, .engage-tab h3, .engage-tab h4 {
+	color: #FF5A27 ;
+}
+
+
+.explore-tab h1, .explore-tab h2, .explore-tab h3, .explore-tab h4  {
+	color: #00544E;
+}
+
+
+
+
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
     color: #333;
     cursor: default;
@@ -167,30 +204,10 @@ header.main-header .navbar .navbar-custom-menu ul.navbar-nav li.dropdown img {
 
 
 
-.live-tab h1, .live-tab h2, .live-tab h3, .live-tab h4,
-.live-tab .shiny-html-output.col-sm-.shiny-bound-output p{
-	color: #E54B21 ;
-}
 
-.box .fa-briefcase,
-.work-tab h1, .work-tab h2, .work-tab h3 {
-	color: #113535;
-}
 
-.box .fa-tree,
-.play-tab h1, .play-tab h2, .play-tab h3 {
-	color: #617030;
-}
 
-.box .fa-graduation-cap,
-.learn-tab h1, .learn-tab h2, .learn-tab h3 {
-	color: #CB942B;
-}
 
-.box .fa-handshake,
-.engage-tab h1, .engage-tab h2, .engage-tab h3 {
-	color : #3A7993;
-}
 
 .sidebar-menu>.fa{
 	color: #ffffff

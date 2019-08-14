@@ -104,11 +104,37 @@ civic_missing <- read_csv("./edit/civic_missing.txt")
 
 body <- mainPanel(width = 12,
   fluidRow(), 
+  br(),
   
   fluidRow(
-    column(10, offset = 1, 
-           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien.")
-  ), 
+    column (1, 
+            offset = 4,
+            align = "right",
+            h3("PURPOSE")),
+    column(
+      3, 
+      "The purpose of the Guilford Community Indicators Project is to develop an interactive, community-wide platform that provides data on community issues for everyone so that data can help drive decisions."
+    )
+  ),
+  br(),
+  fluidRow(
+    column(1,
+           offset = 4,
+           align = "right",
+           h3("CONVENOR")),
+    column(
+      3, 
+      "The Project is convened by the Greensboro-High Point Collaborative, a local chapter of Forward Cities, a national learning network of over 30 cities committed to advancing inclusive innovation and economic development in their communities.  The Collaborative is led by the Community Foundation of Greater Greensboro and Business High Point-Chamber of Commerce.
+The Community Indicators Project is led by a Steering Committee from across the county with representatives from a wide range of sectors including education, government, business, health, human services, nonprofits, community organizations, and philanthropy."
+    )
+  ),
+  br(),
+  fluidRow(
+    column(5,
+           offset = 4,
+           "Our aspiration is for these indicators to support community efforts in drafting visions of a better future -- helping communities build participation, set priorities, develop action plans, and track progress toward realization of goals. ")
+  ),
+  
   br(),
 
   fluidRow(
@@ -500,7 +526,7 @@ body <- mainPanel(width = 12,
                          br()
                  )),
         # Work Tab ----
-        tabPanel(title = "WORK", icon = icon("briefcase"),
+        tabPanel(title = "WORK", icon = icon("cogs"),
                  
                  tags$div(class = "work-tab",
                           br(),
@@ -1145,7 +1171,7 @@ server <- function(input, output) {
       
       
         billboarder() %>%
-            bb_lollipop(data = ages, point_size = 5, point_color = "#617030", line_color = "#617030") %>%
+            bb_lollipop(data = ages, point_size = 5, point_color = "#61AA43", line_color = "#61AA43") %>%
             bb_axis(x =list(height = 80))
         #bb_barchart(data = gc_ages, stacked = T)
     })
@@ -1156,7 +1182,7 @@ server <- function(input, output) {
       
         billboarder() %>%
             bb_donutchart(data = sex) %>%
-            bb_color(palette = c("#113535", "#CB942B", "#89ada7"))
+            bb_color(palette = c("#61AA43", "#FF5A27"))
         
         
     })
@@ -1168,7 +1194,7 @@ server <- function(input, output) {
         billboarder() %>%
             bb_donutchart(data = race) %>%
             bb_donut() %>%
-            bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535"))
+            bb_color(palette = c("#B42025", "#50D1D8", "#026BC1", "#FFC91D", "#61AA43", "#FF5A27", "#00544E"))
         
     })
     
@@ -1177,7 +1203,7 @@ server <- function(input, output) {
       
         billboarder() %>%
             bb_donutchart(data = ethnicity) %>%
-            bb_color(palette = c("#AC492E", "#113535", "#CB942B"))
+            bb_color(palette = c("#026BC1", "#FFC91D"))
         
     })
     
