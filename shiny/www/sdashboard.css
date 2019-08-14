@@ -44,34 +44,33 @@ body {
 
 
 a[data-value="DEMOGRAPHICS"] {
-  color:#752a07;
-}
-
-a[data-value="CIVIC"] {
-  color:#801d72;
+  color:#B42025;
 }
 
 
 a[data-value="LIVE"] {
-  color:#E54B21;
+  color:#50D1D8;
 }
 
 a[data-value="WORK"] {
-  color:#113535;
+  color:#026BC1;
 }
 
 a[data-value="PLAY"] {
-  color:#617030;
+  color:#FFC91D;
 }
 
 a[data-value="LEARN"] {
-  color:#cb942b;
+  color:#61AA43;
 }
 
 a[data-value="ENGAGE"] {
-  color:#89ada7;
+  color:#FF5A27;
 }
 
+a[data-value="EXPLORE"] {
+  color:#00544E;
+}
 
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
     color: #333;
