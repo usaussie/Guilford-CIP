@@ -71,7 +71,7 @@ si_acs <- function(table, county = NULL, state = NULL, summary_var = "universe t
 hh_race_gc <- si_acs("B25006", state = "NC", geography = "county", county = "Guilford County", survey = "acs1")
 hh_race_city <- si_acs("B25006", geography = "place", state = "NC",  survey = "acs1")
 
-hh_race1 <- hh_race_acs %>% 
+hh_race1 <- hh_race_gc %>% 
   select(-moe) %>% 
   filter(level!=3) %>% 
   filter(level!=1) %>% 
@@ -94,7 +94,7 @@ hh_race <- bind_rows(hh_race1,hh_race2 ) %>%
 # billboarder() %>% 
 #   bb_donutchart(data = hh_race)
 
-#save(hh_race, file = "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
+#save(hh_race1, file = "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/hh_race.rda")
 
 
 
@@ -211,7 +211,7 @@ vacant_housing %>%
 ```
 
 
-Renting vs homeowners
+## Renting vs homeowners
 
 ```{r}
 
@@ -255,7 +255,17 @@ tenure_gc <- tenure_gc %>%
                           race == "G" ~ "Two or More Races",
                           race == "H" ~ "White Alone, Not Hispanic or Latino", 
                           race == "I" ~ "Hispanic or Latino")) %>% 
-  rename(location = county)
+  rename(location = county) %>% 
+  filter(!str_detect(race, "Hispanic")) %>% 
+  filter(!is.na(Total)) %>% 
+  mutate(perc = estimate/Total) %>% 
+  mutate(tenure = case_when(str_detect(label, "Owner") ~ "Owner",
+                            str_detect(label, "Renter")~"Renter")) %>% 
+  mutate(location = str_remove(location, ", North Carolina")) %>% 
+  select(race, perc, tenure)
+
+
+#save(tenure_gc, file= "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/tenure_gc.rda")
 
 
 tenure_df <- lst()

@@ -33,7 +33,7 @@ load("./data/transportation.rda")
 load("./data/voters.rda")
 load("./data/deaths.rda")
 load("./data/tourism.rda")
-load("./data/tenure_race.rda")
+load("./data/tenure_gc.rda")
 load("./data/imr.rda")
 load("./data/diabetes.rda")
 load("./data/food_insecurity.rda")
@@ -396,16 +396,14 @@ body <- mainPanel(width = 12,
                          br(),
                          
                          fluidRow(
-                           column(2,
-                                  radioButtons("location_rb", label = h3("Select Location"),choices = c("Guilford County", "Greensboro city", "High Point city"))),
                            column(
-                             5,
+                             6,
                              h3("Race of Householder", align = "center"),
                              billboarderOutput("hh_race"),
                              h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B25006 Race of Householder", align  = "center")
                            ), 
                            column(
-                             5, 
+                             6, 
                              h3("Owned vs Rented Homes", align = "center"),
                              billboarderOutput("tenure_race"),
                              h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B25003 Tenure. Tables B25003A, B25003B, B25003C, B25003D, B25003E, B25003F, B25003G Tenure (Racial Iterations).", align  = "center")
@@ -1245,29 +1243,22 @@ output$birth2 <- renderPlotly({
 })
 
 
-location_reactive <- reactive({
-  input$location_rb
-})
-
 
 output$hh_race <- renderBillboarder({
   
-  hh_race_bb <- hh_race %>% 
-    filter(location ==location_reactive()) %>% 
+  hh_race_bb <- hh_race1 %>% 
     select(levlab, estimate)
 
   billboarder() %>%
     bb_donutchart(data = hh_race_bb) %>%
-    bb_color(palette = c("#E54B21", "#113535", "#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637"))
-
+    bb_color(palette = c("#B42025", "#50D1D8", "#026BC1", "#FFC91D", "#61AA43", "#FF5A27", "#00544E"))
 
 })
 
 
 
 output$tenure_race <- renderBillboarder({
-  tenure_bb <- tenure_race %>% 
-    filter(location == location_reactive()) %>% 
+  tenure_bb <- tenure_gc %>% 
     mutate(perc = round(perc*100,2)) %>% 
     select(race, perc, tenure)
   
@@ -1275,7 +1266,7 @@ output$tenure_race <- renderBillboarder({
     bb_barchart(data = tenure_bb, 
                 mapping = bbaes(race, perc, group= tenure)) %>% 
     bb_bar(padding = 2) %>%
-    bb_color(palette = c("#E54B21", "#113535", "#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637")) %>% 
+    bb_color(palette = c("#B42025", "#50D1D8", "#026BC1", "#FFC91D", "#61AA43", "#FF5A27", "#00544E"))%>% 
     bb_y_axis(tick = list(format = suffix("%"))) %>% 
     bb_axis(x =list(height = 80))
 })
