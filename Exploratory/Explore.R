@@ -104,16 +104,16 @@ si_acs <- function(table,
 
 ### WARNING WARNING WARNING: DIFFERENT YEARS MAY NOT MATCH VARIABLE NAMES!!!
 
-explore_tables <- tribble(~short_title, ~table, ~geography,
-         "Total Population", "B01003", "block group",
-         "Median Household Income", "B19013", "block group",
-         "White Population", "B02008", "block group",
-         "Black Population", "B02009", "block group",
-         "Am. Indian & Alaska Native Pop.", "B02011", "block group",
-         "Asian Population", "B02010", "block group",
-         "Native Hawaiian and Pacific Isl. Population", "B02012", "block group",
-         "Other Population", "B02013", "block group",
-         "Receipt of Food Stamps / SNAP", "B22003", "tract")
+explore_tables <- tribble(~short_title, ~table, ~geography, ~value_type,
+         "Total Population", "B01003", "block group", "estimate",
+         "Median Household Income", "B19013", "block group", "estimate",
+         "White Population", "B02008", "block group", "estimate",
+         "Black Population", "B02009", "block group", "estimate",
+         "Am. Indian & Alaska Native Pop.", "B02011", "block group", "estimate",
+         "Asian Population", "B02010", "block group", "estimate",
+         "Native Hawaiian and Pacific Isl. Population", "B02012", "block group", "estimate",
+         "Other Population", "B02013", "block group", "estimate",
+         "Receipt of Food Stamps / SNAP", "B22003_002", "tract", "percent")
 
 explore_years <- 2013:(most_recent_acs_year - 1)
 
@@ -125,26 +125,59 @@ plan(multisession)
 #temp_census_api_key <- "your key here" #only needed for remote future evaluation
 temp_census_api_key <-  NULL #need this if no key provided, but depends on key being installed and set locally using census_api_key().
 
+temp_census_api_key <- "b96f50cb268bcd73ad8131793abfc542d5908221" #Delete before distributing
+
 explore_acsdata <- explore_tables %>%
   group_split(table) %>%
   future_map(function(table) {
+
+    var_only <- str_detect(table$table, ".*_\\d{3}") #if we specified a variable in the table column
+
+    as_percent <- table$value_type == "percent"
+
+    if(var_only) { #split the variable into table and row
+     table <- table %>% separate(table, into = c("table", "row"), sep = "_")
+    }
+
+
     #First get the most recent year with the geometry attached
-    geo_table <- si_acs(table$table, geography = table$geography, year = most_recent_acs_year, county = "Guilford County", state = "NC", geometry = T, key = temp_census_api_key) %>%
+    geo_table <- si_acs(table$table, geography = table$geography, year = most_recent_acs_year, county = "Guilford County", state = "NC", geometry = T, key = temp_census_api_key, discard_summary_rows = !var_only) %>%
       st_transform(crs = "+init=epsg:4326") %>%
-      add_column(short_title = table$short_title) %>%
+      add_column(short_title = table$short_title)
+
+    if(as_percent) {
+      geo_table <- geo_table %>% mutate(estimate = estimate / summary_est)
+      }
+
+    geo_table <- geo_table %>%
       rename(!!paste0("est", most_recent_acs_year) := estimate) %>%
-      select(-moe, -year, -matches("Total"), -matches ("summary_est")) #some tables may not have these, so this "matches" avoids an error
+      select(-moe, -year, -matches("Total"), -matches("summary_est")) #some tables may not have these, so this "matches" avoids an error
+
 
 
     #Now get the rest without geometry and attach to the table with geometry
     data_tables <- map(explore_years, function(explore_years) {
-      si_acs(table$table, geography = table$geography, year = explore_years, county = "Guilford County", state = "NC", geometry = F, key = temp_census_api_key) %>%
+      new_table <- si_acs(table$table, geography = table$geography, year = explore_years, county = "Guilford County", state = "NC", geometry = F, key = temp_census_api_key, discard_summary_rows = !var_only)
+
+      if(as_percent) {
+        new_table <- new_table %>% mutate(estimate = estimate / summary_est)
+      }
+
+      new_table <- new_table %>%
         rename(!!paste0("est", explore_years) := estimate) %>%
         select(-moe, -year, -matches("Total"), -matches("summary_est")) #some tables may not these, so this "matches" avoids an error
     }) %>%
       reduce(left_join)
 
-    combined_table <- left_join(geo_table, data_tables)
+    if(var_only) { #Cull it if we were passed a specific variable
+      geo_table <- geo_table %>% filter(row == !!table$row)
+      data_tables <- data_tables %>% filter(row == !!table$row)
+    }
+
+    combined_table <- left_join(geo_table, data_tables) %>%
+      add_column(as_percent)
+
+
 
     return(combined_table)
   })
@@ -162,12 +195,19 @@ exploremap <- leaflet()
 shiny_selected_year1 <- 2013
 shiny_selected_year2 <- 2017
 
-walk(explore_acsdata, function(layer) {
+
+map(explore_acsdata, function(layer) {
 
   estcolumn <- paste0("est", shiny_selected_year1)
 
+  as_percent <- layer %>% slice(1) %>% pull(as_percent) #Do we need to format as percent?
+  if(as_percent) {
+    exp_labformat <- labelFormat(transform = function(x) 100*x, suffix = "%")
+  } else exp_labformat <- labelFormat()
+
   layer <- layer %>%
-    rename(estimate = estcolumn)
+    rename(estimate = estcolumn) %>%
+    filter(!is.na(estimate))
 
   #Build palette
   palette <- colorNumeric(
@@ -194,17 +234,18 @@ walk(explore_acsdata, function(layer) {
                 fillColor = ~palette(estimate),
                 fillOpacity = 0.7,
                 popup = popup
-    ) #%>%
-    # addLegend(pal = palette,
-    #           values = layer$estimate,
-    #           group = group,
-    #           position = "bottomleft",
-    #           title = group
-    #           )
+    )
 
+  explore_legend <- tibble(palette = lst(palette),
+                           minval = min(layer$estimate),
+                           maxval = max(layer$estimate),
+                           exp_labformat = lst(exp_labformat),
+                           group,
+                           as_percent)
 
+  return(explore_legend)
 
-})
+}) %>% bind_rows -> explore_legend
 
 exploremap <- exploremap %>%
   addTiles(options = tileOptions(minZoom = 5)) %>%
@@ -213,11 +254,7 @@ exploremap <- exploremap %>%
                    position = "bottomright",
                    options = layersControlOptions(collapsed = F)) %>%
   hideGroup(c("Schools", "Parks", "Food Stores")) %>%
-  addLegend(pal = colorNumeric(palette = "viridis", domain = c(0,1)),
-            values = c(0, 1),
-            position = "bottomleft",
-            title = "Scale"
-            )
+  setMaxBounds(-80, 35, -78, 37)
 
 exploremap <- exploremap %>%
   addCircleMarkers(data = food_stores,
@@ -232,6 +269,39 @@ exploremap <- exploremap %>%
              lat = ~lat, lng = ~lon, popup = ~name,
              clusterOptions = markerClusterOptions(),
              group = "Parks")
+
+#Shiny legend adding
+shiny_observe_input <- "Black Population" #testing
+
+exleg <- explore_legend %>% filter(group == shiny_observe_input)
+
+exploremap %>% addLegend(pal = exleg$palette[[1]],
+                         values = c(exleg$minval, exleg$maxval),
+                         labFormat = exleg$exp_labformat[[1]],
+                         position = "bottomleft",
+                         title = exleg$group,
+                         group = exleg$group)
+
+
+# From github:
+# serveEvent(input$mymap_groups,{
+#   leafletProxy('mymap') %>% removeControl(layerId = "basegroup_legend_1") %>% removeControl(layerId = "basegroup_legend_2")
+#
+#   if ('basegroup_layer_1' %in% isolate(input$mymap_groups)){
+#     leafletProxy('mymap') %>% addLegend(position = "bottomright",
+#                                         colors = c("#269900","#ff0000"),
+#                                         labels = c('Discrete label 1','Discrete label 2'),
+#                                         layerId = "basegroup_legend",
+#                                         title='Legend title')
+#   }
+#   else if ('basegroup_layer_2' %in% isolate(input$mymap_groups)){
+#     leafletProxy('mymap') %>% addLegend(position = "bottomright",
+#                                         colors = c("#269900","#ff0000"),
+#                                         labels = c('Discrete label 1','Discrete label 2'),
+#                                         layerId = "basegroup_legend_2",
+#                                         title='Legend title')
+#   }
+# })
 
 exploremap
 
