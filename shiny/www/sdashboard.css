@@ -72,6 +72,10 @@ a[data-value="EXPLORE"] {
   color:#00544E;
 }
 
+a[data-value="ABOUT US"] {
+  color:black;
+}
+
 
 .demographics-tab h1, .demographics-tab h2, .demographics-tab h3, .demographics-tab h4 {
 	color: #B42025 ;
@@ -239,7 +243,7 @@ margin-bottom: 20px;
   display: block;
   margin-right: auto;
   margin-left: auto;
-  width: 80%;
+  width: 100%;
   max-width: 100%;
   height: auto;
 }

@@ -107,32 +107,15 @@ body <- mainPanel(width = 12,
   br(),
   
   fluidRow(
-    column (1, 
-            offset = 4,
-            align = "right",
-            h3("PURPOSE")),
-    column(
-      3, 
-      "The purpose of the Guilford Community Indicators Project is to develop an interactive, community-wide platform that provides data on community issues for everyone so that data can help drive decisions."
-    )
-  ),
-  br(),
-  fluidRow(
-    column(1,
-           offset = 4,
-           align = "right",
-           h3("CONVENOR")),
-    column(
-      3, 
-      "The Project is convened by the Greensboro-High Point Collaborative, a local chapter of Forward Cities, a national learning network of over 30 cities committed to advancing inclusive innovation and economic development in their communities.  The Collaborative is led by the Community Foundation of Greater Greensboro and Business High Point-Chamber of Commerce.
-The Community Indicators Project is led by a Steering Committee from across the county with representatives from a wide range of sectors including education, government, business, health, human services, nonprofits, community organizations, and philanthropy."
-    )
-  ),
-  br(),
-  fluidRow(
-    column(5,
-           offset = 4,
-           "Our aspiration is for these indicators to support community efforts in drafting visions of a better future -- helping communities build participation, set priorities, develop action plans, and track progress toward realization of goals. ")
+    column(12, 
+           h3("PURPOSE"), 
+           "The purpose of the Guilford Community Indicators Project is to develop an interactive, community-wide platform that provides data on community issues for everyone so that data can help drive decisions.",
+           h3("CONVENOR"),
+           "The Project is convened by the",tags$b( "Greensboro-High Point Collaborative"), "a local chapter of Forward Cities, a national learning network of over 30 cities committed to advancing inclusive innovation and economic development in their communities.  The Collaborative is led by the Community Foundation of Greater Greensboro and Business High Point-Chamber of Commerce" ,
+           "The Community Indicators Project is led by a Steering Committee from across the county with representatives from a wide range of sectors including education, government, business, health, human services, nonprofits, community organizations, and philanthropy.",
+           fluidRow(br()),
+           "Our aspiration is for these indicators to support community efforts in drafting visions of a better future -- helping communities build participation, set priorities, develop action plans, and track progress toward realization of goals. "
+           )
   ),
   
   br(),
@@ -1131,7 +1114,25 @@ The Community Indicators Project is led by a Steering Committee from across the 
                    leafletOutput("explore_map"))
                  ),
                  br()
-                 )
+                 ),
+        # About Us Tab ----
+        tabPanel(title = "ABOUT US", icon = icon("users"),
+                 tags$div(class = "aboutus-tab"),
+                 br(),
+                 fluidRow(), 
+                 br(),
+                 fluidRow(
+                   column(
+                     12,
+                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac."
+                   )
+                 ),
+                 br(),
+                 fluidRow(),
+                 br()
+        )
+        
+        
     ))
 
 
