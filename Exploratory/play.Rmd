@@ -10,6 +10,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(siverse)
 library(tidyverse)
+library(plotly)
+
 
 ```
 
@@ -17,7 +19,11 @@ library(tidyverse)
 
 ```{r load data}
 
-weather_raw <- read_csv(file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/Web Sources/weather.csv", skip = 13, col_names = T) %>% clean_names()
+#https://climate.ncsu.edu/cronos/?station=KGSO&temporal=monthly
+
+weather_raw <- read_csv(file = "~/Google Drive/SI/DataScience/data/Guilford County CIP/Web Sources/weather.csv", skip = 13, col_names = T) %>% clean_names()
+
+weather_12 <- read_csv(file = "~/Downloads/weather3.csv", skip = 13, col_names = T) %>%  clean_names()
 
 ```
 
@@ -26,21 +32,31 @@ weather_raw <- read_csv(file = "G:/My Drive/SI/DataScience/data/Guilford County 
 
 ```{r weather}
 
-weather <- weather_raw %>% 
+w12 <- weather_12 %>% 
   mutate(month = month(parse_date_time(date_time_est, orders = "my"), label = T)) %>% 
   rename(daily_avg = monthly_avg_of_2m_average_daily_temperature_f,
          max_temp = monthly_avg_of_2m_daily_max_air_temperature_f, 
          min_temp = monthly_avg_of_2m_daily_min_temperature_f,
          ht_index = x2m_calculated_maximum_heat_index_f,
-         wind_chill = x2m_calculated_minimum_wind_chill_f,
          rel_humidity = monthly_avg_of_2m_relative_humidity_daily_avg_percent,
-         precipitation = monthly_sum_of_1m_daily_precipitation_in) %>% 
+         precipitation = monthly_sum_of_2m_daily_precipitation_in) %>% 
+  group_by(month) %>% 
+  summarise_if(is.numeric, mean, na.rm = T) 
+
+weather <- weather_raw %>% 
+  mutate(month = month(parse_date_time(date_time_est, orders = "ym"), label = T)) %>% 
+  rename(daily_avg = monthly_avg_of_2m_average_daily_temperature_f,
+         max_temp = monthly_avg_of_2m_daily_max_air_temperature_f, 
+         min_temp = monthly_avg_of_2m_daily_min_temperature_f,
+         ht_index = x2m_calculated_maximum_heat_index_f,
+         rel_humidity = monthly_avg_of_2m_relative_humidity_daily_avg_percent,
+         precipitation = monthly_sum_of_2m_daily_precipitation_in) %>% 
   group_by(month) %>% 
   summarise_if(is.numeric, mean, na.rm = T) 
 
 #save(weather, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
   
-
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/weather.rda")
 
 plot_ly(data = weather) %>% 
   add_trace(x =~month,y=~precipitation, type = 'bar',  
@@ -55,6 +71,19 @@ plot_ly(data = weather) %>%
              yaxis2 = list(side = 'left', overlaying = "y", title = "Temp (in F)"),
              legend = list(orientation = 'h', y = -0.2, x = 0.2)) 
  
+
+plot_ly(data = w12) %>% 
+  add_trace(x =~month,y=~precipitation, type = 'bar',  
+                marker = list(color= 'rgb(223,226,213)'),
+                name = 'PPtn') %>% 
+  add_trace(x =~month, y = ~daily_avg, type = 'scatter', mode = 'lines', 
+            line= list(color= 'rgb(97,112,48)', width =2.5), 
+            name = 'Average Temperature', 
+            yaxis = "y2") %>% 
+      layout(yaxis = list(side = 'right', title = "Precipitation (in inches)"),
+             xaxis = list(title = ""),
+             yaxis2 = list(side = 'left', overlaying = "y", title = "Temp (in F)"),
+             legend = list(orientation = 'h', y = -0.2, x = 0.2)) 
 
 
 
