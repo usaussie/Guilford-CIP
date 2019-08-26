@@ -23,8 +23,6 @@ food_stores <- read_rds("~/Github/Guilford-CIP/dashboard/data/food_stores.rds")
 
 # Define Functions ------------------------------------------------------------------------------------------------
 
-
-
 acsvars <- bind_rows(acs1 = load_variables(2017, "acs1", cache = T),
                       acs5 = load_variables(2017, "acs5", cache = T),
                       .id = "dataset") %>%
