@@ -5,5 +5,6 @@
 install.packages("tidyverse")
 install.packages("janitor")
 install.packages("devtools")
+install.packages("googleway")
+install.packages("leaflet")
 
-devtools::install_github("https://github.com/SymbolixAU/googleway")
