@@ -83,7 +83,7 @@ guilfordzips <- c(27263, 27214, 27233, 27235, 27249, 27401, 27403, 27405, 27406,
 
 results <- results %>% filter(zip %in% guilfordzips | is.na(zip)) #keep only those that are in Guilford
 
-
+write_rds(results, "~/Google Drive/SI/DataScience/data/Guilford County CIP/Parks/parks_temp.rds")
 
 # Manually filter incorrect results -------------------------------------------------------------------------------
 
