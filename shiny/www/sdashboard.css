@@ -414,3 +414,21 @@ margin-bottom: 20px;
   text-align: left;
   
 }
+
+.btn-playMenu{
+  color:#FFC91D;
+  border-color: rgba(255,255,255,0);
+  font-size: 25px;
+  text-align: left;
+  
+}
+
+
+.btn-engageMenu{
+  color:#ff5a27;
+  border-color: rgba(255,255,255,0);
+  font-size: 25px;
+  text-align: left;
+  
+}
+

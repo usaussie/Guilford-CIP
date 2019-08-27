@@ -128,7 +128,7 @@ body <- mainPanel(width = 12,
  
   tabsetPanel(
       
-        type = "tabs", 
+        type = "tabs",
         
         # Demographics Tab ----
         
@@ -149,8 +149,8 @@ body <- mainPanel(width = 12,
                      
                      fluidRow(
                        column(
-                         10,
-                         offset= 1,
+                         12,
+                         
                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
                          
                        )
@@ -199,7 +199,7 @@ body <- mainPanel(width = 12,
                          5,
                          h3("Race", align = "center"),
                          billboarderOutput("race"), 
-                         h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B01001: Sex by Age. Tables B01001A, B01001B, B01001C, B01001D, B01001E, B01001F, B01001G: Sex by Age (Racial Iterations). ", align = "center")
+                         h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B01001 (A-G Racial Iterations): Sex by Age.", align = "center")
                        ), 
                        column(
                          5, 
@@ -425,7 +425,7 @@ body <- mainPanel(width = 12,
                              6, 
                              h3("Owned vs Rented Homes", align = "center"),
                              billboarderOutput("tenure_race"),
-                             h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B25003 Tenure. Tables B25003A, B25003B, B25003C, B25003D, B25003E, B25003F, B25003G Tenure (Racial Iterations).", align  = "center")
+                             h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B25003 (A-G Racial Iterations) Tenure.", align  = "center")
                            )
                          ),
                          
@@ -526,9 +526,15 @@ body <- mainPanel(width = 12,
                           
                           fluidRow(
                             column(
-                              12,
+                              8,
                               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
-                              )
+                              ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("Community Projects/Resources"),
+                                     htmlOutput("work_resources"))
+                            )
                           ),
                           
                           fluidRow(
@@ -537,7 +543,7 @@ body <- mainPanel(width = 12,
                                    align = "center",
                                    h3("Employment  Percentage (Civilian Labor Force) by Race and Sex", align = "center"),
                                    billboarderOutput("emp_race"),
-                                   h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B23002: Sex by Age by Employment Status. Tables B23002A, B23002B, B23002C, B23002D, B23002E, B23002F, B23002G: Sex by Age by Employment Status (Racial Iterations).", align = "center")
+                                   h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B23002 (A-G Racial Iterations) Sex by Age by Employment Status.", align = "center")
                             )
                           ),
                           
@@ -564,14 +570,14 @@ body <- mainPanel(width = 12,
                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. ",
                                   fluidRow(br()),
                                    billboarderOutput("med_inc_race"), 
-                                   h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B19013: Median Household Income. Tables B19013A, B19013B, B19013C, B19013D, B19013E, B19013F, B19013G: Median Household Income (Racial Iterations).", align = "center")
+                                   h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B19013 (A-G Racial Iterations) Median Household Income.", align = "center")
                                    ),
                             column(5,
                                    h3("Median Household Income by Ethnicity", align = "center"),
                                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id.    ",
                                    fluidRow(br()),  
                                     billboarderOutput("med_inc_ethn"),
-                                   h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B19013: Median Household Income. Tables B19013H, B19013BI: Median Household Income (Ethnic Iterations).", align = "center")
+                                   h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Table B19013 (H, I Ethnic Iterations) Median Household Income.", align = "center")
                                    )
                           ),
                           
@@ -596,29 +602,18 @@ body <- mainPanel(width = 12,
                             column(6,
                                    h3("Means of Transportation by Race", align = "center"),
                                        billboarderOutput("transportation_race"),
-                                   h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B08105: Means of Transportation to Work. Tables B08105A, B08105B, B08105C, B08105D, B08105E, B08105F, B08105G: Means of Transportation to Work (Racial Iterations).", align = "center")
+                                   h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B08105 (A-G Racial Iterations) Means of Transportation to Work.", align = "center")
                                    ),
                             column(6,
                                    h3("Means of Transportation by Ethnicity", align = "center"),
                                      billboarderOutput("transportation_ethnicity"), 
-                                   h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B08105: Means of Transportation to Work. Tables B08105H, B08105I: Means of Transportation to Work (Ethnic Iterations).", align = "center")
+                                   h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B08105 (H, I Ethnic Iterations) Means of Transportation to Work.", align = "center")
                                    
                                    
                             )
                           ),
                           br(),
-                          fluidRow(column(4,
-                                          align = "center",
-                                          wellPanel(
-                                            h3("Community Projects"),
-                                            htmlOutput("work_projects"))
-                          ),
-                          column(4,
-                                 align = "center",
-                                 wellPanel(
-                                   h3("Resources"),
-                                   htmlOutput("work_resources"))
-                          ),
+                          fluidRow(
                           column(4,
                                  align = "center",
                                  wellPanel(
@@ -628,7 +623,17 @@ body <- mainPanel(width = 12,
                           br()
                  )),
         # Play tab ----
-        tabPanel(title = "PLAY", icon = icon("child"),
+        tabPanel(title = dropdown(
+          
+          icon = icon("child"),
+          label = "PLAY",
+          status= "playMenu",
+          HTML("<a href='#parks'><h4> Parks </h4> </a>"),
+          HTML("<a href='#arts'><h4> Arts </h4> </a>"),
+          HTML("<a href='#sports'><h4> Sports </h4> </a>")
+          
+        ),
+          #title = "PLAY", icon = icon("child"),
                  tags$div(class = "play-tab",
                           br(),
                           fluidRow(column(12,
@@ -638,37 +643,43 @@ body <- mainPanel(width = 12,
                           br(),
                           fluidRow(
                             column(
-                              12, 
+                            8, 
                               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                            ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("Community Projects/Resources"),
+                                     htmlOutput("play_resources"))
                             )
                           ),
                           br(),
-                          fluidRow(
-                            
-                            column(
-                              2,
-                              offset = 3,
-                              wellPanel(
-                                align = "center",
-                                HTML("<a href='#parks'><h4> Jump to Parks </h4> </a>")
-                              )
-                            ),
-                            column(
-                              2,
-                              wellPanel(
-                                align = "center",
-                                HTML("<a href='#arts'><h4> Jump to Arts </h4> </a>")
-                              )
-                            ),
-                            column(
-                              2,
-                              wellPanel(
-                                align = "center",
-                                HTML("<a href='#sports'><h4> Jump to Sports </h4> </a>")
-                              )
-                            )
-                            
-                          ),
+                          # fluidRow(
+                          #   
+                          #   column(
+                          #     2,
+                          #     offset = 3,
+                          #     wellPanel(
+                          #       align = "center",
+                          #       HTML("<a href='#parks'><h4> Jump to Parks </h4> </a>")
+                          #     )
+                          #   ),
+                          #   column(
+                          #     2,
+                          #     wellPanel(
+                          #       align = "center",
+                          #       HTML("<a href='#arts'><h4> Jump to Arts </h4> </a>")
+                          #     )
+                          #   ),
+                          #   column(
+                          #     2,
+                          #     wellPanel(
+                          #       align = "center",
+                          #       HTML("<a href='#sports'><h4> Jump to Sports </h4> </a>")
+                          #     )
+                          #   )
+                          #   
+                          # ),
                           
                           tags$div(fluidRow(
                             class = "subtitle",
@@ -727,19 +738,19 @@ body <- mainPanel(width = 12,
                               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
                             )),
                           br(),
-                          fluidRow(
-                            column(
-                              8,
-                              align = "center",
-                              HTML('<iframe width="1100" height="260" src="https://www.youtube.com/embed/ScMzIvxBSi4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
-                              
-                            ),
-                            
-                            column(
-                              4,
-                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
-                             )
-                          ),
+                          # fluidRow(
+                          #   column(
+                          #     8,
+                          #     align = "center",
+                          #     HTML('<iframe width="1100" height="260" src="https://www.youtube.com/embed/ScMzIvxBSi4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
+                          #     
+                          #   ),
+                          #   
+                          #   column(
+                          #     4,
+                          #     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                          #    )
+                          # ),
                           
                           fluidRow(),
                           
@@ -798,18 +809,7 @@ body <- mainPanel(width = 12,
                           
                           fluidRow(
                             
-                            column(4,
-                                   align = "center",
-                                   wellPanel(
-                                     h3("Community Projects"),
-                                     htmlOutput("play_projects"))
-                            ),
-                            column(4,
-                                   align = "center",
-                                   wellPanel(
-                                     h3("Resources"),
-                                     htmlOutput("play_resources"))
-                            ),
+                            
                             column(4,
                                    align = "center",
                                    wellPanel(
@@ -832,9 +832,15 @@ body <- mainPanel(width = 12,
                           br(),
                           
                           fluidRow(
-                            column(12,
+                            column(8,
                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
-                                   )),
+                                   ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("Community Projects/Resources"),
+                                     htmlOutput("learn_resources"))
+                            )),
                           br(),
                           br(),
                           br(),
@@ -923,18 +929,8 @@ body <- mainPanel(width = 12,
                             h6(" Data Source: U.S. Department of Education, National Center for Education Statistics, Integrated Postsecondary Education Data System (IPEDS) [2017]", align = "center"))
                           ),
                           br(),
-                          fluidRow(column(4,
-                                          align = "center",
-                                          wellPanel(
-                                            h3("Community Projects"),
-                                            htmlOutput("learn_projects"))
-                          ),
-                          column(4,
-                                 align = "center",
-                                 wellPanel(
-                                   h3("Resources"),
-                                   htmlOutput("learn_resources"))
-                          ),
+                          fluidRow(
+                          
                           column(4,
                                  align = "center",
                                  wellPanel(
@@ -950,7 +946,16 @@ body <- mainPanel(width = 12,
         
         #Engage tab ----
         
-        tabPanel(title = "ENGAGE", icon = icon("handshake"),
+        tabPanel(title = dropdown(
+          icon = icon("handshake"),
+          label = "ENGAGE",
+          status= "engageMenu",
+          HTML("<a href='#vote'><h4> Vote </h4> </a>"),
+          HTML("<a href='#serve'><h4> Serve </h4> </a>"),
+          HTML("<a href='#give'><h4> Give </h4> </a>")
+   
+        ),
+          #title = "ENGAGE", icon = icon("handshake"),
                  tags$div(class = "engage-tab",
                           br(),
                           fluidRow(column(12,
@@ -960,37 +965,43 @@ body <- mainPanel(width = 12,
                           br(),
                           fluidRow(
                             column(
-                              12,
+                              8,
                               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
-                              )),
+                              ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("Resources"),
+                                     htmlOutput("engage_resources"))
+                            )),
                           br(),
                           
-                          fluidRow(
-                            
-                            column(
-                              2,
-                              offset = 3,
-                              wellPanel(
-                                align = "center",
-                                HTML("<a href='#vote'><h4> Jump to Vote </h4> </a>")
-                              )
-                            ),
-                            column(
-                              2,
-                              wellPanel(
-                                align = "center",
-                                HTML("<a href='#serve'><h4> Jump to Serve </h4> </a>")
-                              )
-                            ),
-                            column(
-                              2,
-                              wellPanel(
-                                align = "center",
-                                HTML("<a href='#give'><h4> Jump to Give </h4> </a>")
-                              )
-                            )
-                            
-                          ),
+                          # fluidRow(
+                          #   
+                          #   column(
+                          #     2,
+                          #     offset = 3,
+                          #     wellPanel(
+                          #       align = "center",
+                          #       HTML("<a href='#vote'><h4> Jump to Vote </h4> </a>")
+                          #     )
+                          #   ),
+                          #   column(
+                          #     2,
+                          #     wellPanel(
+                          #       align = "center",
+                          #       HTML("<a href='#serve'><h4> Jump to Serve </h4> </a>")
+                          #     )
+                          #   ),
+                          #   column(
+                          #     2,
+                          #     wellPanel(
+                          #       align = "center",
+                          #       HTML("<a href='#give'><h4> Jump to Give </h4> </a>")
+                          #     )
+                          #   )
+                          #   
+                          # ),
                           
                           br(),
                           br(),
@@ -1068,18 +1079,7 @@ body <- mainPanel(width = 12,
                           br(),
                           
                           fluidRow(
-                            column(4,
-                                   align = "center",
-                                   wellPanel(
-                                     h3("Community Projects"),
-                                     htmlOutput("engage_projects"))
-                            ),
-                            column(4,
-                                   align = "center",
-                                   wellPanel(
-                                     h3("Resources"),
-                                     htmlOutput("engage_resources"))
-                            ),
+                            
                             column(4,
                                    align = "center",
                                    wellPanel(
@@ -1123,6 +1123,13 @@ body <- mainPanel(width = 12,
         tabPanel(title = "ABOUT US", icon = icon("users"),
                  tags$div(class = "aboutus-tab"),
                  br(),
+                 fluidRow(
+                   column(12,
+                          align = "center",
+                          img(src = "./Images/about_us.png", class = "sec-bannerImg")
+                   )
+                   
+                 ),
                  fluidRow(), 
                  br(),
                  fluidRow(
@@ -1221,13 +1228,13 @@ server <- function(input, output) {
 
 
 output$deaths <- renderBillboarder({
-  deaths_un <- deaths %>% filter(manner== "Accident"|manner == "Homicide"| manner == "Suicide"| manner == "Unknown")
+  #deaths_un <- deaths %>% filter(manner== "Accident"|manner == "Homicide"| manner == "Suicide"| manner == "Unknown")
 
   billboarder() %>%
     bb_barchart(data = deaths_un) %>%
     bb_bar(padding =2) %>% 
     bb_y_axis(tick = list(format = suffix("%"))) %>%
-    bb_color(palette = c("#ac492e", "#113535", "#88853b", "#3a7993"))
+    bb_color(palette = c("#b42025", "#50d1d8", "#026bc1", "#61aa43"))
 
 
 })
@@ -1314,8 +1321,9 @@ output$food_stores_map <- renderLeaflet({
   leaflet(data = food_stores) %>%
     addTiles(options = tileOptions(minZoom = 5)) %>%
     setMaxBounds(-84, 35, -79, 37) %>%
-    addCircleMarkers(lat = ~lat, lng = ~lon, popup = ~name,
-                     stroke = TRUE, fillOpacity = 0.075)
+    addMarkers(lat = ~lat, lng = ~lon, popup = ~name,
+               clusterOptions = markerClusterOptions())
+    #addCircleMarkers(lat = ~lat, lng = ~lon, popup = ~name,stroke = TRUE, fillOpacity = 0.075)
 })
 
 
@@ -1400,7 +1408,7 @@ output$emp_race <- renderBillboarder({
   billboarder() %>%
     bb_barchart(data = emp_race) %>%
     bb_bar(padding = 2) %>%
-    bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535")) %>%
+    bb_color(palette = c("#50d1d8", "#ffc91d", "#ff5a27", "#00544e")) %>%
     bb_y_axis(tick = list(format = suffix("%")))
   
 })
@@ -1414,7 +1422,7 @@ output$med_inc_race <- renderBillboarder({
     arrange(desc(estimate))
   
   billboarder() %>%
-    bb_lollipop(data = med_income_race, point_color = "#CB942B", line_color = "#CB942B") %>%
+    bb_lollipop(data = med_income_race, point_color = "#b42025", line_color = "#b42025") %>%
     bb_axis(x =list(height = 40))%>%
     bb_y_axis(tick = list(format = htmlwidgets::JS("d3.format(',')")
     ))
@@ -1429,7 +1437,7 @@ output$med_inc_ethn <- renderBillboarder({
     select(race, estimate)
   
   billboarder() %>%
-    bb_lollipop(data = med_income_ethn, point_color = "#026637", line_color = "#026637") %>%
+    bb_lollipop(data = med_income_ethn, point_color = "#61aa43", line_color = "#61aa43") %>%
     bb_axis(x =list(height = 20)) %>%
     bb_y_axis(tick = list(format = htmlwidgets::JS("d3.format(',')")
     ))
@@ -1450,7 +1458,7 @@ output$transportation_race <- renderBillboarder({
   billboarder() %>%
     bb_barchart(data = transp_race, rotated = T) %>%
     bb_bar(padding = 2) %>%
-    bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535"))%>%
+    bb_color(palette = c("#50d1d8", "#ffc91d", "#61aa43"))%>%
     bb_y_axis(tick = list(format = suffix("%"))) %>%
     bb_x_axis(tick = list(width = 250))
   
@@ -1471,7 +1479,7 @@ output$transportation_ethnicity <- renderBillboarder({
   billboarder() %>%
     bb_barchart(data = transp_ethn, rotated = T) %>%
     bb_bar(padding = 2) %>%
-    bb_color(palette = c("#AC492E", "#113535", "#CB942B")) %>%
+    bb_color(palette = c("#ff5a27", "#00544e")) %>%
     bb_x_axis(tick = list(width = 250)) %>%
     bb_y_axis(tick = list(format = suffix("%")))
   
@@ -1518,10 +1526,10 @@ output$weather <- renderPlotly({
   
   plot_ly(data = weather) %>%
     add_trace(x =~month,y=~precipitation, type = 'bar',
-              marker = list(color= 'rgb(223,226,213)'),
+              marker = list(color= 'rgb(215,235,205)'),
               name = 'PPtn') %>%
     add_trace(x =~month, y = ~daily_avg, type = 'scatter', mode = 'lines',
-              line= list(color= 'rgb(97,112,48)', width =2.5),
+              line= list(color= 'rgb(97,170,67)', width =2.5),
               name = 'Average Temperature',
               yaxis = "y2") %>%
     layout(xaxis = list(title = ""),
@@ -1546,8 +1554,8 @@ output$tourism_spending <- renderBillboarder({
   
   plot_ly(data = plot) %>%
     add_trace(x =~year, y = ~expenditures, type = 'scatter', mode = 'lines+markers',
-              line= list(color= '#113535', width =2.5),
-              marker = list(color= '#113535', width =3),
+              line= list(color= '#50d1d8', width =2.5),
+              marker = list(color= '#50d1d8', width =3),
               name = 'Expenditures') %>%
     layout(yaxis = list(title = " Expenditure in Millions", separatethousands = TRUE, side = 'left'),
            xaxis = list(title = "", tickangle = 45, tickfont = list(size = 10)),
@@ -1598,7 +1606,7 @@ output$students <- renderBillboarder({
   
   billboarder() %>%
     bb_donutchart(data = plot) %>%
-    bb_color(palette = c("#E54B21", "#113535", "#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637"))
+    bb_color(palette = c("#B42025", "#50D1D8", "#026BC1", "#FFC91D", "#61AA43", "#e2c3c7", "#00544E", "#ff5a27"))
   
   
 })
@@ -1616,7 +1624,7 @@ output$completion <- renderBillboarder({
     #bb_add_style(text = "font-size: 75%"  ) %>%
     bb_legend(show = FALSE) %>%
     bb_y_axis(tick = list(format = suffix("%"))) %>%
-    bb_color(palette = c("#88853B")) %>%
+    bb_color(palette = c("#026bc1")) %>%
     bb_x_axis(tick = list(width = 250))
   
   
@@ -1631,12 +1639,11 @@ output$retention <- renderBillboarder({
     arrange(desc(full_time_retention_rate_mean))
   
   billboarder() %>%
-    bb_lollipop(data = plot, x = "full_time_retention_rate_mean", y = "Institution_Name", rotated = F) %>%
+    bb_lollipop(data = plot, x = "full_time_retention_rate_mean", y = "Institution_Name", rotated = F,  point_color = "#50d1d8", line_color = "#50d1d8") %>%
     #bb_axis(x = list(tick = list(fit = T)), y = list(tick = list(fit = T))) %>%
     #bb_add_style(text = "font-size: 75%"     ) %>%
     bb_legend(show = FALSE) %>%
     bb_y_axis(tick = list(format = suffix("%"))) %>%
-    bb_color(palette = c("#113535")) %>%
     bb_axis(x =list(height = 75))
   
   
@@ -1654,7 +1661,7 @@ output$debt <- renderBillboarder({
     #bb_add_style(text = "font-size: 75%") %>%
     bb_legend(show = FALSE) %>%
     bb_y_axis(tick = list(format = suffix("%"))) %>%
-    bb_color(palette = c("#89ada7"))   %>%
+    bb_color(palette = c("#ff5a27"))   %>%
     bb_x_axis(tick = list(width = 250))
   
 })
@@ -1711,9 +1718,10 @@ output$schools_details <- renderBillboarder({
   
   billboarder() %>% 
     bb_barchart(data = bb_data, 
-                mapping = bbaes(label_school_year, value, group= label_metric)) %>% 
+                mapping = bbaes(label_school_year, value*100, group= label_metric)) %>% 
     bb_bar(padding = 2) %>% 
-    bb_color(palette = c("#E54B21", "#113535", "#617030"))
+    bb_y_axis(tick = list(format = suffix("%"))) %>%
+    bb_color(palette = c("#61aa43", "#ffc91d", "#026bc1"))
   
   
 })
@@ -1795,7 +1803,7 @@ output$voters_gp <- renderBillboarder({
   billboarder() %>%
     bb_barchart(data = voters_gp) %>%
     bb_bar(padding = 2) %>%
-    bb_color(palette = c("#071a1e", "#026637", "#88853b", "#3a7993")) %>%
+    bb_color(palette = c("#b42025", "#ffc91d", "#00544e", "#50d1d8")) %>%
     bb_y_axis(tick = list(format = suffix("%")))
   
   
@@ -1818,7 +1826,7 @@ output$voters_rp <- renderBillboarder({
   billboarder() %>%
     bb_barchart(data = voters_rp, rotated = F) %>%
     bb_bar(padding = 2) %>%
-    bb_color(palette = c("#617030", "#CB942B", "#89ada7", "#AC492E", "#071A1E", "#026637", "#113535"))%>%
+    bb_color(palette = c("#B42025", "#50D1D8", "#026BC1", "#FFC91D", "#61AA43", "#FF5A27", "#00544E"))%>%
     bb_y_axis(tick = list(format = suffix("%")))  %>%
     bb_axis(x =list(height = 50))
   
