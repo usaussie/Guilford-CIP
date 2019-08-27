@@ -29,7 +29,7 @@ dicdr <- dicdr %>%
 #   clean_names() %>%
 #   remove_empty(which = "cols")
 
-dr <- read_csv("G:/My Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_records_test.csv", guess_max = 553841) %>%
+dr <- read_csv("~/Google Drive/SI/DataScience/data/Guilford County CIP/From Jason/death_records_test.csv", guess_max = 553841) %>%
   clean_names() %>%
   remove_empty(which = "cols")
 
@@ -264,16 +264,16 @@ dr %>%
   scale_color_viridis(option = "plasma", direction = -1)
 
 # Lifespan by race and location map
-dr %>%
-  filter(lat > 35.5, lon < -79.5, age > 60, age < 90) %>%
-  filter(whiteblack = "White") %>%
-  ggplot(aes(x = lon, y = lat, fill = age)) +
-  geom_heatmap?
+# dr %>%
+#   filter(lat > 35.5, lon < -79.5, age > 60, age < 90) %>%
+#   filter(whiteblack == "White") %>%
+#   ggplot(aes(x = lon, y = lat, fill = age)) +
+#   geom_heatmap?
 
 
 # Billboarder for dashboard -----------------------------------------------
 
-pct <- function(x) (x*100)
+pct <- function(x) {(x*100)}
 
 deaths <- dr %>%
   filter(age <= 135, sex != "U", whiteblack != "Other") %>%
@@ -283,13 +283,17 @@ deaths <- dr %>%
   untabyl() %>%
   mutate_if(is.numeric, pct )
 
-save(deaths, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/deaths.rda")
+#save(deaths, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/deaths.rda")
 
 load("G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/deaths.rda")
 library(billboarder)
 
 
-deaths_un <- deaths %>% filter(manner== "Accident"|manner == "Homicide"| manner == "Suicide"| manner == "Unknown")
+deaths_un <- deaths %>% filter(manner== "Accident"|manner == "Homicide"| manner == "Suicide"| manner == "Unknown") %>% 
+  rename(`Black Female` = Black_F, `Black Male` = Black_M, `White Female` = White_F, `White Male` = White_M)
+
+#save(deaths_un, file = "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/deaths.rda")
+
 
 billboarder() %>%
   bb_barchart(data = deaths_un)
