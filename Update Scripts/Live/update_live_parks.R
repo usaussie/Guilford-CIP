@@ -98,6 +98,9 @@ results %>%
   filter(name != "Carolina Marina") %>%
   filter(name != "Carolina Air Canine LLC") %>%
   filter(name != "Greensboro KOA Journey") %>% ### SREEJA HAVE STUDENT CONTINUE THIS CULLING
+  
 
+#parks <- results
 
-write_rds(results, "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/parks.rds")
+# save(results, file ="~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/parks.rda")
+  
