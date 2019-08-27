@@ -308,23 +308,23 @@ HTML(paste(list$act, sep = '<ul> <li> </li>'))
 
 snap_county <- si_acs("B22003",geography = "county", state = "NC", survey = "acs1", county = "Guilford County")
 
-snap_c1 <- snap_county %>% 
+snap <- snap_county %>% 
   filter(level==2) %>% 
   filter(str_detect(label, "received Food")) %>% 
   mutate(perc = estimate/Total) %>% 
   select(location =county, perc)
 
-snap_city <- si_acs("B22003", geography = "place", state = "NC",  survey = "acs1")
-
-snap_c2 <- snap_city %>% 
-  filter(str_detect(county, "Greensboro")|str_detect(county, "High Point")) %>% 
-  filter(level==2) %>% 
-  filter(str_detect(label, "received Food")) %>% 
-  mutate(perc = estimate/Total) %>% 
-  select(location =county, perc)
-
-snap <- bind_rows(snap_c1, snap_c2) %>% 
-  mutate(location = str_remove(location, ", North Carolina"))
+# snap_city <- si_acs("B22003", geography = "place", state = "NC",  survey = "acs1")
+# 
+# snap_c2 <- snap_city %>% 
+#   filter(str_detect(county, "Greensboro")|str_detect(county, "High Point")) %>% 
+#   filter(level==2) %>% 
+#   filter(str_detect(label, "received Food")) %>% 
+#   mutate(perc = estimate/Total) %>% 
+#   select(location =county, perc)
+# 
+# snap <- bind_rows(snap_c1, snap_c2) %>% 
+#   mutate(location = str_remove(location, ", North Carolina"))
   
 
 

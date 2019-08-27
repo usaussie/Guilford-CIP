@@ -1,4 +1,5 @@
 library(shiny)
+library(shinyWidgets)
 library(shinydashboard)
 library(shinythemes)
 library(billboarder)
@@ -49,7 +50,7 @@ gcs <- read_rds("./data/gcs.rds")
 
 # Editable text files
 live_resources <- read_csv("./edit/live_resources.txt")
-live_projects <- read_csv("./edit/live_projects.txt")
+#live_projects <- read_csv("./edit/live_projects.txt")
 live_missing <- read_csv("./edit/live_missing.txt")
 work_resources <- read_csv("./edit/work_resources.txt")
 work_projects <- read_csv("./edit/work_projects.txt")
@@ -124,6 +125,7 @@ body <- mainPanel(width = 12,
     img(src = './Images/line.png',class = "lineImg")
   ),
   br(),
+ 
   tabsetPanel(
       
         type = "tabs", 
@@ -226,7 +228,16 @@ body <- mainPanel(width = 12,
        
         
         # Live Tab -----
-        tabPanel(title = "LIVE", icon = icon("home"),
+        tabPanel(title =dropdown(
+          icon = icon("home"),
+          label = "LIVE",
+          status= "liveMenu",
+          HTML("<a href='#people'><h4> People </h4> </a>"),
+          HTML("<a href='#housing'><h4> Housing </h4> </a>"),
+          HTML("<a href='#health'><h4> Health </h4> </a>")
+        ),
+          
+          #title = "LIVE", icon = icon("home"),
                  tags$div(class = "live-tab",
                           br(),
                           fluidRow(column(12,
@@ -234,34 +245,41 @@ body <- mainPanel(width = 12,
                           br(),
                           
                           fluidRow(
-                            column(12,
+                            column(8,
                               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
+                            ),
+                            column(4,
+                                   align = "center",
+                                   wellPanel(
+                                     h3("Community Projects/Resources"),
+                                     htmlOutput("live_resources"))
                             )),
                           br(),
-                          fluidRow(
-                            column(
-                              2,
-                              offset = 3,
-                              wellPanel(
-                                align = "center",
-                                HTML("<a href='#people'><h4> Jump to People </h4> </a>")
-                              )
-                            ),
-                            column(
-                              2,
-                              wellPanel(
-                                align = "center",
-                                HTML("<a href='#housing'><h4> Jump to Housing </h4> </a>")
-                              )
-                            ),
-                            column(
-                              2,
-                              wellPanel(
-                                align = "center",
-                                HTML("<a href='#health'><h4> Jump to Health </h4> </a>")
-                              )
-                            )
-                          ),
+                          br(),
+                          # fluidRow(
+                          #   column(
+                          #     2,
+                          #     offset = 3,
+                          #     wellPanel(
+                          #       align = "center",
+                          #       HTML("<a href='#people'><h4> Jump to People </h4> </a>")
+                          #     )
+                          #   ),
+                          #   column(
+                          #     2,
+                          #     wellPanel(
+                          #       align = "center",
+                          #       HTML("<a href='#housing'><h4> Jump to Housing </h4> </a>")
+                          #     )
+                          #   ),
+                          #   column(
+                          #     2,
+                          #     wellPanel(
+                          #       align = "center",
+                          #       HTML("<a href='#health'><h4> Jump to Health </h4> </a>")
+                          #     )
+                          #   )
+                          # ),
                           tags$div(fluidRow(
                             class = "subtitle",
                             column(
@@ -450,11 +468,8 @@ body <- mainPanel(width = 12,
                          ),
                  fluidRow(
                    
-                    column(2,
-                           radioButtons("location_rb3", label = h3("Select Location"),
-                                        choices = c("Guilford County", "Greensboro city", "High Point city"))),
                     column(
-                      4,
+                      3,
                       h3("Receipt of Food Stamps/SNAP ", align = "center"),
                       h1(htmlOutput("snap")),
                       h6("Data Source: U.S. Census Bureau (2017).American Community Survey 1-year estimates. Table B22003 Receipt of Food Stamps/SNAP", align = "center")
@@ -462,13 +477,13 @@ body <- mainPanel(width = 12,
                     
             
                    column(
-                     4,
+                     6,
                           h3("Infant Mortality Rate", align = "center"),
                           billboarderOutput("imr"),
                           h6("Source: Piedmont Health Counts", align = "center")
                           ),
                    column(
-                     2,
+                     3,
                      h3("Diabetes", align = "center"),
                      h1(htmlOutput("diabetes")),
                      h6("Source: Piedmont Health Counts", align = "center")
@@ -486,18 +501,8 @@ body <- mainPanel(width = 12,
                          ),
                          br(),
                          fluidRow(
-                            column(4,
-                                   align = "center",
-                                   wellPanel(
-                                   h3("Community Projects"),
-                                   htmlOutput("live_projects"))
-                                   ),
-                            column(4,
-                                   align = "center",
-                                   wellPanel(
-                                   h3("Resources"),
-                                   htmlOutput("live_resources"))
-                                   ),
+                            
+                            
                             column(4,
                                    align = "center",
                                    wellPanel(
@@ -1319,7 +1324,7 @@ output$imr <- renderBillboarder({
   billboarder() %>% 
     bb_barchart(data = imr) %>% 
     bb_legend(show =F) %>% 
-    bb_color (palette = c("#CB942B", "#89ada7")) 
+    bb_color (palette = c("#ffc91d")) 
 })
 
 
@@ -1331,13 +1336,10 @@ output$diabetes <- renderUI({
   
 })
 
-location_reactive_3 <- reactive({
-  input$location_rb3
-})
+
 
 output$snap <- renderUI({
-  snap <- snap %>% 
-    filter(location == location_reactive_3())
+  
   
   val <- snap %>% 
     pull(perc)

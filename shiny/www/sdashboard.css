@@ -407,3 +407,10 @@ margin-bottom: 20px;
   font-size: 12px;
 }
 
+.btn-liveMenu{
+  color:#50D1D8;
+  border-color: rgba(255,255,255,0);
+  font-size: 25px;
+  text-align: left;
+  
+}
