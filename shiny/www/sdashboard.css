@@ -222,9 +222,9 @@ background-color: #FCEDE8!important;
 }
 
 .leInfo {
-max-width: 90%;
+max-width: 100%;
 height: auto;
-width: 90%;
+width: 100%;
 display: block;
 margin-left: auto;
 margin-right: auto;
@@ -287,9 +287,9 @@ margin-bottom: 20px;
 
 
 .live01{
-  width: 65%;
+  width: 85%;
   height: auto;
-  vertical-align: center;
+  vertical-align: left;
 }
 
 .live03{
@@ -432,3 +432,6 @@ margin-bottom: 20px;
   
 }
 
+.vertcol{
+  vertical-align: center;
+}
