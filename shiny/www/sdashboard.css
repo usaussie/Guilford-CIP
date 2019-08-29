@@ -222,9 +222,9 @@ background-color: #FCEDE8!important;
 }
 
 .leInfo {
-max-width: 90%;
+max-width: 100%;
 height: auto;
-width: 90%;
+width: 100%;
 display: block;
 margin-left: auto;
 margin-right: auto;
@@ -287,9 +287,9 @@ margin-bottom: 20px;
 
 
 .live01{
-  width: 65%;
+  width: 85%;
   height: auto;
-  vertical-align: center;
+  vertical-align: left;
 }
 
 .live03{
@@ -406,13 +406,16 @@ margin-bottom: 20px;
   letter-spacing: 3px;
   font-size: 12px;
 }
-
+  
 .btn-liveMenu{
   color:#50D1D8;
   border-color: rgba(255,255,255,0);
   font-size: 25px;
   text-align: left;
-  
+}
+
+.nav-tabs>li.active>a[href='#tab-4602-2'], .nav-tabs>li.active>a[href='#tab-4602-4']{
+  background-color: white;
 }
 
 .btn-playMenu{
@@ -432,3 +435,6 @@ margin-bottom: 20px;
   
 }
 
+.vertcol{
+  vertical-align: center;
+}

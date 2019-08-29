@@ -228,7 +228,7 @@ body <- mainPanel(width = 12,
        
         
         # Live Tab -----
-        tabPanel(title =dropdown(
+        tabPanel(title = dropdown(
           icon = icon("home"),
           label = "LIVE",
           status= "liveMenu",
@@ -290,13 +290,13 @@ body <- mainPanel(width = 12,
                               
                             )
                           )),
+                          br(),
+                          br(),
                           
                           
                           fluidRow(
                             column(
-                              4,
-                              offset  = 1,
-                              
+                              5,
                               img(src = "./Images/life_expectancy.png", class = "leInfo"), 
                               h6("Data Source: North Carolina Center for Health Statistics (2017)", align = "center")
                               
@@ -376,18 +376,20 @@ body <- mainPanel(width = 12,
                                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget arcu dictum varius duis at consectetur lorem donec massa. Ut consequat semper viverra nam libero justo laoreet sit amet. Egestas congue quisque egestas diam in arcu. Suspendisse potenti nullam ac tortor vitae purus. At ultrices mi tempus imperdiet nulla malesuada pellentesque."
                                    )
                           ),
+                          br(),
+                          br(),
 
                           fluidRow(
                             column(
                               6,
                               img(src = "./Images/live02.jpg", class = "live02")
                               ),
-                            column(
+                            tags$div(column(class= "vertcol",
                               
                               6, 
                               h3("Food Insecurity", align ="center"),
                               plotlyOutput("food_insecurity"),
-                              h6("Source: Piedmont Health Counts", align = "center")
+                              h6("Source: Piedmont Health Counts", align = "center"))
                               
                               
                               
@@ -490,16 +492,22 @@ body <- mainPanel(width = 12,
                    )
                  ),
                          
-                         fluidRow(
-                           column(4,
-                                  offset = 1,
-                                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. "),
-                           column(
-                             6, 
-                             a(img(src = "./Images/live03.png", class = "live03"), href = "http://www.piedmonthealthcounts.org/", target="_blank")
-                           )
-                         ),
-                         br(),
+                 fluidRow(
+                   column(
+                     6,
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. "
+                   ),
+                   column(
+                     align = "center",
+                     6,
+                     a(
+                       img(src = "./Images/live03.png", class = "live03"),
+                       href = "http://www.piedmonthealthcounts.org/",
+                       target = "_blank"
+                     )
+                   )
+                 ),
+                 br(), 
                          fluidRow(
                             
                             
@@ -758,17 +766,18 @@ body <- mainPanel(width = 12,
                             column(2,
                                    img(src = "./Images/tourism.png", class = "tourismInfo")
                                    ),
+                            column(6,
+                                   h3("Visitor Spending Over Time", align = "center"),
+                                   plotlyOutput("tourism_spending"), 
+                                   h6("Data Source: The Economic Impact of Travel on North Carolina Counties” study prepared for Visit North Carolina by the U.S. Travel Association", align = "center")
+                            ),
                             column(4,
                                    br(),
                                    br(),
                                    br(),
                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. "
-                                   ),
-                            column(6,
-                                   h3("Visitor Spending Over Time", align = "center"),
-                                     plotlyOutput("tourism_spending"), 
-                                   h6("Data Source: The Economic Impact of Travel on North Carolina Counties” study prepared for Visit North Carolina by the U.S. Travel Association", align = "center")
                                    )
+                            
                           ),
                           br(),
                           fluidRow(
