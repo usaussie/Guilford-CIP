@@ -228,7 +228,7 @@ body <- mainPanel(width = 12,
        
         
         # Live Tab -----
-        tabPanel(title =dropdown(
+        tabPanel(title = dropdown(
           icon = icon("home"),
           label = "LIVE",
           status= "liveMenu",
