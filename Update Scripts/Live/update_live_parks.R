@@ -83,13 +83,15 @@ guilfordzips <- c(27263, 27214, 27233, 27235, 27249, 27401, 27403, 27405, 27406,
 
 results <- results %>% filter(zip %in% guilfordzips | is.na(zip)) #keep only those that are in Guilford
 
-write_rds(results, "~/Google Drive/SI/DataScience/data/Guilford County CIP/Parks/parks_temp.rds")
+#write_rds(results, "~/Google Drive/SI/DataScience/data/Guilford County CIP/Parks/parks_temp.rds")
+
+results <- read_rds("~/Google Drive/SI/DataScience/data/Guilford County CIP/Parks/parks_temp (1).rds")
 
 # Manually filter incorrect results -------------------------------------------------------------------------------
 
 results %>% arrange(name) %>% View()
-
-results %>%
+results_temp <- results %>%
+  
   filter(name != "Archdale Park and Recreation Maintenance Dept.") %>%
   filter(name != "B and B Lenten Roses") %>%
   filter(name != "Bur-Mil Clubhouse") %>%
@@ -97,10 +99,82 @@ results %>%
   filter(name != "Camp Gray Rock") %>%
   filter(name != "Carolina Marina") %>%
   filter(name != "Carolina Air Canine LLC") %>%
-  filter(name != "Greensboro KOA Journey") %>% ### SREEJA HAVE STUDENT CONTINUE THIS CULLING
-  
+  filter(name != "Greensboro KOA Journey") %>% 
+  filter(name != "Black Diamond Backyard")%>%
+  filter(name != "Brentwood soccer fields") %>%
+  filter(name != "Brooks Bridge")%>%
+  filter(name != "Cove Creek Gardens Inc")%>%
+  filter(name != "Creekside Park Disc Golf Course")%>%
+  filter(name != "Crockett Trail")%>%
+  filter(name != "Deep River Recreation Center")%>%
+  filter(name != "Downtown Greenway Morehead Park Trailhead Parking")%>%
+  filter(name != "Edible Schoolyard")%>%
+  filter(name != "Ellen Ashley")%>%
+  filter(name != "Gibsonville Community Garden")%>%
+  filter(name != "Gillespie Driving Range")%>%
+  filter(name != "Government Plaza")%>%
+  filter(name != "Greensboro Beautiful")%>%
+  filter(name != "Greensboro Botanical Gardens")%>%
+  filter(name != "Greensboro Children's Museum")%>%
+  filter(name != "Greensboro Parks & Recreation")%>%
+  filter(name != "Greensboro Radio Aero Modelers (GRAMS)")%>%
+  filter(name != "Haw River State Park, Iron Ore Belt Access")%>%
+  filter(name != "Hester Park Facility")%>%
+  filter(name != "High Point Parks & Recreation")%>%
+  filter(name != "Hohn Dairy Farm (historical)")%>%
+  filter(name != "Hunting at horse farm")%>%
+  filter(name != "Ideal Landscaping & Irrigation")%>%
+  filter(name != "Iron Ore Belt Access")%>%
+  filter(name != "J Razz and Tazz Farm")%>%
+  filter(name != "Jamestown Park Golf Club")%>%
+  filter(name != "Knight Brown Nature Preserve")%>%
+  filter(name != "Lake Brandt Marina")%>%
+  filter(name != "Laurel Bluff Trail Head - Lake Brandt")%>%
+  filter(name != "Little Loop Trail")%>%
+  filter(name != "Lynwood Lakes Lakeside Picnic Area (Members Only,not open to the public))")%>%
+  filter(name != "Nat Greene Trail, Atlantic & Yadkin Greenway")%>%
+  filter(name != "Nathaniel Greene Trail Head @ Lake Brandt Marina")%>%
+  filter(name != "Nathaniel Greene Trail Head Lake Brandt Marina")%>%
+  filter(name != "National Park Services")%>%
+  filter(name != "Northeast Community Trail")%>%
+  filter(name != "Northwood Animal Hospital")%>%
+  filter(name != "Oak Hollow Campground")%>%
+  filter(name != "Oak Hollow Festival Park")%>%
+  filter(name != "Oak Hollow Marina")%>%
+  filter(name != "Observation Deck")%>%
+  filter(name != "Overlook")%>%
+  filter(name != "Owl's Roost Trail")%>%
+  filter(name != "Owl's Roost Trail, Atlantic & Yadkin Greenway")%>%
+  filter(name != "Palmetto Trail, Atlantic & Yadkin Greenway")%>%
+  filter(name != "Park & Ride")%>%
+  filter(name != "Park Centre Management")%>%
+  filter(name != "Pegram Lake")%>%
+  filter(name != "Piedmont Environmental Center")%>%
+  filter(name != "Piedmont Trail at Atlantic & Yadkin Greenway")%>%
+  filter(name != "Piedmont Trail Parking")%>%
+  filter(name != "Reedy Fork Trail Head at Lake Brandt")%>%
+  filter(name != "Reedy Fork Trail Parking")%>%
+  filter(name != "Rich Fork Preserve")%>%
+  filter(name != "Richardson Taylor Preserve")%>%
+  filter(name != "Richardson-Taylor Preserve")%>%
+  filter(name != "Rock Creek Center")%>%
+  filter(name != "Saferight Preserve")%>%
+  filter(name != "Squirrel-Off / SDI, Inc.")%>%
+  filter(name != "Summerfield Town")%>%
+  filter(name != "Summit Conference Center")%>%
+  filter(name != "Timberlake Earth Sanctuary")%>%
+  filter(name != "Terrace Apartments")%>%
+  filter(name != "Townsend Trailhead Parking")%>%
+  filter(name != "UNCG Gardens")%>%
+  filter(name != "University Park")%>%
+  filter(name != "Washington Terrace Community Center")%>%
+  filter(name != "Watershed Trail Parking")%>%
+  filter(name != "Westminster Gardens Cemetery and Crematory")%>%
+  filter(name != "Wild Turkey Mountain Bike Trail")%>%
+  filter(name != "Wild Turkey Trail, Atlantic & Yadkin Greenway")%>%
+  filter(name != "Weaver Bridge, Atlantic & Yadkin Greenway")%>%
+  filter(name != "West House Trail")
 
-#parks <- results
 
-# save(results, file ="~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/parks.rda")
+save(results_temp, file ="~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/results_temp.rda")
   

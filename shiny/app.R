@@ -9,7 +9,7 @@ library(plotly)
 library(sf)
 library(siverse)
 
-
+#idea here: set ht and wdt of chart ad adjust image accordingly
 
 # Load data ---------------------------------------------------------------
 
@@ -157,16 +157,16 @@ body <- mainPanel(width = 12,
                      ),
                      br(),
                      fluidRow(
-                       
-                       column(
-                         2,
-                         img(src = "./Images/pop_age.png", class = "popAge"),
-                         h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Tables B01001 Sex by Age, B01002 Median Age by Sex")
-                       ),
                        column(
                          2,
                          radioButtons("location_rb_d", label = h3("Select Location"),choices = c("Guilford County", "Greensboro city", "High Point city"))
                        ),
+                       column(
+                         2,
+                         uiOutput("popAge"),
+                         h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Tables B01001 Sex by Age, B01002 Median Age by Sex")
+                       ),
+                       
                        column(
                          4, 
                          h3("Age Distribution", align ="center"),
@@ -1187,6 +1187,25 @@ server <- function(input, output) {
     input$location_rb_d1
   }) 
   
+
+  output$popAge <- renderUI({
+    
+    
+    if (location_reactive_d () == "Guilford County") {
+      img(src = './Images/popAge_guilford.png', width = 430)
+    }
+    else if (location_reactive_d () == "Greensboro city") {
+      img(src = './Images/popAge_greensboro.png', width =430)
+    }
+    else if (location_reactive_d () == "High Point city") {
+      img(src = './Images/popAge_HighPoint.png', width =430)
+    }
+    
+  })
+  
+  
+    
+    
     output$age <- renderBillboarder({
       
       ages <- ages %>% filter(location ==location_reactive_d()) 
@@ -1342,7 +1361,7 @@ output$imr <- renderBillboarder({
   billboarder() %>% 
     bb_barchart(data = imr) %>% 
     bb_legend(show =F) %>% 
-    bb_color (palette = c("#ffc91d")) 
+    bb_color (palette = c("#61aa43")) 
 })
 
 

@@ -66,13 +66,17 @@ load("~/Google Drive/SI/DataScience/Pritzker/ACS Data/acs_ethnicity_lst.RData")
 
 gc_demo <- si_acs("B01001", county = "Guilford County", state = "NC", geography = "county", survey = "acs1")
 
+cities_demo <- si_acs("B01001", geography = "place", state = "NC",  survey = "acs1")
 
 ```
 
 
-```{#r median age}
+```{r median age}
 
 age <- si_acs("B01002", geography = "county", state = "NC", survey = "acs1", county = "Guilford County")
+
+age_city <- si_acs("B01002", geography = "place", state = "NC",  survey = "acs1")
+
 
 save(age,file =  "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/age.rda")
 
@@ -143,7 +147,7 @@ gc_ages <-gc_demo %>%
 
 
 
-cities_demo <- si_acs("B01001", geography = "place", state = "NC",  survey = "acs1")
+
 
 
 gb_ages <- cities_demo %>% 
