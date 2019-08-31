@@ -161,16 +161,10 @@ body {
     padding-right: auto;
 }
 
-
-
-
-
 .demographics-tab .row {
   padding-left: 10px;
   
 }
-
-
 
 .box-body .fa-10x{
   font-size: 7em;
@@ -205,13 +199,6 @@ header.main-header .navbar .navbar-custom-menu ul.navbar-nav li.dropdown img {
   left: 0;
   right: 0;
 }
-
-
-
-
-
-
-
 
 .sidebar-menu>.fa{
 	color: #ffffff
@@ -414,10 +401,6 @@ margin-bottom: 20px;
   text-align: left;
 }
 
-.nav-tabs>li.active>a[href='#tab-4602-2'], .nav-tabs>li.active>a[href='#tab-4602-4']{
-  background-color: white;
-}
-
 .btn-playMenu{
   color:#FFC91D;
   border-color: rgba(255,255,255,0);
@@ -425,7 +408,6 @@ margin-bottom: 20px;
   text-align: left;
   
 }
-
 
 .btn-engageMenu{
   color:#ff5a27;

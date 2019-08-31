@@ -1161,6 +1161,7 @@ body <- mainPanel(width = 12,
 # Define the UI -----------------------------------------------------------
 
 ui <- fluidPage(theme = "sdashboard.css",
+                tags$script(src = "./scripts/tabHelper.js"),
                 titlePanel(
                   windowTitle = "Guilford CIP",
                   title = div(

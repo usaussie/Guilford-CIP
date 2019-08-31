@@ -1,6 +1,6 @@
 $(document).ready(() => {
+  // Handles redirection and highlights classes 
   let url = location.href.replace(/\/$/, "");
-
   if (location.hash) {
     const hash = url.split("#");
     $('.sidebar-menu a[href="#' + hash[1] + '"]').tab("show");
