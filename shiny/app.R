@@ -163,7 +163,7 @@ body <- mainPanel(width = 12,
                        ),
                        column(
                          2,
-                         uiOutput("popAge"),
+                         uiOutput("popAge", inline = TRUE),
                          h6("Data Source: U.S. Census Bureau (2013-2017). American Community Survey 5-year estimates. Tables B01001 Sex by Age, B01002 Median Age by Sex")
                        ),
                        
@@ -310,6 +310,13 @@ body <- mainPanel(width = 12,
                             )
                           ), 
                           br(),
+                          fluidRow(
+                            column(
+                              8, 
+                              offset = 4, 
+                              h3("Births Over Time", align = "center")
+                            )
+                          ),
                           
                           fluidRow(
                             column(
@@ -319,8 +326,6 @@ body <- mainPanel(width = 12,
                             column(
                               8,
                               align= "center",
-                              h3("Births Over Time", align = "center"),
-                              
                               plotlyOutput("birth2"), 
                               h6("Data Source: Jason's Data", align = "center")
                               
@@ -346,7 +351,7 @@ body <- mainPanel(width = 12,
                             column(
                               8,
                               offset = 2,
-                              h3("Unnatural Deaths by Race and Sex", align = "center"),
+                              h3("External Causes of Deaths by Race and Sex", align = "center"),
                               
                               billboarderOutput("deaths"),
                               h6("Data Source: Jason's Data", align = "center")
@@ -378,35 +383,27 @@ body <- mainPanel(width = 12,
                           ),
                           br(),
                           br(),
-
+                          
                           fluidRow(
                             column(
-                              6,
+                              10, 
+                              offset = 1,
+                              align = "center",
                               img(src = "./Images/live02.jpg", class = "live02")
-                              ),
-                            tags$div(column(class= "vertcol",
-                              
-                              6, 
-                              h3("Food Insecurity", align ="center"),
-                              plotlyOutput("food_insecurity"),
-                              h6("Source: Piedmont Health Counts", align = "center"))
-                              
-                              
-                              
-                            )),
+                            )
+                          ),
+
+                          fluidRow(),
                           br(),
                           fluidRow(
-                            
-
-                            column(8,
-                                   offset =2,
+                            column(7,
                                    h3("Access to Food Stores", align = "center"),
-
-                                       leafletOutput("food_stores_map"),
-                                   h6("Data Source: Google Maps API Pulls (2019)", align = "center")
-
-
-                            )
+                                   leafletOutput("food_stores_map"),
+                                   h6("Data Source: Google Maps API Pulls (2019)", align = "center")),
+                            column(5,
+                                   h3("Food Insecurity", align ="center"),
+                                   plotlyOutput("food_insecurity"),
+                                   h6("Source: Piedmont Health Counts", align = "center"))
                           ),
                          br(),
                          br(),
@@ -442,7 +439,7 @@ body <- mainPanel(width = 12,
 
                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien.",
                               fluidRow(br()),    
-                              leafletOutput("vacant_houses_map"),
+                              leafletOutput("vacant_houses_map", height = 600),
                               h6("Data Source: U.S. Census Bureau (2017).American Community Survey 1-year estimates. Table B25002 Occupancy Status", align = "center")
 
 
@@ -473,7 +470,7 @@ body <- mainPanel(width = 12,
                     column(
                       3,
                       h3("Receipt of Food Stamps/SNAP ", align = "center"),
-                      h1(htmlOutput("snap")),
+                      img(src = "./Images/snap.png", class = "snapImg"),
                       h6("Data Source: U.S. Census Bureau (2017).American Community Survey 1-year estimates. Table B22003 Receipt of Food Stamps/SNAP", align = "center")
                     ),
                     
@@ -487,7 +484,7 @@ body <- mainPanel(width = 12,
                    column(
                      3,
                      h3("Diabetes", align = "center"),
-                     h1(htmlOutput("diabetes")),
+                     img(src = "./Images/diabetes.png", class = "diabetesImg"),
                      h6("Source: Piedmont Health Counts", align = "center")
                    )
                  ),
@@ -495,7 +492,8 @@ body <- mainPanel(width = 12,
                  fluidRow(
                    column(
                      6,
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. "
+                      "Piedmont Health Counts is a local resource that is made up of health indicators brought together by health and human service professionals. Several of their data points are featured here. 
+                     To delve deeper into health data for this area with Piedmont Health Counts click on the image. "
                    ),
                    column(
                      align = "center",
@@ -566,6 +564,7 @@ body <- mainPanel(width = 12,
                           fluidRow(
                             column(
                               10, offset = 1,
+                              align = "center",
                               img(src = "./Images/work01.jpg", class ="work01")
                             )
                           ),
@@ -608,12 +607,12 @@ body <- mainPanel(width = 12,
                           ),
                           fluidRow(
                             column(6,
-                                   h3("Means of Transportation by Race", align = "center"),
+                                   h3("Means of Transportation to Work by Race", align = "center"),
                                        billboarderOutput("transportation_race"),
                                    h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B08105 (A-G Racial Iterations) Means of Transportation to Work.", align = "center")
                                    ),
                             column(6,
-                                   h3("Means of Transportation by Ethnicity", align = "center"),
+                                   h3("Means of Transportation to Work by Ethnicity", align = "center"),
                                      billboarderOutput("transportation_ethnicity"), 
                                    h6("Data Source: U.S. Census Bureau (2017). American Community Survey 1-year estimates. Table B08105 (H, I Ethnic Iterations) Means of Transportation to Work.", align = "center")
                                    
@@ -701,18 +700,33 @@ body <- mainPanel(width = 12,
                           )),
                           br(),
                           fluidRow(
+                            column(10, 
+                                   offset = 1,
+                                   img(src = "./Images/play02.jpg", class = "play02"))
+                          ),
+                          br(),
+                          br(),
+                          
+                          fluidRow(
                             column(
                               12,
                               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
                             )),
                           br(),
                           fluidRow(
+                            column(8, 
+                                   h3("Parks Map", align = "center"))
+                          ),
+                          
+                          fluidRow(
                             
-                            column(10,
-                                   offset = 1,
-                                   h3("Parks Map", align = "center"),
-                                   leafletOutput("parks_map"),
+                            column(8,
+                                   
+                                   leafletOutput("parks_map", height = 600),
                                    h6("Data Source: Google Maps API Pulls (2019)", align = "center")
+                            ),
+                            column(4,
+                                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Urna cursus eget nunc scelerisque viverra mauris in. Orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Leo integer malesuada nunc vel risus commodo viverra maecenas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Vitae sapien pellentesque habitant morbi tristique. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien."
                             )
                             
                           ),
@@ -763,10 +777,10 @@ body <- mainPanel(width = 12,
                           fluidRow(),
                           
                           fluidRow(
-                            column(2,
+                            column(3,
                                    img(src = "./Images/tourism.png", class = "tourismInfo")
                                    ),
-                            column(6,
+                            column(5,
                                    h3("Visitor Spending Over Time", align = "center"),
                                    plotlyOutput("tourism_spending"), 
                                    h6("Data Source: The Economic Impact of Travel on North Carolina Counties” study prepared for Visit North Carolina by the U.S. Travel Association", align = "center")
@@ -803,16 +817,11 @@ body <- mainPanel(width = 12,
                           br(),
                           
                           fluidRow(
-                            column(6,
-                                   fluidRow(br(),
-                                            br()),
-                                   img(src = "./Images/play02.png", class = "play02")
-                                   ),
-                            column(
-                              6,
-                               h3("Strava HeatMap  of Bike/Running Lanes", align = "center"),
-                               img(src = "./Images/strava.png", class ="strava")
-                              )
+                            column(8,
+                                   offset = 2,
+                                   img(src = "./Images/play01.jpg", class = "play01")
+                                   )
+                          
                           ),
                           br(),
                           
@@ -857,7 +866,7 @@ body <- mainPanel(width = 12,
                             column(10,
                                    offset = 1,
                                    h3("Schools Map", align = "center"),
-                                     leafletOutput("schools_map"), 
+                                     leafletOutput("schools_map", height = 600), 
                                    h6("Data Source: GCS (placeholder) ", align = "center")
                            )),
                           
@@ -1019,7 +1028,7 @@ body <- mainPanel(width = 12,
                             column(
                               8,
                               offset = 2,
-                              img(src = "./Images/act01.jpg", class ="act01")
+                              img(src = "./Images/engage01.png", class ="engage01")
                             )
                           ),
                           br(),
@@ -1105,6 +1114,7 @@ body <- mainPanel(width = 12,
         
         tabPanel(title = "EXPLORE", icon = icon("map-marked-alt"),
                  tags$div(class = "explore-tab"),
+               
                  br(),
                  fluidRow(
                    column(12,
@@ -1125,6 +1135,17 @@ body <- mainPanel(width = 12,
                    column(
                      12, 
                    leafletOutput("explore_map"))
+                 ),
+                 absolutePanel(
+                   
+                   "abs",
+                   fixed = TRUE,
+                   draggable = TRUE, top = 900, left = "auto", right = 20, bottom = "auto",
+                   width = 330, height = "auto",
+                   
+                   h2("ZIP explorer")
+                   
+                   
                  ),
                  br()
                  ),
@@ -1192,13 +1213,13 @@ server <- function(input, output) {
     
     
     if (location_reactive_d () == "Guilford County") {
-      img(src = './Images/popAge_guilford.png', width = 430)
+      img(src = './Images/popAge_guilford.png', width = "100%")
     }
     else if (location_reactive_d () == "Greensboro city") {
-      img(src = './Images/popAge_greensboro.png', width =430)
+      img(src = './Images/popAge_greensboro.png', width = "100%")
     }
     else if (location_reactive_d () == "High Point city") {
-      img(src = './Images/popAge_HighPoint.png', width =430)
+      img(src = './Images/popAge_HighPoint.png', width = "100%")
     }
     
   })
@@ -1453,7 +1474,7 @@ output$med_inc_race <- renderBillboarder({
   billboarder() %>%
     bb_lollipop(data = med_income_race, point_color = "#b42025", line_color = "#b42025") %>%
     bb_axis(x =list(height = 40))%>%
-    bb_y_axis(tick = list(format = htmlwidgets::JS("d3.format(',')")
+    bb_y_axis(tick = list(format = htmlwidgets::JS("d3.format('$,')")
     ))
   
   #bb_barchart(data = med_income_race)
@@ -1468,7 +1489,7 @@ output$med_inc_ethn <- renderBillboarder({
   billboarder() %>%
     bb_lollipop(data = med_income_ethn, point_color = "#61aa43", line_color = "#61aa43") %>%
     bb_axis(x =list(height = 20)) %>%
-    bb_y_axis(tick = list(format = htmlwidgets::JS("d3.format(',')")
+    bb_y_axis(tick = list(format = htmlwidgets::JS("d3.format('$,')")
     ))
   #bb_barchart(data = med_income_ethn)
 })
@@ -1745,12 +1766,17 @@ output$schools_details <- renderBillboarder({
     arrange(year) %>% 
   dplyr::select(label_metric, value, label_school_year)
   
+    
   billboarder() %>% 
     bb_barchart(data = bb_data, 
                 mapping = bbaes(label_school_year, value*100, group= label_metric)) %>% 
     bb_bar(padding = 2) %>% 
-    bb_y_axis(tick = list(format = suffix("%"))) %>%
-    bb_color(palette = c("#61aa43", "#ffc91d", "#026bc1"))
+    bb_y_axis(tick = list(format = suffix("%"))) %>% 
+    bb_colors_manual("College Attendance" ="#50D1D8", 
+                     "Grade 11 ACT Proficiency" = "#026BC1",
+                     "Graduation Rate" = "#FFC91D",
+                     "DIBELS At or Above Benchmark" = "#FF5A27",
+                     "End of Grade 3 Reading Proficiency" = "#00544E")
   
   
 })

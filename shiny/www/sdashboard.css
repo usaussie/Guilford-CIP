@@ -316,13 +316,13 @@ margin-bottom: 20px;
 }
 
 
-.act01{
+.engage01{
    width: 100%;
   height: auto;
 }
 
-.strava{
-  width:100%;
+.play01{
+  width:90%;
   height: auto;
   
 }
@@ -419,4 +419,22 @@ margin-bottom: 20px;
 
 .vertcol{
   vertical-align: center;
+}
+
+.snapImg{
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  width: 75%;
+  max-width: 100%;
+  height: auto;
+}
+
+.diabetesImg{
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  width: 75%;
+  max-width: 100%;
+  height: auto;
 }

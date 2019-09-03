@@ -381,6 +381,8 @@ comparemap <- comparemap %>%
             title = "Scale"
   )
 
+comparemap
+
 comparemap <- comparemap %>%
   addCircleMarkers(data = food_stores,
                    lat = ~lat, lng = ~lon, popup = ~name,
@@ -397,6 +399,7 @@ comparemap <- comparemap %>%
 
 comparemap
 
+bind_rows(explore_acsdata)
 
 
 # Timelines -------------------------------------------------------------------------------------------------------

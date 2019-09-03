@@ -108,7 +108,7 @@ si_acs <- function(table, county = NULL, state = NULL, summary_var = "universe t
 }
 
 
-si_acs("B23002I", geography = "county", state = "UT", survey = "acs1")
+#si_acs("B23002I", geography = "county", state = "UT", survey = "acs1")
 
 # A White alone 
 # B Black or African American Alone
@@ -177,7 +177,15 @@ emp_race <- emp_race %>%
 
 #save(emp_race, file = "G:/My Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
 
+load("~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
 
+emp_race <- emp_race %>% 
+  rename(`Female: Black or African American Alone` = `Female_Black or African American Alone`, 
+         `Female: White Alone` = `Female_White alone`,
+         `Male: Black or African American Alone` = `Male_Black or African American Alone`,
+         `Male: White alone` = `Male_White alone`)
+
+save(emp_race, file = "~/Google Drive/SI/DataScience/data/Guilford County CIP/dashboard/emp_race.rda")
 
 billboarder() %>% 
   bb_barchart(data = emp_race)
