@@ -1133,17 +1133,41 @@ body <- mainPanel(width = 12,
                  br(),
                  fluidRow(
                    column(
-                     12, 
-                   leafletOutput("explore_map"))
+                     10,
+                     offset = 1,
+                     align = "center",
+                   leafletOutput("explore_map", height = 1000))
                  ),
-                 absolutePanel(
-                   
-                   "abs",
-                   fixed = TRUE,
-                   draggable = TRUE, top = 900, left = "auto", right = 20, bottom = "auto",
+                 br(), 
+                 br(),
+                 absolutePanel(id = "controls", class = "panel panel-default",
+                   fixed = F,
+                   draggable = TRUE, top = 800, left = "auto", right = 50, bottom = "auto",
                    width = 330, height = "auto",
-                   
-                   h2("ZIP explorer")
+                   h2("Explorer"),
+                   radioButtons("radioinput", label = "Layers", 
+                                choices = c("Total Population", "White", "African American", 
+                                            "Asian", "American Indian and Alaska Native", 
+                                            "Native Hawaiian and Pacific Islander", 
+                                            "Other Populations", 
+                                            "Median Household Income")),
+                   checkboxGroupInput(
+                     "checkboxinput", label = "Markers", 
+                     choices = c("Schools", "Parks", "Food Stores")
+                   ), 
+                   checkboxInput(
+                     "yearcheck", label = "Difference Between Years"
+                   ), 
+                   conditionalPanel(
+                     "input.yearcheck", 
+                     selectInput("begYr", label = "Beginning Year", 
+                                 choices = c(2006:2017)), 
+                     selectInput("endYr", label = "End Year", 
+                                 choices = c(2006:2017))
+                   ), 
+                   billboarderOutput(
+                     "explorebar"
+                   )
                    
                    
                  ),
@@ -1346,7 +1370,8 @@ output$vacant_houses_map <- renderLeaflet({
 
 
   leaflet(data = vacant_housing) %>%
-    addTiles(options = tileOptions(minZoom = 5)) %>%
+    addTiles(urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
+             attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>') %>%
     setMaxBounds(-84, 35, -79, 37) %>%
     addPolygons(
       stroke = F,
@@ -1369,7 +1394,8 @@ output$vacant_houses_map <- renderLeaflet({
 
 output$food_stores_map <- renderLeaflet({
   leaflet(data = food_stores) %>%
-    addTiles(options = tileOptions(minZoom = 5)) %>%
+    addTiles(urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
+             attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>') %>%
     setMaxBounds(-84, 35, -79, 37) %>%
     addMarkers(lat = ~lat, lng = ~lon, popup = ~name,
                clusterOptions = markerClusterOptions())
@@ -1591,7 +1617,8 @@ output$weather <- renderPlotly({
 
 output$parks_map <- renderLeaflet({
   leaflet(data = filter_parks) %>%
-    addTiles(options = tileOptions(minZoom = 5)) %>%
+    addTiles(urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
+             attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>') %>%
     setMaxBounds(-84, 35, -79, 37) %>%
     addMarkers(lat = ~lat, lng = ~lon, popup = ~name,
                clusterOptions = markerClusterOptions())
@@ -1729,7 +1756,8 @@ output$schools_map <- renderLeaflet({
     unite(col = popup, kdib, grd3_read, act, hsgrad, post_hs_enrolled, sep = "<BR>", na.rm = T) %>%
     mutate(popup = paste0("<B>", school, "</B><BR><BR>", popup)) %>%
     leaflet() %>%
-    addTiles() %>%
+    addTiles(urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
+             attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>') %>%
     addMarkers(lat = ~lat,
                lng = ~lng,
                popup = ~popup,
@@ -1948,8 +1976,8 @@ output$explore_map <- renderLeaflet({
     
     
     exploremap <<- exploremap %>%
-      #addTiles(options = tileOptions(minZoom = 5), group = group) %>%
-      setMaxBounds(-80, 35, -78, 37) %>%
+      # #addTiles(options = tileOptions(minZoom = 5), group = group) %>%
+      # setMaxBounds(-80, 35, -78, 37) %>%
       addPolygons(data = layer,
                   group = group,
                   stroke = F,
@@ -1969,11 +1997,14 @@ output$explore_map <- renderLeaflet({
   })
   
   exploremap <- exploremap %>%
-    addTiles(options = tileOptions(minZoom = 5)) %>%
-    addLayersControl(baseGroups = explore_acsdata %>% map_chr(~.x %>% slice(1) %>% pluck("short_title")) %>% unname(),
-                     overlayGroups = c("Schools", "Parks", "Food Stores"),
-                     position = "bottomright",
-                     options = layersControlOptions(collapsed = F)) %>%
+    addTiles(
+      urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
+      attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>'
+    ) %>%
+    # addLayersControl(baseGroups = explore_acsdata %>% map_chr(~.x %>% slice(1) %>% pluck("short_title")) %>% unname(),
+    #                  overlayGroups = c("Schools", "Parks", "Food Stores"),
+    #                  position = "bottomright",
+    #                  options = layersControlOptions(collapsed = F)) %>%
     hideGroup(c("Schools", "Parks", "Food Stores")) %>%
     addLegend(pal = colorNumeric(palette = "viridis", domain = c(0,1)),
               values = c(0, 1),
