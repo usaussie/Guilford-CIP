@@ -1140,38 +1140,61 @@ body <- mainPanel(width = 12,
                  ),
                  br(), 
                  br(),
-                 absolutePanel(id = "controls", class = "panel panel-default",
-                   fixed = F,
-                   draggable = TRUE, top = 800, left = "auto", right = 50, bottom = "auto",
-                   width = 330, height = "auto",
-                   h2("Explorer"),
-                   radioButtons("radioinput", label = "Layers", 
-                                choices = c("Total Population", "White", "African American", 
-                                            "Asian", "American Indian and Alaska Native", 
-                                            "Native Hawaiian and Pacific Islander", 
-                                            "Other Populations", 
-                                            "Median Household Income")),
-                   checkboxGroupInput(
-                     "checkboxinput", label = "Markers", 
-                     choices = c("Schools", "Parks", "Food Stores")
-                   ), 
-                   checkboxInput(
-                     "yearcheck", label = "Difference Between Years"
-                   ), 
-                   conditionalPanel(
-                     "input.yearcheck", 
-                     selectInput("begYr", label = "Beginning Year", 
-                                 choices = c(2006:2017)), 
-                     selectInput("endYr", label = "End Year", 
-                                 choices = c(2006:2017))
-                   ), 
-                   billboarderOutput(
-                     "explorebar"
+                 # absolutePanel(id = "controls", class = "panel panel-default",
+                 #   fixed = F,
+                 #   draggable = TRUE, top = 800, left = "auto", right = 50, bottom = "auto",
+                 #   width = 330, height = "auto",
+                 #   h2("Explorer"),
+                 #   radioButtons("radioinput", label = "Layers", 
+                 #                choices = c("Total Population", "White", "African American", 
+                 #                            "Asian", "American Indian and Alaska Native", 
+                 #                            "Native Hawaiian and Pacific Islander", 
+                 #                            "Other Populations", 
+                 #                            "Median Household Income")),
+                 #   checkboxGroupInput(
+                 #     "checkboxinput", label = "Markers", 
+                 #     choices = c("Schools", "Parks", "Food Stores")
+                 #   ), 
+                 #   checkboxInput(
+                 #     "yearcheck", label = "Difference Between Years"
+                 #   ), 
+                 #   conditionalPanel(
+                 #     "input.yearcheck", 
+                 #     selectInput("begYr", label = "Beginning Year", 
+                 #                 choices = c(2006:2017)), 
+                 #     selectInput("endYr", label = "End Year", 
+                 #                 choices = c(2006:2017))
+                 #   ), 
+                 #   billboarderOutput(
+                 #     "explorebar"
+                 #   )
+                 #   
+                 #   
+                 # ),
+                 fluidRow(
+                   column(12, 
+                          align = "center",
+                          h3("Explore difference over time"))
+                 ), 
+                 fluidRow(
+                   column(
+                     6, 
+                     sliderInput("yr1", "Starting Year", min = 2009, max = 2017, value = 2009)
+                   ),
+                   column(
+                     6, 
+                     sliderInput("yr2", "Ending Year", min = 2009, max = 2017, value = 2009)
                    )
-                   
-                   
                  ),
-                 br()
+                 br(),
+                 fluidRow(
+                   column(7, 
+                   leafletOutput("compare")),
+                   column(
+                     5,
+                     billboarderOutput("timeline")
+                   )
+                 )
                  ),
         # About Us Tab ----
         tabPanel(title = "ABOUT US", icon = icon("users"),
@@ -1953,10 +1976,16 @@ output$engage_missing <- renderUI({
 
 # EXPLORE Tab ----
 
+
+
 output$explore_map <- renderLeaflet({
   exploremap <- leaflet()
   
+  layer <- input$radioinput
+  
   walk(explore_acsdata, function(layer) {
+    
+    
     
     #Build palette
     palette <- colorNumeric(
@@ -2001,10 +2030,10 @@ output$explore_map <- renderLeaflet({
       urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
       attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>'
     ) %>%
-    # addLayersControl(baseGroups = explore_acsdata %>% map_chr(~.x %>% slice(1) %>% pluck("short_title")) %>% unname(),
-    #                  overlayGroups = c("Schools", "Parks", "Food Stores"),
-    #                  position = "bottomright",
-    #                  options = layersControlOptions(collapsed = F)) %>%
+    addLayersControl(baseGroups = explore_acsdata %>% map_chr(~.x %>% slice(1) %>% pluck("short_title")) %>% unname(),
+                     overlayGroups = c("Schools", "Parks", "Food Stores"),
+                     position = "bottomright",
+                     options = layersControlOptions(collapsed = F)) %>%
     hideGroup(c("Schools", "Parks", "Food Stores")) %>%
     addLegend(pal = colorNumeric(palette = "viridis", domain = c(0,1)),
               values = c(0, 1),
@@ -2027,6 +2056,97 @@ output$explore_map <- renderLeaflet({
                group = "Parks")
   
   exploremap
+})
+
+shiny_selected_year1 <- reactive({
+  input$yr1
+})
+shiny_selected_year2 <- reactive({
+  input$yr2
+})
+
+output$compare <- renderLeaflet({
+  comparemap <- leaflet()
+  
+  walk(explore_acsdata, function(layer) {
+    
+    est_column_year1 <- sym(paste0("est", shiny_selected_year1))
+    est_column_year2 <- sym(paste0("est", shiny_selected_year2))
+    
+    layer <- layer %>%
+      mutate(estimate = !!est_column_year2 - !!est_column_year1)
+    
+    #Build palette
+    palette <- colorNumeric(
+      palette = "RdYlGn",
+      domain = layer$estimate
+    )
+    
+    group <- layer %>% slice(1) %>% pull(short_title)
+    
+    popup <- layer %>%
+      transmute(popup = glue("<B>{concept}</B><BR><BR>
+                           Change from {shiny_selected_year1} to {shiny_selected_year2}: {format(estimate, big.mark = ',')}")) %>%
+      pull(popup)
+    
+    #str_replace_all(str_wrap(concept, width = 20, exdent = 3), '\n', '<BR>')
+    
+    
+    comparemap <<- comparemap %>%
+      #addTiles(options = tileOptions(minZoom = 5), group = group) %>%
+      setMaxBounds(-84, 35, -79, 37) %>%
+      addPolygons(data = layer,
+                  group = group,
+                  stroke = F,
+                  fillColor = ~palette(estimate),
+                  fillOpacity = 0.7,
+                  popup = popup
+      ) #%>%
+    # addLegend(pal = palette,
+    #           values = layer$estimate,
+    #           group = group,
+    #           position = "bottomleft",
+    #           title = group
+    #           )
+    
+    
+    
+  })
+  
+  comparemap <- comparemap %>%
+    addTiles(options = tileOptions(minZoom = 5)) %>%
+    addLayersControl(baseGroups = explore_acsdata %>% map_chr(~.x %>% slice(1) %>% pluck("short_title")) %>% unname(),
+                     overlayGroups = c("Schools", "Parks", "Food Stores"),
+                     position = "bottomright",
+                     options = layersControlOptions(collapsed = F)) %>%
+    hideGroup(c("Schools", "Parks", "Food Stores")) %>%
+    addLegend(pal = colorNumeric(palette = "RdYlGn", domain = c(-1,1)),
+              values = c(-1, 1),
+              position = "bottomleft",
+              title = "Scale"
+    )
+  
+  comparemap
+  
+  comparemap <- comparemap %>%
+    addCircleMarkers(data = food_stores,
+                     lat = ~lat, lng = ~lon, popup = ~name,
+                     stroke = TRUE, fillOpacity = 0.075,
+                     group = "Food Stores") %>%
+    addMarkers(data = schools,
+               lat = ~lat, lng = ~lng, popup = ~school,
+               clusterOptions = markerClusterOptions(),
+               group = "Schools") %>%
+    addMarkers(data = parks,
+               lat = ~lat, lng = ~lon, popup = ~name,
+               clusterOptions = markerClusterOptions(),
+               group = "Parks")
+  
+  comparemap
+})
+
+output$timeline <- renderBillboarder({
+  
 })
 
 
