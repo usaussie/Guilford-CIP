@@ -8,4 +8,7 @@ install.packages("devtools")
 install.packages("googleway")
 install.packages("leaflet")
 install.packages("ipeds")
+install.packages("zoo")
+install.packages("billboarder")
+install.packages("plotly")
 
