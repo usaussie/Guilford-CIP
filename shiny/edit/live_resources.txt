@@ -1,5 +1,4 @@
 Enter resources for live tab here, each resource on a new line
 
-<a href> https://www.osbm.nc.gov/facts-figures/demographics</a>
-<a href> http://gis.guilfordcountync.gov/gisportal/</a>
-
+<a href= https://www.osbm.nc.gov/facts-figures/demographics</a>
+<a href= http://gis.guilfordcountync.gov/gisportal/</a>
