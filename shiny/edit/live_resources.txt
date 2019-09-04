@@ -1,3 +1,11 @@
+<<<<<<< HEAD
 Enter resources for live tab here, each resource on a new line
-live-resource-1
-live-resource-2
+
+<a href = "https://www.osbm.nc.gov/facts-figures/demographics"> <"click"> </a>
+<a href> http://gis.guilfordcountync.gov/gisportal/</a>
+=======
+Enter resources for live tab here, each resource on a new line
+
+<!-- <a href= "https://www.osbm.nc.gov/facts-figures/demographics"> "Put text here"</a> -->
+<a href= http://gis.guilfordcountync.gov/gisportal/> "Put text here> </a>
+>>>>>>> a72c5ec8a430b79f340e0e6894f70ccdc47490ae
