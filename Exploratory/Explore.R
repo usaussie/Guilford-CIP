@@ -399,7 +399,7 @@ comparemap <- comparemap %>%
 
 comparemap
 
-bind_rows(explore_acsdata)
+
 
 
 # Timelines -------------------------------------------------------------------------------------------------------
