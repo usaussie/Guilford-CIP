@@ -7,4 +7,5 @@ install.packages("janitor")
 install.packages("devtools")
 install.packages("googleway")
 install.packages("leaflet")
+install.packages("ipeds")
 
