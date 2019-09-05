@@ -50,22 +50,21 @@ schools <- read_rds("./data/gcs.rds")
 
 # Editable text files
 live_resources <- read_csv("./edit/live_resources.txt")
-#live_projects <- read_csv("./edit/live_projects.txt")
 live_missing <- read_csv("./edit/live_missing.txt")
+
 work_resources <- read_csv("./edit/work_resources.txt")
-work_projects <- read_csv("./edit/work_projects.txt")
 work_missing <- read_csv("./edit/work_missing.txt")
+
 play_resources <- read_csv("./edit/play_resources.txt")
-play_projects <- read_csv("./edit/play_projects.txt")
 play_missing <- read_csv("./edit/play_missing.txt")
+
 learn_resources <- read_csv("./edit/learn_resources.txt")
-learn_projects <- read_csv("./edit/learn_projects.txt")
 learn_missing <- read_csv("./edit/learn_missing.txt")
+
 engage_resources <- read_csv("./edit/engage_resources.txt")
-engage_projects <- read_csv("./edit/engage_projects.txt")
 engage_missing <- read_csv("./edit/engage_missing.txt")
+
 civic_resources <- read_csv("./edit/civic_resources.txt")
-civic_projects <- read_csv("./edit/civic_projects.txt")
 civic_missing <- read_csv("./edit/civic_missing.txt")
 
 #load from drive
@@ -1582,16 +1581,7 @@ output$food_insecurity <- renderPlotly({
 })
   
 
-output$live_projects <- renderUI({
-  vec <- vector()
-  
-  for(i in 1:nrow(live_projects)){
-    ln <- live_projects[i,1]
-    ln1 <- paste(i, ": ", ln)
-    vec <- append(vec, ln1)
-  }
-  HTML(paste(vec, collapse = "<br>"))
-})
+
 
 output$live_resources <- renderUI({
   vec <- vector()
@@ -1703,16 +1693,7 @@ output$transportation_ethnicity <- renderBillboarder({
   
 })
 
-output$work_projects <- renderUI({
-  vec <- vector()
-  
-  for(i in 1:nrow(work_projects)){
-    ln <- work_projects[i,1]
-    ln1 <- paste(i, ": ", ln)
-    vec <- append(vec, ln1)
-  }
-  HTML(paste(vec, collapse = "<br>"))
-})
+
 
 output$work_resources <- renderUI({
   vec <- vector()
@@ -1780,16 +1761,7 @@ output$tourism_spending <- renderBillboarder({
            legend = list(orientation = 'h', y = -0.2, x = 0.2))
 })
 
-output$play_projects <- renderUI({
-  vec <- vector()
-  
-  for(i in 1:nrow(play_projects)){
-    ln <- play_projects[i,1]
-    ln1 <- paste(i, ": ", ln)
-    vec <- append(vec, ln1)
-  }
-  HTML(paste(vec, collapse = "<br>"))
-})
+
 
 output$play_resources <- renderUI({
   vec <- vector()
@@ -1950,16 +1922,7 @@ output$schools_details <- renderBillboarder({
   
 })
 
-output$learn_projects <- renderUI({
-  vec <- vector()
-  
-  for(i in 1:nrow(learn_projects)){
-    ln <- learn_projects[i,1]
-    ln1 <- paste(i, ": ", ln)
-    vec <- append(vec, ln1)
-  }
-  HTML(paste(vec, collapse = "<br>"))
-})
+
 
 output$learn_resources <- renderUI({
   vec <- vector()
@@ -1985,20 +1948,6 @@ output$learn_missing <- renderUI({
 
 # ENGAGE Tab ----
 
-
-
-output$projects <- renderUI({
-  
-  vec <- vector()
-  
-  for(i in 1:nrow(projects)){
-    ln <- projects[i,1]
-    ln1 <- paste(i, ": ", ln)
-    vec <- append(vec, ln1)
-  }
-  HTML(paste(vec, collapse = "<br>"))
-  
-})
 
 
 output$resources <- renderUI({
@@ -2056,16 +2005,7 @@ output$voters_rp <- renderBillboarder({
   
 })
 
-output$engage_projects <- renderUI({
-  vec <- vector()
-  
-  for(i in 1:nrow(engage_projects)){
-    ln <- engage_projects[i,1]
-    ln1 <- paste(i, ": ", ln)
-    vec <- append(vec, ln1)
-  }
-  HTML(paste(vec, collapse = "<br>"))
-})
+
 
 output$engage_resources <- renderUI({
   vec <- vector()
