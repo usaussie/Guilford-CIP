@@ -196,7 +196,13 @@ shiny_selected_year2 <- 2017
 
 map(explore_acsdata, function(layer) {
 
-  estcolumn <- paste0("est", shiny_selected_year1)
+  estcolumn <- layer %>%
+    names() %>%
+    enframe() %>%
+    filter(str_detect(value, "est\\d{4}")) %>%
+    mutate(year = str_remove(value, "est") %>% as.numeric()) %>%
+    filter(year == max(year)) %>%
+    pull(value)
 
   as_percent <- layer %>% slice(1) %>% pull(as_percent) #Do we need to format as percent?
   if(as_percent) {
