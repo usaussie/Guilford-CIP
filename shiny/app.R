@@ -40,12 +40,12 @@ load("./data/diabetes.rda")
 load("./data/food_insecurity.rda")
 load("./data/snap.rda")
 
-schools <- read_rds("./data/schools.rds")
+#schools <- read_rds("./data/schools.rds")
 load("./data/parks_1.rda")
 food_stores <- read_rds("./data/food_stores.rds")
 exploremap <- read_rds("./data/exploremap.rds")
 explore_acsdata <- read_rds("./data/explore_acsdata.rds")
-gcs <- read_rds("./data/gcs.rds")
+schools <- read_rds("./data/gcs.rds")
 
 
 # Editable text files
@@ -593,6 +593,7 @@ body <- mainPanel(width = 12,
                           
                           fluidRow(
                             column(10, offset = 1,
+                                   align = "center",
                                    img(src = "./Images/work02.jpg", class = "work02")
                                    )
                           ),
@@ -1028,7 +1029,7 @@ body <- mainPanel(width = 12,
                             column(
                               8,
                               offset = 2,
-                              img(src = "./Images/engage01.png", class ="engage01")
+                              img(src = "./Images/engage01.jpg", class ="engage01")
                             )
                           ),
                           br(),
@@ -1104,6 +1105,7 @@ body <- mainPanel(width = 12,
                                      h3("What's Missing?"), 
                                      htmlOutput("engage_missing"))
                             )),
+                          
                           br()
                  )
                  
@@ -1113,7 +1115,7 @@ body <- mainPanel(width = 12,
         # Explore tab ----
         
         tabPanel(title = "EXPLORE", icon = icon("map-marked-alt"),
-                 tags$div(class = "explore-tab"),
+                 tags$div(class = "explore-tab",
                
                  br(),
                  fluidRow(
@@ -1135,8 +1137,7 @@ body <- mainPanel(width = 12,
                    column(
                      10,
                      offset = 1,
-                     align = "center",
-                   leafletOutput("explore_map", height = 1000))
+                   leafletOutput("explore_map", height = 400))
                  ),
                  br(), 
                  br(),
@@ -1172,29 +1173,29 @@ body <- mainPanel(width = 12,
                  #   
                  # ),
                  fluidRow(
-                   column(12, 
-                          align = "center",
-                          h3("Explore difference over time"))
-                 ), 
-                 fluidRow(
                    column(
-                     6, 
-                     sliderInput("yr1", "Starting Year", min = 2009, max = 2017, value = 2009)
-                   ),
-                   column(
-                     6, 
-                     sliderInput("yr2", "Ending Year", min = 2009, max = 2017, value = 2009)
+                     12,
+                     align = "center",
+                     h3("EXPLORE DIFFERENCE OVER TIME")
+          
                    )
                  ),
+                 
                  br(),
+                 fluidRow(),
+                 
                  fluidRow(
-                   column(7, 
-                   leafletOutput("compare")),
                    column(
-                     5,
-                     billboarderOutput("timeline")
-                   )
-                 )
+                     2, 
+                     sliderInput("yr", label = NULL, min = 2013, max = 2017, value = c(2013, 2017), step = 1, sep = "")
+                   ),
+                   column(10, 
+                   leafletOutput("compare", height = 400))
+                  
+                 ),
+                 br(),
+                 br()
+        )
                  ),
         # About Us Tab ----
         tabPanel(title = "ABOUT US", icon = icon("users"),
@@ -1207,17 +1208,123 @@ body <- mainPanel(width = 12,
                    )
                    
                  ),
-                 fluidRow(), 
+                 br(),
+                 fluidRow(
+                   column(12,
+                          h3("What are Community Indicators?"))
+                 ), 
+                 fluidRow(
+                   column(
+                     12,
+                     "Community indicators are ways to measure the well-being of communities.
+Community indicator projects collect and compile data in an interactive, community-wide platform that gives everyone access to the information. They measure items that have an impact on issues like quality of life, environmental sustainability and health. Making the same information available to all facilitates a county-wide conversation and advances our community narrative. Perhaps the most common use of indicators is to support community efforts in drafting visions of a better future. They help communities build participation, set priorities, develop action plans, and track progress toward realization of goals."
+                   )
+                 ),
+                 br(),
+                 fluidRow(
+                   column(12,
+                          h3("Values"))
+                 ),
+                 fluidRow(
+                   column(
+                     12,
+                     "Guilford Community Indicators is based on the values of open data, inclusive and transparent analysis, and the belief that we can improve by looking at accurate information about ourselves as a community.  "
+                   )
+                 ),
+                 
                  br(),
                  fluidRow(
                    column(
                      12,
-                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus aenean vel elit scelerisque mauris pellentesque. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna condimentum mattis pellentesque id. Dignissim enim sit amet venenatis urna. Aliquet risus feugiat in ante metus dictum at. Elementum curabitur vitae nunc sed. Urna id volutpat lacus laoreet non curabitur gravida arcu ac."
+                     h3(
+                       "Who uses Community Indicators?"
+                     )
+                   )
+                 ),
+                 fluidRow(
+                   column(
+                     12,
+                     "Community indicators can be used by many people. Community members use them to learn more about their neighborhoods.  Business groups use them to assess the market or the long-term prospects for the local workforce. Schools use them to educate students about local history and issues. Advocacy groups refer to them to make their case to the media, the public, foundations, and political figures. The media use them to report on what's happening in the community. Increasingly, philanthropic foundations (as well as corporate and government grantmakers) are using indicators to help them identify priorities for funding and for identifying", tags$i ("high-leverage strategies"), "where a little money in one place will have a lot of positive ripplw effects"
                    )
                  ),
                  br(),
-                 fluidRow(),
-                 br()
+                 fluidRow(
+                   column(12,
+                          h3("Key Facts about Guilford Community Indicators"))
+                 ),
+                 fluidRow(
+                   column(
+                     12,
+                     tags$ul(
+                       tags$li("County-wide Initiative"), 
+                       tags$li("Shaped by a high level of inclusive community involvement, through focus groups, a steering committee, and other public engagement activities"), 
+                       tags$li("Funded by Community Foundation of Greater Greensboro, Foundation for a Healthy High Point, City of Greensboro, County of Guilford, and others")
+                     )
+                   )
+                 ),
+                 br(),
+                 fluidRow(
+                   column(
+                     12, 
+                     h3("Development of Guilford Community Indicators")
+                   )
+                 ),
+                 fluidRow(
+                   column(
+                     12,
+                     "Development of Guilford Community Indicators was led by a Steering Committee from across the county with representatives from a wide range of sectors including education, government, business, health, human services, nonprofits, community organizations, faith institutions, and philanthropy.  The Steering Committee was co-chaired by Leslie Kilgore and Gary Palmer and partnered with Sorenson Impact Center of the University of Utah - a widely recognized think-and-do tank focused on solving social problems using data, evidence, and innovation.  "
+                   )
+                 ),
+                 br(),
+                 fluidRow(
+                   column(
+                     12,
+                     h3(
+                       "Future of Guilford Community Indicators"
+                     )
+                   )
+                 ),
+                 fluidRow(
+                   column(
+                     12,
+                     "Guilford Community Indicators is now part of the Piedmont Regional Data Collaborative (PRDC)  -- a collaboration between NC A&T University and UNC Greensboro to support the data collaboration needs of the Piedmont region. The PRDC aims to provide the technology platform(s) and expertise that foster data driven research and information to serve the greater community, allowing partners to focus on the data instead of the underlying technology.",
+                     tags$br(),
+                     tags$br(),
+                     "The PRDC is established under the UNCG Institute for Data, Evaluation, and Analytics (IDEA) and is managed jointly by the CIO’s from both NC A&T and UNCG, Tom Jackson and Donna Heath respectively. A stakeholder advisory board called the Community Cabinet has been assembled to oversee projects, provide strategic advice, and serve as community connections of the PRDC.",
+                     tags$br(),
+                     tags$br(),
+                     "Both UNC Greensboro and NC A&T realized the similar roles of both institutions within the regional community and the opportunity to work together to make community and research data findable, accessible, interoperable, and reusable (FAIR). Collaborating provides the community a single place to go and allows both universities to make optimal use of technology infrastructure.",
+                     tags$br(),
+                     tags$br(),
+                     "The PRDC focuses in 5 main areas:",
+                     tags$ol(
+                       tags$li("Serving as a local data intermediary"), 
+                       tags$li("Cultivate local capacity for informed action by enhancing the data capacities of other local institutions "), 
+                       tags$li("Promoting a culture of learning and collaboration among education, government, business, nonprofit, and philanthropic community sectors"),
+                       tags$li("Leveraging data to advance both research and the community"),
+                       tags$li("Provide a framework within which NC A&T and UNCG can collaborate on data related projects")
+                     )
+                     )
+                 ),
+                 br(),
+                 fluidRow(
+                   column(
+                     12,
+                     h3("Committee Members:")
+                   )
+                 ),
+                 fluidRow(
+                   column(12,
+                          "Joe Blosser: High Point University, Sadie Blue: Building Stronger Neighborhoods, Patrick Chapin: Business High Point Chamber of Commerce, Kathy Colville: Cone Health, Mike Halford: County of Guilford/Budget, Management & Evaluation, Bryle Hatch: North Carolina A&T State University, Steve Hayes: Guilford Nonprofit Consortium, Donna Heath: UNC Greensboro, Tom Jackson: North Carolina A&T State University, Jason Jones: County of Guilford/Budget, Management & Evaluation, Leslie Kilgore: Thomas Built Buses, Ed Kitchen: Bryan Foundation, Leonard Lawson: Ready for School, Ready for Life, Paul Lessard: High Point Community Foundation, Kevin Lundy: The Community Foundation of Greater Greensboro, Sharon Maney: Berkshire Hathaway, Tina Markanda: The Foundation for a Healthy High Point, David Martin: Guilford County Schools, Frank McCain: United Way of Greater Greensboro, Winston McGregor: Guilford Education Alliance, Michael McNair: City of High Point, Skip Moore: TEDx Greensboro, Jane Nickles: City of Greensboro, Brian Norris: Business High Point Chamber of Commerce, Gary Palmer: Replacements/CFGG Board, Judy Penny: Guilford County Schools, Bob Powell: North Carolina A&T State University, Pilar Powell: Keller Williams Realty, Maria Rosales: Guilford College, Tara Sandercock: The Community Foundation of Greater Greensboro, Walker Sanders: The Community Foundation of Greater Greensboro, Terri Shelton: UNC Greensboro, Mark Smith: County of Guilford/Public Health, Michelle Sorrells: The Community Foundation of Greater Greensboro, Jeff Thigpen: County of Guilford/Register of Deeds, Marcus Thomas: Mount Zion Baptist Church of Greensboro, Ray Trapp: North Carolina A&T State University, Tom Tricot: City of High Point")
+                 ),
+                 br(),
+                 fluidRow(
+                   column(
+                     12,
+                     align = "center",
+                     img(src = "./Images/all_logos.png", class = "all_logosImg")
+                   )
+                 )
         )
         
         
@@ -1235,7 +1342,7 @@ ui <- fluidPage(theme = "sdashboard.css",
                   title = div(
                   img(src = './Images/line.png',class = "lineImg"),
                   img(src = './Images/guilford-logo.png',class= "logoImg"), 
-                  img(src = "./Images/guilford.png", class = "bannerImg")
+                  img(src = "./Images/guilford.jpg", class = "bannerImg")
                   
                 )
                 ),
@@ -1281,7 +1388,12 @@ server <- function(input, output) {
       
         billboarder() %>%
             bb_lollipop(data = ages, point_size = 5, point_color = "#61AA43", line_color = "#61AA43") %>%
-            bb_axis(x =list(height = 80))
+            bb_axis(x =list(height = 80)) %>% 
+          bb_y_axis(tick = list(format = suffix("%"))) %>% 
+          bb_tooltip(
+            format = list(
+              name = htmlwidgets::JS("function(name, ratio, id, index) {return 'Perc';}")
+            ))
         #bb_barchart(data = gc_ages, stacked = T)
     })
     
@@ -1331,7 +1443,8 @@ output$deaths <- renderBillboarder({
     bb_barchart(data = deaths_un) %>%
     bb_bar(padding =2) %>% 
     bb_y_axis(tick = list(format = suffix("%"))) %>%
-    bb_color(palette = c("#b42025", "#50d1d8", "#026bc1", "#61aa43"))
+    bb_color(palette = c("#b42025", "#50d1d8", "#026bc1", "#61aa43")) %>% 
+    bb_tooltip(format = list(value = htmlwidgets::JS("d3.format(',.2')")))
 
 
 })
@@ -1431,7 +1544,8 @@ output$imr <- renderBillboarder({
   billboarder() %>% 
     bb_barchart(data = imr) %>% 
     bb_legend(show =F) %>% 
-    bb_color (palette = c("#61aa43")) 
+    bb_color (palette = c("#61aa43")) %>% 
+    bb_y_axis(tick = list(format = suffix("%")))
 })
 
 
@@ -1523,10 +1637,11 @@ output$med_inc_race <- renderBillboarder({
   billboarder() %>%
     bb_lollipop(data = med_income_race, point_color = "#b42025", line_color = "#b42025") %>%
     bb_axis(x =list(height = 40))%>%
-    bb_y_axis(tick = list(format = htmlwidgets::JS("d3.format('$,')")
-    ))
+    bb_y_axis(tick = list(format = htmlwidgets::JS("d3.format('$,')"))) %>% 
+    bb_tooltip(format = list(
+      name = htmlwidgets::JS("function(name, ratio, id, index) {return 'Median Income';}"),
+      value = htmlwidgets::JS("d3.format('$,')")))
   
-  #bb_barchart(data = med_income_race)
 })
 
 output$med_inc_ethn <- renderBillboarder({
@@ -1539,8 +1654,11 @@ output$med_inc_ethn <- renderBillboarder({
     bb_lollipop(data = med_income_ethn, point_color = "#61aa43", line_color = "#61aa43") %>%
     bb_axis(x =list(height = 20)) %>%
     bb_y_axis(tick = list(format = htmlwidgets::JS("d3.format('$,')")
-    ))
-  #bb_barchart(data = med_income_ethn)
+    ))%>% 
+    bb_tooltip(format = list(
+      name = htmlwidgets::JS("function(name, ratio, id, index) {return 'Median Income';}")))
+  
+  
 })
 
 
@@ -1768,7 +1886,7 @@ output$debt <- renderBillboarder({
 
 output$schools_map <- renderLeaflet({
   
-  gcs %>%
+  schools %>%
     group_by(school) %>%
     filter(!is.na(value)) %>%
     filter(year == max(year)) %>%
@@ -1800,7 +1918,7 @@ output$schools_map <- renderLeaflet({
 filtered_school <- reactive({
   
   val <- input$schools_map_marker_click$id
-  gcs %>% 
+  schools %>% 
     filter(school == val) 
   
   })
@@ -1990,7 +2108,7 @@ output$explore_map <- renderLeaflet({
     #Build palette
     palette <- colorNumeric(
       palette = "viridis",
-      domain = layer$estimate
+      domain = layer$est2017
     )
     
     group <- layer %>% slice(1) %>% pull(short_title)
@@ -1998,28 +2116,18 @@ output$explore_map <- renderLeaflet({
     popup <- layer %>%
       transmute(popup = glue("<B>Zip Code: {geoid}</B><BR>
                            <B>{concept}</B><BR><BR>
-                           {format(estimate, big.mark = ',')}")) %>%
+                           {format(est2017, big.mark = ',')}")) %>%
       pull(popup)
-    
-    #str_replace_all(str_wrap(concept, width = 20, exdent = 3), '\n', '<BR>')
     
     
     exploremap <<- exploremap %>%
-      # #addTiles(options = tileOptions(minZoom = 5), group = group) %>%
-      # setMaxBounds(-80, 35, -78, 37) %>%
       addPolygons(data = layer,
                   group = group,
                   stroke = F,
-                  fillColor = ~palette(estimate),
+                  fillColor = ~palette(est2017),
                   fillOpacity = 0.7,
                   popup = popup
-      ) #%>%
-    # addLegend(pal = palette,
-    #           values = layer$estimate,
-    #           group = group,
-    #           position = "bottomleft",
-    #           title = group
-    #           )
+      ) 
     
     
     
@@ -2042,12 +2150,12 @@ output$explore_map <- renderLeaflet({
     )
   
   exploremap <- exploremap %>%
-    addCircleMarkers(data = food_stores,
-                     lat = ~lat, lng = ~lon, popup = ~name,
-                     stroke = TRUE, fillOpacity = 0.075,
+    addMarkers(data = food_stores,
+               lat = ~lat, lng = ~lon, popup = ~name,
+               clusterOptions = markerClusterOptions(),
                      group = "Food Stores") %>%
     addMarkers(data = schools,
-               lat = ~lat, lng = ~lon, popup = ~name,
+               lat = ~lat, lng = ~lng, popup = ~school,
                clusterOptions = markerClusterOptions(),
                group = "Schools") %>%
     addMarkers(data = filter_parks,
@@ -2058,23 +2166,31 @@ output$explore_map <- renderLeaflet({
   exploremap
 })
 
+
+# Compare Map
+
 shiny_selected_year1 <- reactive({
-  input$yr1
+  input$yr[1]
 })
 shiny_selected_year2 <- reactive({
-  input$yr2
+  input$yr[2]
 })
+
 
 output$compare <- renderLeaflet({
   comparemap <- leaflet()
   
   walk(explore_acsdata, function(layer) {
     
-    est_column_year1 <- sym(paste0("est", shiny_selected_year1))
-    est_column_year2 <- sym(paste0("est", shiny_selected_year2))
+    est_column_year1 <- sym(paste0("est", shiny_selected_year1()))
+    est_column_year2 <- sym(paste0("est", shiny_selected_year2()))
+    
+    
     
     layer <- layer %>%
       mutate(estimate = !!est_column_year2 - !!est_column_year1)
+    
+  
     
     #Build palette
     palette <- colorNumeric(
@@ -2086,7 +2202,7 @@ output$compare <- renderLeaflet({
     
     popup <- layer %>%
       transmute(popup = glue("<B>{concept}</B><BR><BR>
-                           Change from {shiny_selected_year1} to {shiny_selected_year2}: {format(estimate, big.mark = ',')}")) %>%
+                           Change from {shiny_selected_year1()} to {shiny_selected_year2()}: {format(estimate, big.mark = ',')}")) %>%
       pull(popup)
     
     #str_replace_all(str_wrap(concept, width = 20, exdent = 3), '\n', '<BR>')
@@ -2094,7 +2210,7 @@ output$compare <- renderLeaflet({
     
     comparemap <<- comparemap %>%
       #addTiles(options = tileOptions(minZoom = 5), group = group) %>%
-      setMaxBounds(-84, 35, -79, 37) %>%
+      #setMaxBounds(-84, 35, -79, 37) %>%
       addPolygons(data = layer,
                   group = group,
                   stroke = F,
@@ -2114,7 +2230,10 @@ output$compare <- renderLeaflet({
   })
   
   comparemap <- comparemap %>%
-    addTiles(options = tileOptions(minZoom = 5)) %>%
+    addTiles(
+      urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
+      attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>'
+    ) %>%
     addLayersControl(baseGroups = explore_acsdata %>% map_chr(~.x %>% slice(1) %>% pluck("short_title")) %>% unname(),
                      overlayGroups = c("Schools", "Parks", "Food Stores"),
                      position = "bottomright",
@@ -2129,19 +2248,19 @@ output$compare <- renderLeaflet({
   comparemap
   
   comparemap <- comparemap %>%
-    addCircleMarkers(data = food_stores,
-                     lat = ~lat, lng = ~lon, popup = ~name,
-                     stroke = TRUE, fillOpacity = 0.075,
-                     group = "Food Stores") %>%
+    addMarkers(data = food_stores,
+               lat = ~lat, lng = ~lon, popup = ~name,
+               clusterOptions = markerClusterOptions(),
+               group = "Food Stores")  %>%
     addMarkers(data = schools,
                lat = ~lat, lng = ~lng, popup = ~school,
                clusterOptions = markerClusterOptions(),
                group = "Schools") %>%
-    addMarkers(data = parks,
+    addMarkers(data = filter_parks,
                lat = ~lat, lng = ~lon, popup = ~name,
                clusterOptions = markerClusterOptions(),
                group = "Parks")
-  
+
   comparemap
 })
 
