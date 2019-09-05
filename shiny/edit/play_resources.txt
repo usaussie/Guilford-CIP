@@ -1,1 +1,24 @@
+
+
+
+
+
+
+line 7
+
+
+
+
+
+
+
+
+
+
 Enter resources for play tab here, each resource on a new line
+
+
+
+
+
+line 24
